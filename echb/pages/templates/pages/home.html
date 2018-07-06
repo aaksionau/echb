@@ -197,34 +197,6 @@
     </section>
   </main>
 {% include 'footer.html' %}
-<script>
-  (function(){
-  
-    var listEl = document.querySelector('.ministries .articles');
-    var btnLeftEl = document.querySelector('#left-btn');
-    var btnRightEl = document.querySelector('#right-btn');
-    var count = 0;
-
-    function slideImages(dir){
-      var totalChildren = listEl.querySelectorAll("article").length;
-      dir === "left" ? ++count : --count;
-      listEl.style.left = count * 300 + 'px';
-      btnLeftEl.style.display = count < 0 ? "block" : "none";
-
-      btnRightEl.style.display = count > 3-totalChildren ? "block" : "none";
-    }
-
-    btnLeftEl.addEventListener("click", function(e) {
-        slideImages("left");
-        return false;
-    });
-    btnRightEl.addEventListener("click", function(e) {
-        slideImages("right");
-        return false;
-    });
-})();
-
-</script>
 </body>
 
 </html>
