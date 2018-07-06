@@ -1,0 +1,55 @@
+{% extends "base.html" %} 
+{% block breadcrumbs %}
+    {{ block.super }} 
+        <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+        <li><a href="{{active_page.slug}}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+    <h2>
+        {{active_page.title}}
+    </h2>
+    <section class="videos">
+         <article>
+            <h3>{{video.title}}</h3>
+            <div class="meta"> 
+                <time datetime="{{video.date|date:'Y-m-d H:i'}}">{{video.date|date:'d F Y h:i'}}</time>
+                <span>{{video.category.title}}</span>
+            </div>
+            <iframe width="100%" height="500px" src="{{video.youtube_link}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </article>   
+    </section>
+    <section class="prayer-request">
+            {% if user.is_authenticated %}
+                {% if message %}
+                   <p> {{message}}</p>
+                {% else %}
+                <p>Здесь вы можете оставить молитвенную нужду в течении богослужения.</p>
+                
+                <form method="post">
+                        {% csrf_token %}
+                        <p> <textarea name="description" id="description" cols="30" rows="5" maxlength="250" required></textarea></p>
+                        <button type="submit" class="button">Отправить</button>
+                </form>
+                {% endif %}
+            {% else %}
+            <a href="{% url 'login' %}">login</a>
+            <a href="{% url 'signup' %}">signup</a>
+            {% endif %}
+    </section>
+</article>
+
+{% endblock content %}
+
+{% block rightside %}
+    <section class="video-categories">
+        <h3>Категории</h3>
+        <ul>
+            {% for cat in categories %}
+            <li><a href="{% url 'videos-by-filter' cat.slug %}" title="{{cat.title}}">{{cat.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock rightside %}
+    

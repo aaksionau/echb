@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block breadcrumbs %} 
+{{ block.super }}
+<li>
+    <a href="{% url 'news' %}" title='Новости'>Новости</a>
+</li>
+{% endblock breadcrumbs %} 
+
+{% block content %}
+<header>
+    <h2>Новости</h2>
+    <p class='description'>Подписывайтесь на наши новости или читайте в вашем ридере через
+        <a href="{% url 'news-feed' %}">RSS</a> .</p>
+</header>
+<div class="articles">
+    {% for item in newsitem_list %}
+    <article>
+        <h3>
+            <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
+        </h3>
+        <div class="meta">
+            <time datetime="{{item.publication_date|date:'Y-m-d'}}">{{item.publication_date|date:'d F Y'}}</time>
+            {{item.author.last_name}} {{item.author.first_name}}
+        </div>
+        <section class="content">
+            {% if item.main_image %}<div class="image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')"></div>{% endif %}
+            <p>{{item.description|striptags|truncatechars:250|safe}}
+                <a class='more' href='{{item.get_absolute_url}}' title='{{item.title}}'>читать далее...</a>
+            </p>
+        </section>
+    </article>
+    {% endfor %}
+</div>
+{% include "pagination.html" %}
+{% endblock content %} {% block rightside %}
+<section class="archive">
+    <h3>Архив</h3>
+    <ul>
+        {% for item in archive_news %}
+        <li>
+            <a href="{% url 'archive-news' item.month|date:'Y' item.month|date:'m' %}" alt="">{{item.month|date:"F Y"}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'news-feed' %}">
+        <img width='32' src="{% static 'img/rss.png' %}" alt="">
+    </a>
+    </archive>
+    {% endblock rightside %}

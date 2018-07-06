@@ -1,0 +1,62 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block pagetitle %}
+    {{active_page.title}} - 
+    {{block.super}}
+{% endblock pagetitle %}
+
+{% block breadcrumbs %}
+    {{ block.super }} 
+    <li><a href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+    <li> <a href="{% url 'galleries' %}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+{% endblock %}
+
+ {% block content %}
+ <header>
+<h2>{{active_page.title}}</h2>
+<p>{{active_page.description}}</p>
+</header>
+<ul class="galleries">
+    {% for gallery in gallery_list %}
+        <li>
+            <div class="photo-content">
+                    <a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'><div class="image" style="background-image:url('{% static 'media/galleries/' %}{{gallery.main_image }}')"></div></a>
+                <h3><a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>{{gallery.title}}</a></h3>
+            </div>
+                <p> <i class="fas fa-calendar-alt"></i> {{gallery.date|date:'d F Y'}}</p> 
+                <p><i class="fas fa-user-alt"></i> {{gallery.author.last_name}} {{gallery.author.first_name}}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% include "pagination.html" %}
+
+{% endblock content %}
+
+{% block rightside %}
+<h3>Фильтр по: </h3>
+<div class="filter">
+    <h4>Дате</h4>
+    <ul>
+    {% for item in archive_galleries %}
+        <li> <a href="{% url 'galleries-archive' item.year|date:'Y' %}" alt="">{{item.year|date:"Y"}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="filter">
+    <h4>Автору</h4>
+    <ul>
+    {% for author in authors %}
+        <li><a href="{% url 'galleries-filter-author' author.pk %}" alt="{{author.last_name}} {{author.first_name}}">{{author.last_name}} {{author.first_name}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="filter">
+    <h4>Тэгу</h4>
+    <ul>
+    {% for tag in tags %}
+        <li><a href="{% url 'galleries-filter-tag' tag.pk  %}" alt="{{tag.name}}">{{tag.name}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+ {% endblock rightside %}

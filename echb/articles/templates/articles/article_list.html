@@ -1,0 +1,97 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block pagetitle %}
+    {{active_page.title}} - 
+    {{block.super}}
+{% endblock pagetitle %}  
+
+{% block breadcrumbs %}
+    {{ block.super }} <li> <a href="{% url active_page.slug %}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+{% endblock %}
+
+{% block content %}
+    <header>
+            <h2>Статьи</h2>
+            <p>{{active_page.description|safe}}</p>
+            <h3>{% if chosen_author %}
+                    Выбран автор: {{chosen_author.last_name}} {{chosen_author.first_name}}
+                {% endif %}
+                {% if chosen_category %}
+                    Выбрана категория: {{chosen_category.title}}
+                {% endif %}
+            </h3>
+          </header>
+          <div class="articles resources">
+            {% for article in article_list %}
+            <article>
+              <h3>
+                <a href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
+              </h3>
+              <div class="meta">
+                <time datetime="{{article.date|date:'Y-m-d'}}">{{article.date|date:'d F Y'}}</time>
+                <span>
+                  <a href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}} {{article.author.first_name}}</a>
+                </span> |
+                <span>
+                  <a href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
+                </span>
+              </div>
+              <div class="content">
+                <p>{{article.description|striptags|truncatechars:250|safe}}...</p>
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+{% include "pagination.html" %}
+{% endblock content %}
+
+{% block rightside %}
+<section class="filter">
+    <h3>Фильтр по:</h3>
+    <ul class="filter-links">
+        <li><a id="filter-category" href="">Категории</a></li>
+        <li><a id="filter-author" href="">Автору</a></li>
+    </ul>
+    <ul id="category" {% if chosen_category %} style="display:block;"{% else %} style="display:none;"{% endif %}>
+        {% for category in categories %}
+        <li><a href="{% url 'category-filter' category.slug%}" alt="{{category.title}}">{{category.title}}</a></li>
+        {% endfor categories %}
+    </ul>
+
+    <ul id="author" {% if chosen_author %} style="display:block;" {% else %} style="display:none;"{% endif %}>
+        {% for author in authors %}
+        <li><a href="{% url 'author-filter' author.id %}" alt="{{author.last_name}} {{author.first_name}}">{{author.last_name}} {{author.first_name}}</a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock rightside %}
+
+
+{% block jsfooter %}
+    <script src="{% static 'js/zepto.min.js' %}"></script>
+    <script>
+        function toogleFilter(selector){
+            $('.filter ul:not(:first-of-type)').css('display','none');
+            $('#'+selector).css('display','block');
+        }
+    $(document).ready(function(){
+        var echbNS = echbNS || {};
+        echbNS.category = '{{chosen_category.title}}';
+        echbNS.author = '{{chosen_author.last_name}}';
+
+        if (echbNS.category == '' && echbNS.author == ''){
+            $('#category').css('display','block');
+        }
+        $('#filter-category').on('click',function(){
+            toogleFilter('category');
+            return false;
+        });
+        $('#filter-author').on('click',function(){
+            toogleFilter('author');
+            return false;
+        });
+    });
+    </script>
+{% endblock jsfooter %}
+    

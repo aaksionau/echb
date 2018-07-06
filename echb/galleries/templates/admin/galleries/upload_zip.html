@@ -1,0 +1,55 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls admin_static %}
+
+{# Admin styling code largely taken from http://www.dmertl.com/blog/?p=116 #}
+
+{% block extrastyle %}
+	{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>
+{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a>
+        &rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">
+        {{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+        &rsaquo; Загрузка .zip файла
+    </div>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+	
+	<h1>Загрузите .zip файл с фотографиями</h1>
+        <p>На этой странице вы можете загрузить сразу несколько фотографий, исолпьзуя .zip архив.</p>
+        <p>Фотографии могут быть добавлены:</p>
+		<ul>
+			<li>Либо к существующей галерее.</li>
+			<li>Либо будет создана новая галерея с введенным названием.</li>
+		</ul>
+
+	{% if form.errors %}
+	    <p class="errornote">
+	    {% if form.errors|length == 1 %}Пожалуйста, поправьте ошибку ниже: {% else %}Пожалуйста исправьте все ошибки: {% endif %}
+	    </p>
+	    {{ form.non_field_errors }}
+	{% endif %}
+
+	<form action="{% url 'admin:upload_zip' %}" method="post" id="zip_upload_form"
+            {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+        {% csrf_token %}
+        <div>
+            {% for fieldset in adminform %}
+                {% include "admin/includes/fieldset.html" %}
+            {% endfor %}
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="Загрузить" class="default"/>
+        </div>
+    </form>
+
+{% endblock %}

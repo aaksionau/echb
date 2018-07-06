@@ -1,0 +1,40 @@
+{% extends "base.html" %} 
+{% block breadcrumbs %}
+    {{ block.super }} 
+    {% if active_page.slug != page.slug %}
+        <li><a href="{{active_page.slug}}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+    {% endif %}
+        <li> <a href="{{ page.get_absolute_url }}" title="{{ page.title }}">{{ page.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+<h2>
+    {{page.title}}
+</h2>
+
+{{page.description|safe}}
+</article>
+
+{% endblock content %}
+
+{% block rightside %}
+    <section class="about-links">
+        <ul>
+        {% for page in right_menu_pages %}
+            {% if page.slug == 'churches-history' %}
+            <li><a href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
+                <ul class="submenu">
+                    {%for church_page in church_history_pages%}
+                    <li><a href="/{{church_page.slug}}/" title="{{church_page.title}}">{{church_page.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {%else%}
+                <li><a href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    </section>
+{% endblock rightside %}
+    

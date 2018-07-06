@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% load static %} {% block javascript %}
+<script src="{% static 'js/zepto.min.js' %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+    function validateFeedback(token) {
+        document.getElementById("feedbackForm").submit();
+    }
+</script>
+{% endblock javascript %} 
+{% block breadcrumbs %} 
+{{ block.super }}
+<li>
+    <a href="{% url 'contacts' %}" title="Контакты">Контакты</a>
+</li>
+{% endblock %} 
+{% block content %}
+<article class="form">
+    <div>
+        <h2>Обратная связь</h2>
+        <form action="" method="post" id='feedbackForm'>
+            {% csrf_token %} {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button class="button g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="validateFeedback">
+                Отправить
+            </button>
+        </form>
+    </div>
+    <div class="address">
+        <img src="{% static 'img/'%}map.png" alt="Контакты"> {% include 'address.html' %}
+    </div>
+</article>
+
+{% endblock %}

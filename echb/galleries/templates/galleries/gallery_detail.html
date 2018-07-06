@@ -1,0 +1,69 @@
+{% extends "galleries/gallery_list.html" %} 
+{% load static %}
+
+{% block pagetitle %}
+    {{gallery.title}} - {{block.super}} 
+{% endblock pagetitle %} 
+
+{% block styles %}
+<link type="text/css" rel="stylesheet" href="{% static 'css' %}/lightgallery.min.css" /> 
+{% endblock styles %}
+    
+
+{% block breadcrumbs %} 
+    {{ block.super }}
+    <li>
+        <a href="{{ gallery.get_absolute_url }}" title="{{ gallery.title }}">{{ gallery.title }}</a>
+    </li>
+{% endblock %} 
+
+{% block content %}
+<article class="photo">
+    <header>
+        <h2>{{gallery.title}}</h2>
+    </header>
+    <div class="meta">
+            <time datetime="{{gallery.date|date:'Y-m-d'}}">{{gallery.date|date:'d F Y'}}</time>
+            {{gallery.author.last_name}} {{gallery.author.first_name}}
+    </div>
+    <section class="photos" id="lightgallery">
+        {% for image in images %}
+        <div class="item" data-src="{% static 'media/galleries/' %}{{image.image}}">
+            <div class="image" style="background-image:url('{% static 'media/galleries/' %}{{image.thumbnail }}')"></div>
+        </div>
+        {% endfor %}
+    </section>
+</article>
+{% endblock content %} 
+
+{% block rightside %}
+<section class="last_photos">
+    <h3>Последние фотогалереи</h3>
+    <ul>
+        {% for item in latest_galleries %}
+        <li>
+            <a href="{{ item.get_absolute_url }}" title='{{item.title}}'>{{item.title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock rightside %}
+
+
+{% block jsfooter %}
+<script src="{% static 'js' %}/zepto.min.js"></script>
+<script src="{% static 'js' %}/lightgallery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        lightGallery(
+            document.getElementById('lightgallery'), 
+            {
+                mode: 'lg-fade',
+                cssEasing : 'cubic-bezier(0.25, 0, 0.25, 1)'
+            }); 
+    });
+
+</script>
+{% endblock jsfooter %}
+    

@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        {% block pagetitle %} {% if active_page %} {{active_page.title}} - {% endif %} {% endblock pagetitle %} Харьковское объединение
+        евангельских христиан-баптистов
+    </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> {% block seo %} {% include 'seo.html' %} {% endblock seo %}
+
+    <meta name="author" content="team of christians">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
+        {% block styles %} {% endblock styles %} 
+        {% block jshead %} {% endblock jshead %}
+</head>
+
+<body>
+    <header>
+        <div class='header container'>
+            <div class="logo">
+                <a href="/home/" title="Харьковский союз церквей евангельских христиан-баптистов">
+                    <img src="{% static 'img/logo.png' %}" alt="Харьковский союз церквей евангельских христиан-баптистов">
+                </a>
+                <a href="/home/" title="Харьковский союз церквей евангельских христиан-баптистов"><span>Харьковский союз церквей евангельских христиан-баптистов</span></a>
+                <div class='hot-links'>
+                    <a href="{% url 'find-church' %}" title="Найдите церковь">
+                      <img src="{% static 'img/church_colored.png' %}" width="32" alt="Найдите церковь">Найдите церковь</a>
+                    <a href="" title="Прямые трансляции">
+                      <img src="{% static 'img/online_colored.png' %}" width="32" alt="Прямые трансляции">Прямые трансляции</a>
+                </div>
+            </div>
+            {% include 'navigation.html' %}
+        </div>
+    </header>
+    <nav class="helper_nav">
+        <div class="container">
+            <ul class="breadcrumbs">
+                {% block breadcrumbs %}
+                <li>
+                        <i class="fas fa-home fa-xs"></i> <a href="/" title='Главная'>Главная</a>
+                </li> {% endblock %}
+            </ul>
+
+            {% if not user.is_authenticated %}
+            <div class="auth"> 
+            <ul>
+                    <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-xs"></i> Вход</a></li>
+                    <li><a href="{% url 'signup' %}"><i class="fas fa-user-plus fa-xs"></i> Регистрация</a></li>
+                </ul>
+            </div>   
+            {% else %}
+                <div class="auth logged">
+                    <h4><i class="fas fa-user-alt fa-1x"></i> <a href="{% url 'user-profile' %}">{{user.username}}</a></h4>
+                    <ul>
+                        <li><a href="{% url 'settings' %}">Настройки</a></li>
+                        <li><a href="{% url 'logout' %}">Выход</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <main>
+            {% block content %} {% endblock content %}
+        </main>
+        <aside>
+            {% block rightside %} {% endblock rightside %}
+        </aside>
+    </div>
+    {% include 'footer.html' %} {% block jsfooter %} {% endblock jsfooter %}
+</body>
+
+</html>

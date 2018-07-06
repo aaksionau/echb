@@ -1,0 +1,79 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block jshead %}
+    <script src="{% static 'js/zepto.min.js' %}"></script>
+    <script src="{% url 'churches' %}"></script>
+    <script src="{% url 'regions' %}"></script>
+{% endblock jshead %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+    <li> <a href="{% url 'find-church' %}" title="Найдите церковь">Найдите церковь</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+<h2>Найдите церковь</h2>
+<p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
+<div id="details">
+        <a href="" id="closestChurches" class="button">Найти ближайшие церкви</a>
+        <div id="closest-churches-list"></div>
+</div>
+<div id="map"></div>
+</article>   
+{% endblock content %}
+
+{% block rightside %}
+<section class="regions">
+    <h3>Фильтр по региону</h3>
+        <ul id="regions"></ul> 
+</section>   
+{% endblock rightside %}
+
+
+{% block jsfooter %}
+<script src="{% static 'js/tmpl.min.js' %}"></script>
+<script src="{% static 'js/map.core.js' %}"></script>
+<script src="{% static 'js/map.ui.js' %}"></script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP8zWTk8oq_9o_OXwSWvkBhZ65163UXhA">
+</script>
+
+<script>
+    $(document).ready(function(){
+        var core = echbNS.Core(google);
+        var UI = echbNS.UI(core);
+        UI.initialize();
+    });
+</script>
+
+{% verbatim %}
+<script type="text/x-tmpl" id="church-info-search">
+    <div>
+            <a class="church-details" href="">{%=church.title %}</a> ~ {%= church.distance%} км.
+            <a class="church-route" href="" data-val-lat="{%= church.lat %}" data-val-lng="{%= church.lng %}">Проложить маршрут</a>
+            <ul class="info" style="display:none;">
+                <li><span>Адрес: </span> {%= church.address %}</li>
+                <li><span>Телефоны: </span>{%= church.tel %}</li>
+                <li><span>Факс: </span>{%= church.fax %}</li>
+                <li><span>Сайт: </span>{%= church.website %}</li>
+                <li><span>Расписание богослужений: </span>{%# church.schedule %}</li>
+            </ul>
+    </div>
+    </script> 
+    <script  type="text/x-tmpl" id="church-info-gmap">
+     <div class="church-gmap">
+                    <h3>{%= churchInfo.title %}</h3>
+                    <p> <span>Телефон: </span> {%= churchInfo.tel %}</p>
+                    <p> <span>Сайт: </span> <a target='_blank' href='{%= churchInfo.website %}'> {%= churchInfo.website %}</a></p>
+                    <p> <span>Адрес: </span>{%= churchInfo.address %}</p>
+                    <p> <span>Регион: </span>{%= churchInfo.region_name %}</p>
+                    <p> <span>Расписание богослужений: </span>{%# churchInfo.schedule %}</p>
+    </div>
+    </script>
+{% endverbatim %}
+
+{% endblock jsfooter %}
+    

@@ -1,0 +1,45 @@
+ {% extends 'base.html' %} 
+ 
+ {% block breadcrumbs %}
+ {{ block.super }} 
+ <li><a href="{% url 'profile' %}" title="Личный кабинет">Личный кабинет</a></li>
+ <li><a href="{% url 'settings' %}" title="Настройки">Настройки</a></li>
+{% endblock %}
+
+ {% block content %}
+    <h2>Настройки</h2>
+    <h3>Facebook</h3>
+    {% if facebook_login %}
+    <p>Авторизованы как:
+        <a href="https://facebook.com/{{ facebook_login.extra_data.id }}/" target="_blank">{{ facebook_login.extra_data.id }}</a>
+    </p>
+        {% if can_disconnect %}
+        <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+            {% csrf_token %}
+            <button type="submit" class="button">Отсоединиться от Facebook</button>
+        </form>
+        {% else %}
+        <button type="button" disabled>Отсоединиться от Facebook</button>
+        <p style="color: red">Вам необходимо 
+            <a href="{% url 'password' %}">указать пароль</a> для вашего аккаунта перед отсоединения от Facebook.</p>
+        {% endif %} 
+    {% else %}
+        <a href="{% url 'social:begin' 'facebook' %}" class="button">Подключиться через Facebook</a>
+    {% endif %}
+    
+    <h3>Twitter</h3>
+    {% if twitter_login %}
+      <p>Авторизованы как: <a href="https://twitter.com/{{ twitter_login.extra_data.access_token.screen_name }}/" target="_blank">@{{ twitter_login.extra_data.access_token.screen_name }}</a></p>
+      {% if can_disconnect %}
+        <form method="post" action="{% url 'social:disconnect' 'twitter' %}">
+          {% csrf_token %}
+          <button type="submit" class="button">Отсоединиться от Twitter</button>
+        </form>
+      {% else %}
+        <button type="button" disabled>Отсоединиться от Twitter</button>
+        <p style="color: red">Вам необходимо <a href="{% url 'password' %}">указать пароль</a> для вашего аккаунта перед отсоединения от Twitter.</p>
+      {% endif %}
+    {% else %}
+      <a href="{% url 'social:begin' 'twitter' %}" class="button">Подключиться через Twitter</a>
+    {% endif %}
+{% endblock %}

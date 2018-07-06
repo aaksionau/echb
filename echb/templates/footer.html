@@ -1,0 +1,50 @@
+<footer>
+    <div class="container padding-30">
+        <div class="contacts">
+            <h4>Контакты</h4>
+            {% include 'address.html' %}
+        </div>
+        <div class="info">
+            <h4>Информация о нас</h4>
+            <ul>
+                <li>
+                    <a href="{% url 'page-detail' 'faith' %}">Вероучение</a>
+                </li>
+                <li>
+                    <a href="{% url 'news' %}">Новости</a>
+                </li>
+                <li>
+                    <a href="{% url 'find-church' %}">Церкви</a>
+                </li>
+                <li>
+                    <a href="{% url 'page-detail' 'churches-history' %}">История церквей</a>
+                </li>
+                <li>
+                     <a href="{% url 'contacts' %}">Контакты</a>
+                </li>
+            </ul>
+        </div>
+        <div class="info">
+            <h4>Социальные сети</h4>
+            <ul>
+                <li>
+                    <a href="https://www.facebook.com/preobrazhenie.kharkov">Facebook</a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">Youtube</a>
+                </li>
+            </ul>
+        </div>
+        <div class="subscribe">
+            <h4>Подписывайтесь на наши письма</h4>
+            <p>Вы будете получать письма с новостями, будущими событиями и обновлениями сайта</p>
+            <form action="">
+                <input type="email" name="email" id="email">
+                <button type="submit">Подписаться</button>
+            </form>
+        </div>
+        <div class="rights">
+            <p>© Все права принадлежат ВСЦ ЕХБ 2011-{% now 'Y' %}</p>
+        </div>
+    </div>
+</footer>

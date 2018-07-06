@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% block pagetitle %} 
+    {{active_page.title}} - {{block.super}} 
+{% endblock pagetitle%}
+
+{% block breadcrumbs %} 
+{{ block.super }}
+<li>
+    <a href="{% url active_page.slug %}" title="{{active_page.title}}">{{active_page.title}}</a>
+</li>
+{% endblock %} 
+
+{% block content %}
+<div class="ministries">
+    <header>
+        <h2>Наши служения в регионе</h2>
+        <p class="description">Принимайте участие в служениях, представленных ниже.</p>
+        <p class="description">... заботьтесь о благосостоянии города, в который Я переселил вас, и молитесь за него Господу;
+            <br/>ибо при благосостоянии его и вам будет мир. (книга пророка Иеремии 29:7)</p>
+    </header>
+    <div class="articles">
+        {% for item in ministry_list %}
+        <article>
+            <a href='{{item.get_absolute_url}}' title='{{item.title}}'>
+                <img width="80" src="{% static 'media/' %}{{item.icon}}" alt="{{item.title}}">
+            </a>
+            <div class="content">
+                <h3>
+                    <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
+                </h3>
+                <p>{{item.short_description}}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock content %}

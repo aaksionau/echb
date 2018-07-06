@@ -1,0 +1,5 @@
+<nav class='main-nav'>
+    {% for link in menu_links %}
+    <a{% if active_page.slug == link.slug or active_page.parent.slug == link.slug %} class='active'{% endif  %} href="{% url 'page-detail' link.slug %}" title="{{link.title}}">{{link.title}}</a>
+    {% endfor %}
+</nav>

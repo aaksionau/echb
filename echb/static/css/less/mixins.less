@@ -1,0 +1,16 @@
+.round-borders(@radius) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+}
+
+.button-small(){
+    padding: 7px 18px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border:1px solid @header-color;
+    .round-borders(7px);
+    &:hover{
+        background-color: #b0c6d2;
+    }
+}

@@ -1,0 +1,39 @@
+{% extends "articles/article_list.html" %} 
+
+{% block pagetitle %}
+    {{article.title}} - 
+    {{block.super}}
+{% endblock pagetitle %}
+
+{% block breadcrumbs %}
+    {{ block.super }} <li> <a href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+    <h2>
+        {{article.title}}
+    </h2>
+    <div class="meta">
+    <span> {{article.date|date:'d F Y'}}</span>
+    <span> <a href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}} {{article.author.first_name}}</a></span> |
+    <span><a href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a></span>
+    </div>
+    {{article.description|safe}}
+</article>
+{% endblock content %} 
+
+{% block rightside %}
+<section class="last_articles">
+<h3>Последние статьи</h3>
+<ul>
+    {% for item in latest_articles %}
+    <li>
+        <a href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a> <span> {{item.author.last_name}} {{item.author.first_name}}</span>
+    </li>
+    {% empty %}
+    <p>Нет статей</p>
+    {% endfor %}
+</ul>
+</section>
+{% endblock rightside %}

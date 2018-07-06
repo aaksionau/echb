@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[packages]
+django = "*"
+"psycopg2" = "*"
+django-summernote = "*"
+unidecode = "*"
+pillow = "*"
+social-auth-app-django = "*"
+django-debug-toolbar = "*"
+gulp = "*"
+simplejson = "*"
+python-decouple = "*"
+
+[requires]
+python_version = "3.6"

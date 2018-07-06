@@ -1,0 +1,65 @@
+header.home .buttons a {
+    .button-small();
+    color: @button-text-color;
+    background-color: @button-bg-color;
+    margin-right: 10px;
+    img {
+        width: 25px;
+        vertical-align: middle;
+        padding-right: 5px;
+    }
+}
+
+.subscribe form input {
+    .round-borders(5px);
+    background-color: #b0c6d2;
+    border: none;
+    line-height: 1.7em;
+    width: 15em;
+    padding: 5px 10px;
+    color: @primary-color;
+    font-size: 0.8em;
+    &:focus {
+        outline: none;
+    }
+}
+
+button {
+    .round-borders(5px);
+    background-color: #fff;
+    padding: 5px 10px;
+    color: @primary-color;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    border: none;
+    &:hover {
+        background-color: lighten(@primary-color, 60%);
+    }
+}
+
+.button {
+    .button-small();
+    cursor: pointer;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+textarea {
+    border: 1px solid @header-color;
+    .round-borders(5px);
+    padding: 4px 14px;
+    background-color: #fff;
+    font-size: 1em;
+    line-height: 1.7em;
+    width: 25em;
+    &:focus {
+        outline: none;
+        border-color: @primary-color;
+    }
+}
+
+input[type=checkbox] {
+    width: 1.5em;
+    align-self: center;
+}

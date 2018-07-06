@@ -1,0 +1,43 @@
+{% extends "newsevents/newsitem_list.html" %} 
+
+{% block pagetitle %}
+    {{newsitem.title}} - 
+    {{block.super}}
+{% endblock pagetitle %}
+    
+
+{% block breadcrumbs %}
+    {{ block.super }} <li> <a href="{{ newsitem.get_absolute_url }}">{{ newsitem.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+<h2>
+    {{newsitem.title}}
+</h2>
+
+<div class="meta">
+    <span>{{newsitem.publication_date|date:'d F Y'}} </span> 
+    <span> {{newsitem.author.last_name}} {{newsitem.author.first_name}}</span>
+</div>
+<div class="article-content">
+        {{newsitem.description|safe}}
+</div>
+
+</article>
+{% endblock content %} 
+
+{% block rightside %}
+<section class="last_news">
+<h3>Последние новости</h3>
+<ul>
+    {% for item in latest_news %}
+    <li>
+        <a href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a> <span class="date"> {{item.publication_date|date:'d.m.Y'}}</span>
+    </li>
+    {% empty %}
+    <p>Нет новостей</p>
+    {% endfor %}
+</ul>
+</section>
+{% endblock rightside %}
