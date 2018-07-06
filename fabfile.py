@@ -25,7 +25,7 @@ def commit():
 
 env.use_ssh_config = True
 env.hosts = ["webfaction"]
-env.remote_app_dir = '/home/paloni/webapps/echb_project/'
+env.remote_app_dir = '/home/paloni/webapps/echb_project/echb/'
 env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
 @task
