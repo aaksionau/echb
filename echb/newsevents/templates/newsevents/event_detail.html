@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+
+{% block pagetitle %}
+    {{event.title}} - 
+    {{block.super}}
+{% endblock pagetitle %}
+    
+
+{% block breadcrumbs %}
+    {{ block.super }} <li> <a href="{{ event.get_absolute_url }}">{{ newsitem.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+<article>
+<h2>
+    {{event.title}}
+</h2>
+
+<div class="meta">
+    <span>{{event.date|date:'d F Y'}} </span> 
+</div>
+<div class="article-content">
+        {{event.description|safe}}
+</div>
+
+</article>
+{% endblock content %} 

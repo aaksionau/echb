@@ -8,5 +8,5 @@ urlpatterns = [
     path('<int:pk>/', views.NewsDetailView.as_view(), name='news-detail'),
     path('archive/<int:year>/<int:month>/', cache_page(CACHE_DURATION['extra'])(views.NewsListView.as_view()), name='archive-news'),
     path('latest/feed/', views.LatestEntriesFeed(), name='news-feed'),
-    path('events/<int:id>/', views.EventDetailView.as_view(), name='event-detail'),
+    path('events/<int:pk>/', views.EventDetailView.as_view(), name='event-detail'),
 ]
