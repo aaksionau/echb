@@ -16,18 +16,26 @@ body>header {
     min-height: 110px;
     padding-top: 20px;
     width: 100%;
-    .logo>a img {
-        float: left;
-        width: 7em;
-        padding-right: 12px;
-    }
-    .logo a {
+    .logo>a{
         text-decoration-line: none;
+        text-align: center;
+        img {
+            width: 7em;
+            padding-right: 12px;
+        }
+        .logo-description{
+            font-size:0.7em;
+            margin-top: 3px;
+        }
     }
     .logo {
         .social {
             color: #dee8ec;
         }
+        .logo-text span{
+            font-size:1.8em;
+        }
+        margin-bottom: 15px;
     }
     span {
         color: #fff;
@@ -42,11 +50,10 @@ body>header{
         margin-top:10px;
     }
     .hot-links{
-        justify-self: right;
         margin-top:10px;
         a{
             color: #fff;
-            font-size: 0.9em;
+            font-size: 0.8em;
             vertical-align: middle;
             line-height: 1.5em;
             text-decoration: none;
@@ -71,7 +78,9 @@ body>header{
 }
 body>header.home{
     background-position: 100%;
+    padding-top:20px;
     .logo {
+        display: block;
         div a {
             margin: 0 10px;
         }
@@ -79,11 +88,14 @@ body>header.home{
     span{
         padding-top: 25px;
     }
+    .logo img{
+        float:left;
+    }
 }
 
 header.home .description {
     color: #fff;
-    margin-top: 100px;
+    margin-top: 50px;
     h1 {
         font-size: 2em;
     }
@@ -99,10 +111,10 @@ header.home .description {
         margin: 30px 0 60px;
     }
 }
-
 .main-nav {
     color: #fff;
-    margin-top: 24px;
+    margin-bottom: 45px;
+    align-self: center;
     a {
         display: inline-block;
         font-size: 1em;
@@ -124,7 +136,9 @@ header.home .description {
         }
     }
 }
-
+.home .main-nav{
+    margin-bottom: 0;
+}
 h1,
 h2,
 h3,

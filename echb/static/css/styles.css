@@ -3,6 +3,18 @@
   grid-template-columns: 40% 60%;
   grid-template-rows: 30% 70%;
 }
+.logo {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.logo .logo-img {
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+.logo .logo-text {
+  align-self: end;
+}
 .news .container .articles {
   display: grid;
   grid-auto-flow: row;
@@ -222,16 +234,26 @@ body > header {
   padding-top: 20px;
   width: 100%;
 }
+body > header .logo > a {
+  text-decoration-line: none;
+  text-align: center;
+}
 body > header .logo > a img {
-  float: left;
   width: 7em;
   padding-right: 12px;
 }
-body > header .logo a {
-  text-decoration-line: none;
+body > header .logo > a .logo-description {
+  font-size: 0.7em;
+  margin-top: 3px;
+}
+body > header .logo {
+  margin-bottom: 15px;
 }
 body > header .logo .social {
   color: #dee8ec;
+}
+body > header .logo .logo-text span {
+  font-size: 1.8em;
 }
 body > header span {
   color: #fff;
@@ -246,12 +268,11 @@ body > header span {
   margin-top: 10px;
 }
 body > header .hot-links {
-  justify-self: right;
   margin-top: 10px;
 }
 body > header .hot-links a {
   color: #fff;
-  font-size: 0.9em;
+  font-size: 0.8em;
   vertical-align: middle;
   line-height: 1.5em;
   text-decoration: none;
@@ -274,6 +295,10 @@ body > header .hot-links a img {
 }
 body > header.home {
   background-position: 100%;
+  padding-top: 20px;
+}
+body > header.home .logo {
+  display: block;
 }
 body > header.home .logo div a {
   margin: 0 10px;
@@ -281,9 +306,12 @@ body > header.home .logo div a {
 body > header.home span {
   padding-top: 25px;
 }
+body > header.home .logo img {
+  float: left;
+}
 header.home .description {
   color: #fff;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 header.home .description h1 {
   font-size: 2em;
@@ -301,7 +329,8 @@ header.home .description .buttons {
 }
 .main-nav {
   color: #fff;
-  margin-top: 24px;
+  margin-bottom: 45px;
+  align-self: center;
 }
 .main-nav a {
   display: inline-block;
@@ -322,6 +351,9 @@ header.home .description .buttons {
   transition-duration: 0.4s, 0.4s;
   transition-timing-function: ease, ease-out;
   transition-delay: 0s, 0.4s;
+}
+.home .main-nav {
+  margin-bottom: 0;
 }
 h1,
 h2,

@@ -3,7 +3,18 @@
     grid-template-columns: 40% 60%;
     grid-template-rows: 30% 70%;
 }
-
+.logo{
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    .logo-img{
+        grid-row-start: 1;
+        grid-row-end: 3;
+    }
+    .logo-text{
+        align-self: end;
+    }
+}
 .news .container .articles {
     display: grid;
     grid-auto-flow: row;

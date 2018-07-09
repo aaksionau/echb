@@ -25,10 +25,11 @@
     <header>
         <div class='header container'>
             <div class="logo">
-                <a href="/home/" title="Харьковский союз церквей евангельских христиан-баптистов">
-                    <img src="{% static 'img/logo.png' %}" alt="Харьковский союз церквей евангельских христиан-баптистов">
+                <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-img">
+                    <img src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
+                    <span class="logo-description">Харьковское областное объединение церквей ЕХБ</span>
                 </a>
-                <a href="/home/" title="Харьковский союз церквей евангельских христиан-баптистов"><span>Харьковский союз церквей евангельских христиан-баптистов</span></a>
+                <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-text"><span>Харьков для Христа</span></a>
                 <div class='hot-links'>
                     <a href="{% url 'find-church' %}" title="Найдите церковь">
                       <img src="{% static 'img/church_colored.png' %}" width="32" alt="Найдите церковь">Найдите церковь</a>
@@ -57,7 +58,7 @@
             </div>   
             {% else %}
                 <div class="auth logged">
-                    <h4><i class="fas fa-user-alt fa-1x"></i> <a href="{% url 'user-profile' %}">{{user.username}}</a></h4>
+                    <h4><i class="fas fa-user-alt fa-1x"></i> <a href="{% url 'profile' %}">{{user.username}}</a></h4>
                     <ul>
                         <li><a href="{% url 'settings' %}">Настройки</a></li>
                         <li><a href="{% url 'logout' %}">Выход</a></li>
