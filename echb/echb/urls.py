@@ -4,6 +4,8 @@ from django.conf.urls import include
 
 from django.conf import settings
 
+import pages.views as pages_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
@@ -19,3 +21,6 @@ if settings.DEBUG:
     urlpatterns = [
         path('?-debug/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+handler404 = 'pages.views.handler404'
+handler500 = 'pages.views.handler500'

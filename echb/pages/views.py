@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import simplejson
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, ListView
@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeFor
 from django.contrib.auth import update_session_auth_hash, login, authenticate
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import user_passes_test
+from django.template import RequestContext
 
 from social_django.models import UserSocialAuth
 from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest
@@ -198,6 +199,19 @@ def password(request):
     else:
         form = PasswordForm(request.user)
     return render(request, 'profile/password.html', {'form': form})
+
+
+def handler404(request, exception, template_name='pages/404.html'):
+    response = render_to_response('pages/404.html')
+    response.status_code = 404
+    return response
+
+def handler500(request, exception, template_name='pages/500.html'):
+    response = render_to_response('pages/500.html')
+    response.status_code = 500
+    return response
+
+
 
 class Prayer:
     def __init__(self, date_created, username, description):

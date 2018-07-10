@@ -23,5 +23,5 @@ urlpatterns = [
     path('prayerrequests/', views.prayerrequests, name='prayer-requests'),
     path('', views.home, name='home'),
     path('home/', views.home, name='home-page-unique'),
-    path('<slug:slug>/', views.PageDetailView.as_view(), name='page-detail')
+    path('<slug:slug>/', views.PageDetailView.as_view(), name='page-detail'),
 ]
