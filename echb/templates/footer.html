@@ -38,10 +38,16 @@
         <div class="subscribe">
             <h4>Подписывайтесь на наши письма</h4>
             <p>Вы будете получать письма с новостями, будущими событиями и обновлениями сайта</p>
-            <form action="">
-                <input type="email" name="email" id="email">
-                <button type="submit">Подписаться</button>
-            </form>
+            {% if success_subscriber %}
+                <p>Мы отправили вам письмо, где вам нужно подтвердить подписку. Благодарим!</p>
+            {% else %}
+                {{ field.errors }}
+                <form action="{% url 'add-subscriber' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="email" name="email" id="email">
+                    <button type="submit">Подписаться</button>
+                </form>
+            {% endif %}
         </div>
         <div class="rights">
             <p>© Все права принадлежат ВСЦ ЕХБ 2011-{% now 'Y' %}</p>

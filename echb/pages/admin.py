@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest
+from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest, Subscriber
 
 @admin.register(Page)
 class AdminPage(SummernoteModelAdmin):
@@ -25,3 +25,7 @@ class VideoAdmin(admin.ModelAdmin):
     
 admin.site.register(VideoCategory)
 admin.site.register(PrayerRequest)
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ['email', 'activated', 'created']

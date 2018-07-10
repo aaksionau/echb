@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from uuid import UUID
 import simplejson
 
 from django.shortcuts import render, redirect, render_to_response
@@ -12,12 +13,14 @@ from django.contrib.auth import update_session_auth_hash, login, authenticate
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import user_passes_test
 from django.template import RequestContext
+from django.template.loader import get_template
+
 
 from social_django.models import UserSocialAuth
-from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest
+from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest, Subscriber
 from newsevents.models import NewsItem, Event
 from articles.models import Article
-from .forms import FeedbackForm, PrayerRequestForm
+from .forms import FeedbackForm, PrayerRequestForm, SubscriberForm
 
 def home(request):
     page = Page.objects.get(slug='home')
@@ -30,8 +33,19 @@ def home(request):
         'news': news,
         'articles': articles,
         'events': events,
-        'ministries': ministries
+        'ministries': ministries,
+        'subscriber_errors':'',
+        'added_subscriber': False
     }
+    if 'added_subscriber' in request.session.keys():
+        context.added_subscriber = True
+        del request.session['added_subscriber']
+    
+    #print(request.session.keys())
+    #if 'subscriber_errors' in request.session.keys():
+        #context.subscriber_errors = request.session['subscriber_errors']
+        #del request.session['subscriber_errors']
+
     return render(request, 'pages/home.html', context)
 
 def get_prayer_requests():
@@ -200,6 +214,31 @@ def password(request):
         form = PasswordForm(request.user)
     return render(request, 'profile/password.html', {'form': form})
 
+
+def add_subscriber(request):
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            subscriber = form.save()
+            
+            message = get_template('pages/feedback_letter.html').render({'subscriber':subscriber})
+            send_mail('Подтверждение о подписке на новости', message, 'test@test.ru', (subscriber.email,))
+            request.session['added_subscriber'] = True
+            return redirect('home', {'success_subscriber':True})
+        else:
+            request.session['subscriber_errors'] = form.errors
+            return redirect('home')
+
+    return redirect('home')
+
+def activate_subscriber(request, uuid):
+    subscriber = Subscriber.objects.get(uuid=uuid)
+
+    if subscriber:
+        subscriber.activated = True
+        subscriber.save()
+
+    return redirect('home')
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')

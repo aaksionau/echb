@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from .models import Feedback, PrayerRequest
+from .models import Feedback, PrayerRequest, Subscriber
 
 class FeedbackForm(ModelForm):
     class Meta:
@@ -19,3 +19,8 @@ class PrayerRequestForm(ModelForm):
     class Meta:
         model = PrayerRequest
         fields = ['description']
+
+class SubscriberForm(ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['email']
