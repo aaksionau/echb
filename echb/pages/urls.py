@@ -23,7 +23,7 @@ urlpatterns = [
     path('prayerrequests/', views.prayerrequests, name='prayer-requests'),
     path('add-subscriber/', views.add_subscriber, name='add-subscriber'),
     path('activate-subscriber/<uuid:uuid>/', views.activate_subscriber, name='activate-subscriber'),
-    path('', views.home, name='home'),
-    path('home/', views.home, name='home-page-unique'),
+    path('', views.HomePageView.as_view(), name='home'),
+    path('home/', views.HomePageView.as_view(), name='home-page-unique'),
     path('<slug:slug>/', views.PageDetailView.as_view(), name='page-detail'),
 ]

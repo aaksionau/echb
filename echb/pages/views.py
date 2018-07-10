@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, ListView
+from django.views.generic.base import TemplateView
 from django.urls import resolve
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm, UserCreationForm
@@ -22,32 +23,25 @@ from newsevents.models import NewsItem, Event
 from articles.models import Article
 from .forms import FeedbackForm, PrayerRequestForm, SubscriberForm
 
-def home(request):
-    page = Page.objects.get(slug='home')
-    news = NewsItem.objects.all().order_by('-publication_date')[:6]
-    articles = Article.objects.all().order_by('-date').select_related('author').select_related('category')[:6]
-    ministries = Ministry.objects.all()
-    events = Event.objects.all().order_by('date')[:3]
-    context = {
-        'page': page,
-        'news': news,
-        'articles': articles,
-        'events': events,
-        'ministries': ministries,
-        'subscriber_errors':'',
-        'added_subscriber': False
-    }
-    if 'added_subscriber' in request.session.keys():
-        context.added_subscriber = True
-        del request.session['added_subscriber']
+class HomePageView(TemplateView):
+    template_name = 'pages/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page = Page.objects.get(slug='home')
+        news = NewsItem.objects.all().order_by('-publication_date')[:6]
+        articles = Article.objects.all().order_by('-date').select_related('author').select_related('category')[:6]
+        ministries = Ministry.objects.all()
+        events = Event.objects.all().order_by('date')[:3]
+        context = {
+            'page': page,
+            'news': news,
+            'articles': articles,
+            'events': events,
+            'ministries': ministries
+        }
+        return context
     
-    #print(request.session.keys())
-    #if 'subscriber_errors' in request.session.keys():
-        #context.subscriber_errors = request.session['subscriber_errors']
-        #del request.session['subscriber_errors']
-
-    return render(request, 'pages/home.html', context)
-
 def get_prayer_requests():
     date_delta = datetime.now() -  timedelta(days=6)
     prayer_requests_all = PrayerRequest.objects.filter(created__gte = date_delta).select_related('user').order_by('created')
@@ -223,10 +217,8 @@ def add_subscriber(request):
             
             message = get_template('pages/feedback_letter.html').render({'subscriber':subscriber})
             send_mail('Подтверждение о подписке на новости', message, 'test@test.ru', (subscriber.email,))
-            request.session['added_subscriber'] = True
-            return redirect('home', {'success_subscriber':True})
+            return redirect('home')
         else:
-            request.session['subscriber_errors'] = form.errors
             return redirect('home')
 
     return redirect('home')
