@@ -3,7 +3,7 @@ from decouple import config
 
 DEBUG = False
 
-INSTALLED_APPS += ('django_summernote','newsevents','churches', 'articles', 'galleries', 'social_django', 'pages',)
+
 
 ALLOWED_HOSTS = ['paloni.webfactional.com']
 
@@ -21,7 +21,3 @@ DATABASES = {
 STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/home/paloni/webapps/echb_static/'
-
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True

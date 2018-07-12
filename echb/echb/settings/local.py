@@ -5,7 +5,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-INSTALLED_APPS += ('django_summernote','newsevents','churches', 'articles', 'galleries', 'social_django', 'pages', 'debug_toolbar')
+INSTALLED_APPS += ('debug_toolbar',)
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

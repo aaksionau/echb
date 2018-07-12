@@ -93,6 +93,14 @@ class Subscriber(Audit):
         verbose_name = 'подписчик'
         verbose_name_plural = 'подписчики'
 
+class OldUser(models.Model):
+    name = models.CharField(max_length = 150)
+    last_name = models.CharField(max_length = 150)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
+
 class PrayerRequest(Audit):
     description = models.TextField(max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

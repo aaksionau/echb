@@ -71,7 +71,6 @@ def get_prayer_requests():
 def group_check(user):
     return user.groups.filter(name__in=['Admin'])
 
-
 @login_required
 def userprofile(request):
     prayer_requests = PrayerRequest.objects.filter(user=request.user)
@@ -226,8 +225,7 @@ def password(request):
             messages.error(request, 'Пожалуйста исправьте указанные ошибки.')
     else:
         form = PasswordForm(request.user)
-    return render(request, 'profile/password.html', {'form': form})
-
+    return render(request, 'profile/password.html', {'form': form})       
 
 def add_subscriber(request):
     if request.method == 'POST':
