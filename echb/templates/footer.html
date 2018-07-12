@@ -42,7 +42,7 @@
                 <p>Мы отправили вам письмо, где вам нужно подтвердить подписку. Благодарим!</p>
             {% else %}
                 {{ field.errors }}
-                <form action="{% url 'add-subscriber' %}" method="POST">
+                <form action="{% url 'home' %}" method="POST">
                     {% csrf_token %}
                     <input type="email" name="email" id="email">
                     <button type="submit">Подписаться</button>

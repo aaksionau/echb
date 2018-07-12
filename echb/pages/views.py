@@ -5,8 +5,10 @@ import simplejson
 from django.shortcuts import render, redirect, render_to_response
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import DetailView, ListView
-from django.views.generic.base import TemplateView
+from django.views.generic import DetailView, ListView, FormView
+from django.views.generic.base import TemplateView, View
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm, UserCreationForm
@@ -23,25 +25,43 @@ from newsevents.models import NewsItem, Event
 from articles.models import Article
 from .forms import FeedbackForm, PrayerRequestForm, SubscriberForm
 
-class HomePageView(TemplateView):
-    template_name = 'pages/home.html'
+class HomePageView(View):
+    def get(self, request):
+        context = self._get_context_data()
+        return render(request, 'pages/home.html', context)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def post(self, request):
+        form = SubscriberForm(request.POST)
+        context = self._get_context_data()
+        if form.is_valid():
+            subscriber = form.save()
+            
+            message = get_template('pages/subscriber_activation_letter.html').render({'subscriber':subscriber})
+            send_mail('Подтверждение о подписке на новости', message, 'test@test.ru', (subscriber.email,))
+
+            context['success_subscriber'] = True
+            return render(request, 'pages/home.html', context)
+        else:
+            context['errors'] = form.errors
+            return render(request, 'pages/home.html', context)
+
+    def _get_context_data(self):
         page = Page.objects.get(slug='home')
         news = NewsItem.objects.all().order_by('-publication_date')[:6]
         articles = Article.objects.all().order_by('-date').select_related('author').select_related('category')[:6]
         ministries = Ministry.objects.all()
         events = Event.objects.all().order_by('date')[:3]
+        form = SubscriberForm()
         context = {
             'page': page,
             'news': news,
             'articles': articles,
             'events': events,
-            'ministries': ministries
+            'ministries': ministries,
+            'form':form
         }
         return context
-    
+
 def get_prayer_requests():
     date_delta = datetime.now() -  timedelta(days=6)
     prayer_requests_all = PrayerRequest.objects.filter(created__gte = date_delta).select_related('user').order_by('created')
