@@ -94,7 +94,8 @@ class Subscriber(Audit):
         verbose_name_plural = 'подписчики'
 
 class OldUser(models.Model):
-    name = models.CharField(max_length = 150)
+    login = models.CharField(max_length=100)
+    first_name = models.CharField(max_length = 150)
     last_name = models.CharField(max_length = 150)
     email = models.EmailField()
 
