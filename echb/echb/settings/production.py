@@ -21,3 +21,8 @@ DATABASES = {
 STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/home/paloni/webapps/echb_static/'
+
+EMAIL_HOST = config('SMTP_SERVER')
+EMAIL_PORT = config('SMTP_PORT')
+EMAIL_HOST_USER = config('MAIL_USER')
+EMAIL_HOST_PASSWORD = config('MAIL_PASSWORD')
