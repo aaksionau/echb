@@ -22,11 +22,13 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/home/paloni/webapps/echb_static/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = config('SMTP_SERVER')
 EMAIL_PORT = config('SMTP_PORT')
 EMAIL_HOST_USER = config('MAIL_USER')
 EMAIL_HOST_PASSWORD = config('MAIL_PASSWORD')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
