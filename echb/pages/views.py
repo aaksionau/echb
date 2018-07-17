@@ -3,7 +3,8 @@ from uuid import UUID
 import simplejson
 
 from django.shortcuts import render, redirect, render_to_response
-from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.core import mail
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, ListView, FormView
 from django.views.generic.base import TemplateView, View
@@ -36,8 +37,19 @@ class HomePageView(View):
         if form.is_valid():
             subscriber = form.save()
             
-            message = get_template('pages/subscriber_activation_letter.html').render({'subscriber':subscriber})
-            send_mail('Подтверждение о подписке на новости', message, 'test@test.ru', (subscriber.email,))
+            current_site = get_current_site(request)
+            domain = current_site.domain
+
+            message = get_template('pages/subscriber_activation_letter.html').render({'subscriber':subscriber, 'domain':domain})
+            with mail.get_connection() as connection:
+                email = mail.EmailMessage(
+                    subject='Подтверждение о подписке на новости',
+                    body=message,
+                    to=(subscriber.email,),
+                    connection=connection
+                )
+                email.content_subtype = 'html'
+                email.send()
 
             context['success_subscriber'] = True
             return render(request, 'pages/home.html', context)
@@ -227,28 +239,15 @@ def password(request):
         form = PasswordForm(request.user)
     return render(request, 'profile/password.html', {'form': form})       
 
-def add_subscriber(request):
-    if request.method == 'POST':
-        form = SubscriberForm(request.POST)
-        if form.is_valid():
-            subscriber = form.save()
-            
-            message = get_template('pages/feedback_letter.html').render({'subscriber':subscriber})
-            send_mail('Подтверждение о подписке на новости', message, 'test@test.ru', (subscriber.email,))
-            return redirect('home')
-        else:
-            return redirect('home')
+class ActivateSubscriber(View):
+    def get(self, request, uuid):
+        subscriber = Subscriber.objects.get(uuid=uuid)
 
-    return redirect('home')
+        if subscriber:
+            subscriber.activated = True
+            subscriber.save()
 
-def activate_subscriber(request, uuid):
-    subscriber = Subscriber.objects.get(uuid=uuid)
-
-    if subscriber:
-        subscriber.activated = True
-        subscriber.save()
-
-    return redirect('home')
+        return redirect('home')
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')
