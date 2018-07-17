@@ -1,0 +1,88 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block breadcrumbs %}
+    {{ block.super }} 
+    {% if active_page.slug != page.slug %}
+        <li><a href="{{active_page.slug}}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+    {% endif %}
+        <li> <a href="{{ page.get_absolute_url }}" title="{{ page.title }}">{{ page.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+<article class="prayer-requests">
+    <h2>
+        Личный кабинет
+    </h2>
+        {% if user.is_authenticated %}
+        <h3>Ваши молитвенные нужды: </h3>
+        <ul>
+            {% for need in prayer_requests %}
+                <li>{{need.description}}</li>
+                {% empty %}
+                <li>Их нет. Напишите о чем мы можем помолиться о вас <a href="{% url 'videos' %}">здесь.</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <a href="{% url 'login' %}">login</a> /
+        <a href="{% url 'signup' %}">signup</a>
+        {% endif %}
+
+        {% if user.is_staff  %}
+        <h3>Молитвенные нужды посетителей сайта: </h3>
+        <p>Здесь отображаются молитвенные нужды, оставленные после {{last_video_date|date:'d F Y H:i'}}</p>
+        <p>Последнее обновление данных: <span id="last-update-time"></span></p>
+        <ul id="prayer-requests">
+            {% for need in prayer_requests_all %}
+            <li>
+                <p><span> Посетитель:</span> {{need.user.username}}</p> 
+                <p><span>Дата:</span> {{need.created|date:'d F Y H:i'}}</p> 
+                <p><span>Молитвенная нужда:</span> {{need.description}}</p></li>
+            {% empty %}
+            <li>Пусто</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+  </header>
+</article>
+
+{% endblock content %}
+
+
+{% block jsfooter %}
+    {% if user.is_staff  %}
+    <script src="{% static 'js' %}/zepto.min.js"></script>
+    <script src="{% static 'js/tmpl.min.js' %}"></script>
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+    <script>
+        var echbNS = echbNS || {};
+        echbNS.updateRequests = function(){
+            $.getJSON('/prayerrequests/', function(prayers){
+                $('#prayer-requests').empty();
+                prayers.forEach(prayer => {
+                        moment.locale('ru');
+                        prayer.date = moment(prayer.date).format("d MMMM YYYY, HH:mm");
+                        content = tmpl("prayer-request", prayer);
+                        $('#prayer-requests').append(content);                    
+                    });
+                $('#last-update-time').text(moment().format('d MMMM YYYY HH:mm'));
+            });
+
+        }
+        $(document).ready(function(){
+                setInterval(echbNS.updateRequests, 60*1000);
+        });
+    </script>
+
+    {% verbatim %}
+        <script  type="text/x-tmpl" id="prayer-request">
+                <li>
+                <p><span>Посетитель:</span> {%= o.username %}</p> 
+                <p><span>Дата:</span> {%= o.date %}</p> 
+                <p><span>Молитвенная нужда:</span> {%= o.description %}</p></li>
+        </script>
+    {% endverbatim %}
+
+
+    {% endif %}
+{% endblock jsfooter %}
+    

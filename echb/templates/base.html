@@ -60,7 +60,7 @@
             </div>   
             {% else %}
                 <div class="auth logged">
-                    <h4><i class="fas fa-user-alt fa-1x"></i> <a href="{% url 'profile' %}">{{user.username}}</a></h4>
+                    <h4><i class="fas fa-user-alt fa-1x"></i> {{user.username}} <a href="{% url 'prayer_requests' %}">ваши молитвенные нужды</a></h4>
                     <ul>
                         <li><a href="{% url 'password_change' %}">Изменить пароль</a></li>
                         <li><a href="{% url 'logout' %}">Выход</a></li>
