@@ -39,7 +39,7 @@
         <div class='buttons'>
           <a href="{% url 'find-church' %}" title="Найдите церковь">
             <img src="{% static 'img/church.png' %}" width="32" alt="Найдите церковь">Найдите церковь</a>
-          <a href="" title="Прямые трансляции">
+          <a href="{% url 'videos' %}" title="Прямые трансляции">
             <img src="{% static 'img/online.png' %}" width="32" alt="Прямые трансляции">Прямые трансляции</a>
         </div>
       </div>
@@ -50,7 +50,7 @@
       <div class="container padding-30">
         <header>
           <h2>Новости</h2>
-          <p class='description'>Подписывайтесь на наши новости или читайте в вашем ридере через <a href="{% url 'news-feed' %}">RSS</a> .</p>
+          <p class='description'>Подписывайтесь на наши новости или читайте в вашем ридере через <a target="_blank" href="{% url 'news-feed' %}">RSS</a> .</p>
         </header>
         <div class="articles">
           {% for item in news %}
@@ -130,19 +130,19 @@
           <h2>О нас</h2>
           <ul>
             <li>
-              <a href="/about-us/faith/">Вероучение</a>
+              <a href="{% url 'page-detail' 'faith' %}">Вероучение</a>
             </li>
             <li>
-              <a href="/about-us/churches-history/">История церквей</a>
+              <a href="{% url 'page-detail' 'about-us' %}">История церквей</a>
             </li>
             <li>
-              <a href="/find-church/">Найдите церковь</a>
+              <a href="{% url 'find-church' %}">Найдите церковь</a>
             </li>
             <li>
-              <a href="/galleries/">Фотогалереи</a>
+              <a href="{% url 'galleries' %}">Фотогалереи</a>
             </li>
             <li>
-              <a href="/contacts/">Контакты</a>
+              <a href="{% url 'contacts' %}">Контакты</a>
             </li>
           </ul>
         </div>

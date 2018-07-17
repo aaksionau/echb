@@ -159,6 +159,7 @@ class ContactsFormView(FormView):
 
     def form_valid(self, form):
         form.send_email()
+        form.save()
         return super().form_valid(form)
 
 class ContactsThankYouView(TemplateView):

@@ -11,7 +11,7 @@
 <header>
     <h2>Новости</h2>
     <p class='description'>Подписывайтесь на наши новости или читайте в вашем ридере через
-        <a href="{% url 'news-feed' %}">RSS</a> .</p>
+        <a target="_blank" href="{% url 'news-feed' %}">RSS</a> .</p>
 </header>
 <div class="articles">
     {% for item in newsitem_list %}

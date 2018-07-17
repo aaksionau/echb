@@ -21,11 +21,12 @@
         </article>   
     </section>
     <section class="prayer-request">
+        {% if video.accept_prayer_request %}
             {% if user.is_authenticated %}
                 {% if message %}
                    <p> {{message}}</p>
                 {% else %}
-                <p>Здесь вы можете оставить молитвенную нужду в течении богослужения.</p>
+                <p>Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.</p>
                 
                 <form method="post">
                         {% csrf_token %}
@@ -34,9 +35,11 @@
                 </form>
                 {% endif %}
             {% else %}
-            <a href="{% url 'login' %}">login</a>
-            <a href="{% url 'signup' %}">signup</a>
+            <p>Вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду. Для этого зайдите, пожалуйста, в Ваш аккаунт или зарегистрируйтесь.</p>
+            <a href="{% url 'login' %}">Вход</a>
+            <a href="{% url 'signup' %}">Регистрация</a>
             {% endif %}
+        {% endif %}
     </section>
 </article>
 

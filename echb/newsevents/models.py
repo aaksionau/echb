@@ -20,7 +20,6 @@ class NewsItem(Audit):
     published = models.BooleanField(default=True)
     publication_date = models.DateTimeField()
     main_image = models.FileField(upload_to='news', null=True, blank=True, help_text="Маленькое изображение, которое будет появляться около новости")
-    short_description = models.TextField(null=True, blank=True, help_text="Краткое описание новости")
     description = models.TextField(null=True, blank=True, help_text="Проверяйте орфографию <a href='https://advego.com/text/'>здесь</a>")
     author = models.ForeignKey(Author, on_delete=models.DO_NOTHING, default=0)
 
