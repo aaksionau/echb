@@ -152,92 +152,21 @@ def videos(request, category='preobrazhenie'):
             videos = Video.objects.filter(category__slug = category).select_related('category').order_by('date')
             return render(request, 'pages/videos.html', {'videos':videos, 'categories':categories})
 
-def contacts(request):
-    if request.method == 'POST':
-        form=FeedbackForm(request.POST)
+class ContactsFormView(FormView):
+    template_name = 'pages/contacts.html'
+    success_url = '/contacts/thankyou/'
+    form_class = FeedbackForm
 
-        if form.is_valid():
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            email = form.cleaned_data['email']
-            name = form.cleaned_data['name']
-            cc_myself = form.cleaned_data['cc_myself']
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
-            recipients = ['alexei.aksenov@gmail.com']
-            if cc_myself:
-                recipients.append(email)
-
-            send_mail(subject, message, 'test@test.ru', recipients)
-            form.save()
-            return HttpResponseRedirect('/contacts/thankyou/')
-        else:
-            return render(request, 'pages/contacts.html', {'form':form})
-    else:
-        form = FeedbackForm()
-        return render(request, 'pages/contacts.html', {'form':form})
-
-def thanks(request):
-    return render(request, 'pages/thankyou.html')
+class ContactsThankYouView(TemplateView):
+    template_name = 'pages/thankyou.html'
 
 @login_required
 def profile(request):
-    return render(request, 'profile/main.html')
-
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = authenticate(
-                username=form.cleaned_data.get('username'),
-                password=form.cleaned_data.get('password1')
-            )
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, 'profile/signup.html', {'form': form})
-
-@login_required
-def settings(request):
-    user = request.user
-
-    try:
-        facebook_login = user.social_auth.get(provider='facebook')
-    except UserSocialAuth.DoesNotExist:
-        facebook_login = None
-
-    try:
-        twitter_login = user.social_auth.get(provider='twitter')
-    except UserSocialAuth.DoesNotExist:
-        twitter_login = None
-
-    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
-
-    return render(request, 'profile/settings.html', {
-        'facebook_login': facebook_login,
-        'can_disconnect': can_disconnect
-    })
-
-@login_required
-def password(request):
-    if request.user.has_usable_password():
-        PasswordForm = PasswordChangeForm
-    else:
-        PasswordForm = AdminPasswordChangeForm
-
-    if request.method == 'POST':
-        form = PasswordForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            messages.success(request, 'Ваш пароль был успешно обновлен!')
-            return redirect('password')
-        else:
-            messages.error(request, 'Пожалуйста исправьте указанные ошибки.')
-    else:
-        form = PasswordForm(request.user)
-    return render(request, 'profile/password.html', {'form': form})       
+    return render(request, 'profile/main.html') 
 
 class ActivateSubscriber(View):
     def get(self, request, uuid):

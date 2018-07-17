@@ -7,8 +7,8 @@ from . import views
 urlpatterns = [
     path('ministries/', views.MinistryListView.as_view(), name='ministries'),
     path('ministries/<slug:slug>/', views.MinistryDetailView.as_view(), name='ministry-detail'),
-    path('contacts/', views.contacts, name='contacts'),
-    path('contacts/thankyou/',views.thanks, name='thankyou'),
+    path('contacts/', views.ContactsFormView.as_view(), name='contacts'),
+    path('contacts/thankyou/',views.ContactsThankYouView.as_view(), name='thankyou'),
     path('online/', views.videos, name='videos'),
     path('online/<slug:category>', views.videos, name='videos-by-filter'),
     path('prayerrequests/', views.prayerrequests, name='prayer-requests'),

@@ -1,5 +1,17 @@
 {% extends "base.html" %} 
 
+{% block breadcrumbs %} 
+{{ block.super }}
+<li>
+    <a href="{% url 'contacts' %}" title="Контакты">Контакты</a>
+</li>
+{% endblock %} 
+
 {% block content %}
+<article class="form">
+    <div>
+        <h2>Обратная связь</h2>
     Спасибо за ваше сообщение.
+    </div>
+</article>
 {% endblock content %}
