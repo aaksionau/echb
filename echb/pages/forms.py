@@ -24,7 +24,7 @@ class FeedbackForm(ModelForm):
         name = self.cleaned_data['name']
         cc_myself = self.cleaned_data['cc_myself']
 
-        recipients = ['alexei.aksenov@gmail.com']
+        recipients = ['valeryj82@gmail.com']
         self._send_message(subject, message, recipients)
         if cc_myself:
             recipients = [email]
