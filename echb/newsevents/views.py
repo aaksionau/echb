@@ -5,8 +5,10 @@ from django.contrib.syndication.views import Feed
 from django.urls import reverse
 from django.db.models.functions import TruncMonth
 from django.template import RequestContext
-from .models import NewsItem, Author, Event
 from helpers.utils import BreadCrumLink
+from django.contrib.sites.shortcuts import get_current_site
+
+from .models import NewsItem, Author, Event
 
 class NewsListView(ListView):
     model = NewsItem
@@ -36,6 +38,7 @@ class NewsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_news'] = NewsItem.objects.order_by('-publication_date')[:5]
+        context['domain'] = get_current_site(self.request)
         return context
 
 class LatestEntriesFeed(Feed):
