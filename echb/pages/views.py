@@ -1,26 +1,14 @@
 from datetime import datetime, timedelta
-from uuid import UUID
-import simplejson
 
 from django.shortcuts import render, redirect, render_to_response
-from django.contrib.sites.shortcuts import get_current_site
-from django.core import mail
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, ListView, FormView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm, UserCreationForm
-from django.contrib.auth import update_session_auth_hash, login, authenticate
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.decorators import user_passes_test
 from django.template import RequestContext
-from django.template.loader import get_template
 
-
-from social_django.models import UserSocialAuth
 from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest, Subscriber
 from newsevents.models import NewsItem, Event
 from articles.models import Article
@@ -36,20 +24,8 @@ class HomePageView(View):
         context = self._get_context_data()
         if form.is_valid():
             subscriber = form.save()
-            
-            current_site = get_current_site(request)
-            domain = current_site.domain
-
-            message = get_template('pages/subscriber_activation_letter.html').render({'subscriber':subscriber, 'domain':domain})
-            with mail.get_connection() as connection:
-                email = mail.EmailMessage(
-                    subject='Подтверждение о подписке на новости',
-                    body=message,
-                    to=(subscriber.email,),
-                    connection=connection
-                )
-                email.content_subtype = 'html'
-                email.send()
+            domain = form.get_domain(request)
+            form.send_mail(subscriber, domain)
 
             context['success_subscriber'] = True
             return render(request, 'pages/home.html', context)
@@ -80,23 +56,6 @@ def get_prayer_requests():
 
     return date_delta, prayer_requests_all
 
-def group_check(user):
-    return user.groups.filter(name__in=['Admin'])
-
-@login_required
-def userprofile(request):
-    prayer_requests = PrayerRequest.objects.filter(user=request.user)
-    date_delta, prayer_requests_all = get_prayer_requests()
-
-    context = {
-        'prayer_requests': prayer_requests,
-        'last_video_date': date_delta,
-        'prayer_requests_all': prayer_requests_all
-    }
-    return render(request, 'profile/main.html', context)
-
-@login_required
-@user_passes_test(group_check)
 def prayerrequests(request):
     date_delta, prayer_requests_all = get_prayer_requests()
     users = User.objects.values('id','username')
@@ -164,10 +123,6 @@ class ContactsFormView(FormView):
 
 class ContactsThankYouView(TemplateView):
     template_name = 'pages/thankyou.html'
-
-@login_required
-def profile(request):
-    return render(request, 'profile/main.html') 
 
 class ActivateSubscriber(View):
     def get(self, request, uuid):

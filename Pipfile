@@ -18,6 +18,7 @@ simplejson = "*"
 python-decouple = "*"
 "psycopg2-binary" = "*"
 "psycopg2" = "*"
+django-braces = "*"
 
 [requires]
 python_version = "3.6"
