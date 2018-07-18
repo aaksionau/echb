@@ -442,17 +442,30 @@ article .meta a:hover {
 article .article-content {
   margin-top: 20px;
 }
-article #prayer-requests,
-article .prayer-requests ul {
-  list-style-type: none;
+article #prayer-requests {
+  display: flex;
+  flex-wrap: wrap;
 }
-article #prayer-requests li,
-article .prayer-requests ul li {
-  border-bottom: 1px solid #424242;
+article #prayer-requests div {
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  width: 250px;
+  margin: 10px 15px;
 }
-article #prayer-requests p span,
-article .prayer-requests ul p span {
-  font-weight: bold;
+article #prayer-requests div p {
+  padding: 0 15px;
+}
+article #prayer-requests div h4 {
+  background-color: #516384;
+  margin: 0;
+  padding: 15px;
+  border-radius: 7px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 article .content .image {
   float: left;

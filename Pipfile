@@ -5,20 +5,18 @@ name = "pypi"
 
 [dev-packages]
 rope = "*"
+gulp = "*"
 
 [packages]
 django = "*"
 django-summernote = "*"
 unidecode = "*"
 pillow = "*"
-social-auth-app-django = "*"
 django-debug-toolbar = "*"
-gulp = "*"
 simplejson = "*"
 python-decouple = "*"
 "psycopg2-binary" = "*"
 "psycopg2" = "*"
-django-braces = "*"
 
 [requires]
 python_version = "3.6"

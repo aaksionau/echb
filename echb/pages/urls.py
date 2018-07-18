@@ -11,7 +11,6 @@ urlpatterns = [
     path('contacts/thankyou/',views.ContactsThankYouView.as_view(), name='thankyou'),
     path('online/', views.videos, name='videos'),
     path('online/<slug:category>', views.videos, name='videos-by-filter'),
-    path('prayerrequests/', views.prayerrequests, name='prayer-requests'),
     path('activate-subscriber/<uuid:uuid>/', views.ActivateSubscriber.as_view(), name='activate-subscriber'),
     path('', views.HomePageView.as_view(), name='home'),
     path('home/', views.HomePageView.as_view(), name='home-page-unique'),

@@ -9,10 +9,12 @@ from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
 from django.template import RequestContext
 
-from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest, Subscriber
+from .models import Page, Ministry, Feedback, Video, VideoCategory, Subscriber
+from accounts.models import PrayerRequest
 from newsevents.models import NewsItem, Event
 from articles.models import Article
-from .forms import FeedbackForm, PrayerRequestForm, SubscriberForm
+from .forms import FeedbackForm, SubscriberForm
+from accounts.forms import PrayerRequestForm
 
 class HomePageView(View):
     def get(self, request):
@@ -49,24 +51,6 @@ class HomePageView(View):
             'form':form
         }
         return context
-
-def get_prayer_requests():
-    date_delta = datetime.now() -  timedelta(days=6)
-    prayer_requests_all = PrayerRequest.objects.filter(created__gte = date_delta).select_related('user').order_by('created')
-
-    return date_delta, prayer_requests_all
-
-def prayerrequests(request):
-    date_delta, prayer_requests_all = get_prayer_requests()
-    users = User.objects.values('id','username')
-    prayers = []
-    for item in prayer_requests_all.values('user_id', 'description', 'created', 'user'):
-        username = [user['username'] for user in users if user['id'] == item['user_id']][0]
-        prayer = Prayer(str(item['created']), username, item['description'])
-        prayers.append(prayer)
-
-    data = simplejson.dumps([p.__dict__ for p in prayers])
-    return HttpResponse(data, content_type='application/json')
 
 class ExtraContext(object):
     
@@ -143,11 +127,3 @@ def handler500(request, exception, template_name='pages/500.html'):
     response = render_to_response('pages/500.html')
     response.status_code = 500
     return response
-
-
-
-class Prayer:
-    def __init__(self, date_created, username, description):
-        self.date_created = date_created
-        self.username = username
-        self.description = description

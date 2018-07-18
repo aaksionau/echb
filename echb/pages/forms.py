@@ -3,7 +3,7 @@ from django.core import mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
 
-from .models import Feedback, PrayerRequest, Subscriber
+from .models import Feedback, Subscriber
 
 class FeedbackForm(ModelForm):
     def _send_message(self, subject, message, recipients):
@@ -41,11 +41,6 @@ class FeedbackForm(ModelForm):
             'subject': 'Тема сообщения',
             'message': 'Ваше сообщение'
         }
-
-class PrayerRequestForm(ModelForm):
-    class Meta:
-        model = PrayerRequest
-        fields = ['description']
 
 class SubscriberForm(ModelForm):
     def get_domain(self, request):

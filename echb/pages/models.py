@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
 import uuid
 from helpers.models import Audit, Seo
 
@@ -101,15 +100,3 @@ class OldUser(models.Model):
 
     def __str__(self):
         return self.email
-
-class PrayerRequest(Audit):
-    description = models.TextField(max_length=250)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.description
-
-    class Meta:
-        verbose_name = 'молитвенная нужда'
-        verbose_name_plural = 'молитвенные нужды'
-        ordering = ['created']

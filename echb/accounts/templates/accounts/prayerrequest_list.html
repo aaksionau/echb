@@ -31,16 +31,17 @@
         <h3>Молитвенные нужды посетителей сайта: </h3>
         <p>Здесь отображаются молитвенные нужды, оставленные после {{last_video_date|date:'d F Y H:i'}}</p>
         <p>Последнее обновление данных: <span id="last-update-time"></span></p>
-        <ul id="prayer-requests">
+        <div id="prayer-requests">
             {% for need in prayer_requests_all %}
-            <li>
-                <p><span> Посетитель:</span> {{need.user.username}}</p> 
-                <p><span>Дата:</span> {{need.created|date:'d F Y H:i'}}</p> 
-                <p><span>Молитвенная нужда:</span> {{need.description}}</p></li>
+            <div>
+                <h4>Молитвенная нужда:</h4>
+                <p>{{need.description}}</p>
+                <p>{{need.user.username}} | {{need.created|date:'d F Y H:i'}}</p> 
+            </div>
             {% empty %}
             <li>Пусто</li>
             {% endfor %}
-        </ul>
+            </div>
         {% endif %}
   </header>
 </article>
@@ -56,29 +57,31 @@
     <script>
         var echbNS = echbNS || {};
         echbNS.updateRequests = function(){
-            $.getJSON('/prayerrequests/', function(prayers){
+            $.getJSON('{% url "prayer_requests" %}', function(prayers){
                 $('#prayer-requests').empty();
                 prayers.forEach(prayer => {
                         moment.locale('ru');
-                        prayer.date = moment(prayer.date).format("d MMMM YYYY, HH:mm");
+                        prayer.created = moment(prayer.created).format("D MMMM YYYY, HH:mm");
                         content = tmpl("prayer-request", prayer);
                         $('#prayer-requests').append(content);                    
                     });
-                $('#last-update-time').text(moment().format('d MMMM YYYY HH:mm'));
+                $('#last-update-time').text(moment().format('D MMMM YYYY HH:mm'));
             });
 
         }
         $(document).ready(function(){
-                setInterval(echbNS.updateRequests, 60*1000);
+                setInterval(echbNS.updateRequests, 10*1000);
         });
     </script>
 
     {% verbatim %}
         <script  type="text/x-tmpl" id="prayer-request">
-                <li>
-                <p><span>Посетитель:</span> {%= o.username %}</p> 
-                <p><span>Дата:</span> {%= o.date %}</p> 
-                <p><span>Молитвенная нужда:</span> {%= o.description %}</p></li>
+                <div>
+                <h4>Молитвенная нужда:</h4>
+                <p>{%= o.description %}</p>
+                <p>{%= o.user__username %} | {%= o.created %}</p> 
+            </div>
+
         </script>
     {% endverbatim %}
 

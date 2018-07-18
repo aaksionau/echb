@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Page, Ministry, Feedback, Video, VideoCategory, PrayerRequest, Subscriber, OldUser
+from .models import Page, Ministry, Feedback, Video, VideoCategory, Subscriber, OldUser
 
 @admin.register(Page)
 class AdminPage(SummernoteModelAdmin):
@@ -24,7 +24,6 @@ class VideoAdmin(admin.ModelAdmin):
     list_filter = ('category',)
     
 admin.site.register(VideoCategory)
-admin.site.register(PrayerRequest)
 
 @admin.register(Subscriber)
 class SubscriberAdmin(admin.ModelAdmin):
