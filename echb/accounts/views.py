@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.http import JsonResponse
 
-from pages.models import OldUser
+from pages.models import OldUser, Video
 from .models import PrayerRequest
 from .forms import SignUpForm
 
@@ -42,6 +42,7 @@ class PrayerRequestsView(LoginRequiredMixin, ListView):
         date_delta, prayer_requests_all = self.get_prayer_requests()
         context['last_video_date'] = date_delta
         context['prayer_requests_all'] = prayer_requests_all
+        context['video'] = Video.objects.filter(category__slug = 'preobrazhenie').select_related('category').order_by('date').first()
 
         return context
 
