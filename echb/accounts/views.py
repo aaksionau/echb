@@ -26,7 +26,11 @@ class SignUpFormView(FormView):
 class LoginUser(LoginView):
     template_name = 'accounts/login.html'
 
-class ExtraPrayerContext(object):
+class PrayerRequestsView(LoginRequiredMixin, ListView):
+    model = PrayerRequest
+    context_object_name = 'prayer_requests'
+    template_name = 'accounts/prayerrequest_list.html'
+
     def get_prayer_requests(self):
         date_delta = timezone.now() -  timedelta(days=6)
         prayer_requests_all = PrayerRequest.objects.filter(created__gte = date_delta).select_related('user').order_by('created')
@@ -34,17 +38,12 @@ class ExtraPrayerContext(object):
         return date_delta, prayer_requests_all
         
     def get_context_data(self, **kwargs):
-        context = super(ExtraPrayerContext, self).get_context_data(**kwargs)
+        context = super(PrayerRequestsView, self).get_context_data(**kwargs)
         date_delta, prayer_requests_all = self.get_prayer_requests()
         context['last_video_date'] = date_delta
         context['prayer_requests_all'] = prayer_requests_all
 
         return context
-
-class PrayerRequestsView(ExtraPrayerContext, LoginRequiredMixin, ListView):
-    model = PrayerRequest
-    context_object_name = 'prayer_requests'
-    template_name = 'accounts/prayerrequest_list.html'
 
     def get_queryset(self):
         queryset = super(PrayerRequestsView, self).get_queryset()
