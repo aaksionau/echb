@@ -74,26 +74,44 @@ class MinistryDetailView(ExtraContext, DetailView):
 class MinistryListView(ExtraContext, ListView):
     model = Ministry
 
-def videos(request, category='preobrazhenie'):
+class VideoDetailView(View):
+    category = 'preobrazhenie'
+    def get_context_data(self):
+        context = {
+            'video': Video.objects.filter(category__slug = self.category).select_related('category').order_by('date').first(),
+            'categories': VideoCategory.objects.all()
+        }
+        return context
     
-        videos = None
-        categories = VideoCategory.objects.all()
-        message = ''
-        if category == 'preobrazhenie':
-            if request.method == 'POST':
-                form = PrayerRequestForm(request.POST)
-                if form.is_valid():
-                    prayer_request = form.save(commit=False)
-                    prayer_request.user = request.user
-                    prayer_request.save()
-                    message = 'О вашей нужде помолятся в течении богослужения.'
+    def get(self, request):
+        context = self.get_context_data()
+        context['form'] = PrayerRequestForm()
+        return render(request, 'pages/video_preobrazhenie.html', context)
 
-            videos = Video.objects.filter(category__slug = category).select_related('category').order_by('date').first()
-            form = PrayerRequestForm()
-            return render(request, 'pages/video_preobrazhenie.html', {'video':videos, 'categories':categories, 'form':form, 'message':message })
+    def post(self, request):
+        form = PrayerRequestForm(request.POST)
+        context = self.get_context_data()
+        if form.is_valid():
+            prayer_request = form.save(commit=False)
+            prayer_request.user = request.user
+            prayer_request.save()
+            context['message'] = 'О вашей нужде помолятся в течении богослужения.'
+            return render(request, 'pages/video_preobrazhenie.html', context)
         else:
-            videos = Video.objects.filter(category__slug = category).select_related('category').order_by('date')
-            return render(request, 'pages/videos.html', {'videos':videos, 'categories':categories})
+            return redirect('video-preobrazhenie')
+
+class VideoListView(ListView):
+    template_name = 'pages/videos.html'
+    model = Video
+  
+    def get_context_data(self, **kwargs):
+        context = super(VideoListView, self).get_context_data(**kwargs)
+        context['categories'] = VideoCategory.objects.all()
+        return context
+    
+    def get_queryset(self):
+        queryset = Video.objects.filter(category__slug = self.kwargs['category']).select_related('category').order_by('date')
+        return queryset
 
 class ContactsFormView(FormView):
     template_name = 'pages/contacts.html'
