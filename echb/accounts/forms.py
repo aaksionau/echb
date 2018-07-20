@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, date
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -13,6 +15,12 @@ class SignUpForm(UserCreationForm):
         fields = ('first_name', 'username', 'email', 'password1', 'password2')
 
 class PrayerRequestForm(ModelForm):
+    
+    def prayer_request_count_allowed(self, user):
+        time_delta = datetime.today() - timedelta(hours=1)
+        requests_count = PrayerRequest.objects.filter(created__gte=time_delta, user_id=user.id).count()
+        return True if requests_count < 2 else False
+
     class Meta:
         model = PrayerRequest
         fields = ['description']

@@ -91,6 +91,11 @@ class VideoDetailView(View):
     def post(self, request):
         form = PrayerRequestForm(request.POST)
         context = self.get_context_data()
+
+        if not form.prayer_request_count_allowed(request.user):
+            context['message'] ='Превышено количество сообщений в час. (Две записки в час).'
+            return render(request, 'pages/video_preobrazhenie.html', context)
+
         if form.is_valid():
             prayer_request = form.save(commit=False)
             prayer_request.user = request.user
