@@ -462,6 +462,9 @@ article #prayer-requests div {
 article #prayer-requests div p {
   padding: 0 15px;
 }
+article #prayer-requests div p:last-of-type {
+  font-size: 0.9em;
+}
 article #prayer-requests div h4 {
   background-color: #516384;
   margin: 0;

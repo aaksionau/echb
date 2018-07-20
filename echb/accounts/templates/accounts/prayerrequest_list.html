@@ -38,7 +38,7 @@
             <div>
                 <h4>Молитвенная нужда:</h4>
                 <p>{{need.description}}</p>
-                <p>{{need.user.username}} | {{need.created|date:'d F Y H:i'}}</p> 
+                <p>{{need.user.first_name}} | {{need.created|date:'d F Y H:i'}}</p> 
             </div>
             {% empty %}
             <li>Пусто</li>
@@ -81,7 +81,7 @@
                 <div>
                 <h4>Молитвенная нужда:</h4>
                 <p>{%= o.description %}</p>
-                <p>{%= o.user__username %} | {%= o.created %}</p> 
+                <p>{%= o.user__first_name %} | {%= o.created %}</p> 
             </div>
 
         </script>

@@ -53,7 +53,7 @@ class PrayerRequestsView(LoginRequiredMixin, ListView):
 
     def render_to_response(self, context):
         if self.request.is_ajax():
-            data = self.get_context_data()["prayer_requests_all"].values('user', 'description', 'created', 'user__username')
+            data = self.get_context_data()["prayer_requests_all"].values('user', 'description', 'created', 'user__first_name')
             return JsonResponse(list(data), safe=False)
         else:
             return ListView.render_to_response(self,context)
