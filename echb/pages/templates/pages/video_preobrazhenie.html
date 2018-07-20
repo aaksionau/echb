@@ -2,8 +2,8 @@
 {% block breadcrumbs %}
     {{ block.super }} 
         <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
-        <li><a href="{{active_page.slug}}/" title="{{active_page.title}}">{{active_page.title}}</a></li>
-        <li><a href="/{{video.category.slug}}/" title="{{video.category.title}}">{{video.category.title}}</a></li>
+        <li><a href="/{{active_page.slug}}/" title="{{active_page.title}}">{{active_page.title}}</a></li>
+        <li><a href="/online/{{video.category.slug}}/" title="{{video.category.title}}">{{video.category.title}}</a></li>
 {% endblock %}
 
 {% block content %}

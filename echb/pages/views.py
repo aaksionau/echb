@@ -95,8 +95,7 @@ class VideoDetailView(View):
             prayer_request = form.save(commit=False)
             prayer_request.user = request.user
             prayer_request.save()
-            context['message'] = 'О вашей нужде помолятся в течении богослужения.'
-            return render(request, 'pages/video_preobrazhenie.html', context)
+            return redirect('video-preobrazhenie-thankyou')
         else:
             return redirect('video-preobrazhenie')
 

@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+
+{% block breadcrumbs %}
+    {{ block.super }} 
+        <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+        <li><a href="{% url 'video-preobrazhenie' %}">Прямые трансляции</a></li>
+{% endblock %}
+
+{% block content %}
+<article class="form">
+    <div>
+        <h2>Молитвенное служение</h2>
+        <p>Мы получили вашу записку с молитвенной нуждой, она будет передана ведущему собрания.</p>
+    </div>
+</article>
+{% endblock content %}

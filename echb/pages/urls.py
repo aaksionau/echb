@@ -13,6 +13,7 @@ urlpatterns = [
     path('contacts/thankyou/',views.ContactsThankYouView.as_view(), name='thankyou'),
     path('online/', RedirectView.as_view(url='/online/preobrazhenie/')),
     path('online/preobrazhenie/', views.VideoDetailView.as_view(), name='video-preobrazhenie'),
+    path('online/preobrazhenie/thankyou/', views.TemplateView.as_view(template_name="pages/prayer_thankyou.html"), name='video-preobrazhenie-thankyou'),
     path('online/<slug:category>/', views.VideoListView.as_view(), name='videos-by-filter'),
     path('subscriber/success/', TemplateView.as_view(template_name='pages/subscription_thankyou.html'), name='subscriber-success'),
     path('subscriber/activated/', TemplateView.as_view(template_name='pages/subscription_activated.html'), name='subscriber-activated'),
