@@ -6,8 +6,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.shortcuts import render
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 from pages.models import OldUser, Video
 from .models import PrayerRequest
@@ -25,6 +26,12 @@ class SignUpFormView(FormView):
 
 class LoginUser(LoginView):
     template_name = 'accounts/login.html'
+
+class ProfileUserFormView(UpdateView):
+    template_name='accounts/profile.html'
+    model = User
+    fields = ['first_name', 'last_name', 'email']
+    success_url = '/accounts/profile/success/'
 
 class PrayerRequestsView(LoginRequiredMixin, ListView):
     model = PrayerRequest

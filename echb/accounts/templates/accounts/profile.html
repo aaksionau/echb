@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="login">
+  <h2>Изменение ваших данных</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Изменить</button>
+  </form>
+</div>
+{% endblock %}
+
+
+{% block rightside %}
+    <section>
+        <ul>
+            <li><a href="{% url 'prayer_requests' %}">Молитвенные нужды</a></li>
+            {% if user.is_staff %}
+            <li><a href="{% url 'prayer_requests_all' %}">Молитвенные нужды посетителей</a></li>
+            {% endif %}
+        </ul>
+    </section>
+{% endblock rightside %}
+    
