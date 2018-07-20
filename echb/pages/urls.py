@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, TemplateView
 
 
 from . import views
@@ -14,6 +14,8 @@ urlpatterns = [
     path('online/', RedirectView.as_view(url='/online/preobrazhenie/')),
     path('online/preobrazhenie/', views.VideoDetailView.as_view(), name='video-preobrazhenie'),
     path('online/<slug:category>/', views.VideoListView.as_view(), name='videos-by-filter'),
+    path('subscriber/success/', TemplateView.as_view(template_name='pages/subscription_thankyou.html'), name='subscriber-success'),
+    path('subscriber/activated/', TemplateView.as_view(template_name='pages/subscription_activated.html'), name='subscriber-activated'),
     path('activate-subscriber/<uuid:uuid>/', views.ActivateSubscriber.as_view(), name='activate-subscriber'),
     path('', views.HomePageView.as_view(), name='home'),
     path('home/', views.HomePageView.as_view(), name='home-page-unique'),

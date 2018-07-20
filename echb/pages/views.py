@@ -30,7 +30,7 @@ class HomePageView(View):
             form.send_mail(subscriber, domain)
 
             context['success_subscriber'] = True
-            return render(request, 'pages/home.html', context)
+            return render(request, 'pages/subscription_thankyou.html')
         else:
             context['errors'] = form.errors
             return render(request, 'pages/home.html', context)
@@ -134,7 +134,8 @@ class ActivateSubscriber(View):
             subscriber.activated = True
             subscriber.save()
 
-        return redirect('home')
+            return redirect('subscriber-activated')
+        redirect('home')
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')
