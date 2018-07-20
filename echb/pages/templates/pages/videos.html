@@ -11,7 +11,7 @@
         {{active_page.title}}
     </h2>
     <section class="videos">
-        {% for video in videos %}
+        {% for video in video_list %}
          <article>
             <h3>{{video.title}}</h3>
             <div class="meta"> <time datetime="{{video.date|date:'Y-m-d'}}">{{video.date|date:'d F Y'}}</time></div>
