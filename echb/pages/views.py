@@ -114,7 +114,7 @@ class VideoListView(ListView):
         return context
     
     def get_queryset(self):
-        queryset = Video.objects.filter(category__slug = self.kwargs['category']).select_related('category').order_by('date')
+        queryset = Video.objects.filter(category__slug = self.kwargs['category']).select_related('category').order_by('-date')
         return queryset
 
 class ContactsFormView(FormView):
@@ -146,7 +146,7 @@ def handler404(request, exception, template_name='pages/404.html'):
     response.status_code = 404
     return response
 
-def handler500(request, exception, template_name='pages/500.html'):
+def handler500(request):
     response = render_to_response('pages/500.html')
     response.status_code = 500
     return response
