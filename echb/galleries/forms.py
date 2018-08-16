@@ -66,7 +66,7 @@ class UploadZipForm(forms.Form):
             os.makedirs(os.path.dirname(resized_image_path))
         img.save(resized_image_path)
 
-    def change_slug(slug):
+    def change_slug(self, slug):
         return unidecode(self.cleaned_data['title'].replace(' ', '-').lower())
 
     def save(self, request=None, zip_file=None):
