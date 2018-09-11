@@ -14,9 +14,9 @@
         {% for video in video_list %}
          <article>
             <h3>{{video.title}}</h3>
-            <div class="meta"> <time datetime="{{video.date|date:'Y-m-d'}}">{{video.date|date:'d F Y'}}</time></div>
+            <div class="meta"> <time datetime="{{video.date|date:'Y-m-d'}}">{{video.date|date:'d F Y'}}</time><span>{{video.category.title}}</span></div>
 
-            <iframe width="560" height="315" src="{{video.youtube_link}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe width="800" height="415" src="{{video.youtube_link}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
              
         </article>   
          {% endfor %}
@@ -24,15 +24,4 @@
 </article>
 
 {% endblock content %}
-
-{% block rightside %}
-    <section class="video-categories">
-        <h3>Категории</h3>
-        <ul>
-            {% for cat in categories %}
-            <li><a href="{% url 'videos-by-filter' cat.slug %}" title="{{cat.title}}">{{cat.title}}</a></li>
-            {% endfor %}
-        </ul>
-    </section>
-{% endblock rightside %}
     

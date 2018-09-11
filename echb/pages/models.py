@@ -40,6 +40,8 @@ class Feedback(Audit):
 class VideoCategory(Audit):
     title = models.CharField(max_length=100)
     slug = models.SlugField()
+    icon = models.FileField(upload_to='video_categories', blank=True, null=True)
+
 
     def __str__(self):
         return self.title
@@ -51,10 +53,12 @@ class VideoCategory(Audit):
 class Video(Audit):
     title = models.CharField(max_length=150)
     youtube_link = models.CharField(max_length=200)
+    urgent_text = models.CharField(max_length=250, verbose_name="Текст срочного объявления", blank=True, null=True)
     accept_prayer_request = models.BooleanField()
     date = models.DateTimeField()
     category = models.ForeignKey(VideoCategory, on_delete=models.CASCADE)
     interesting_event = models.BooleanField(default=False)
+    text_for_request = models.CharField(max_length=200, blank=True, null=True, help_text="Введите текст для формы, по умолчанию: Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.")
 
     def __str__(self):
         return self.title

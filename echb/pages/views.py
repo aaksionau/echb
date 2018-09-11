@@ -61,18 +61,18 @@ class PageDetailView(DetailView):
 
 
 class VideoDetailView(View):
-    category = 'preobrazhenie'
     def get_context_data(self):
+        time_delta = datetime.today() - timedelta(days=7)
         context = {
-            'video': Video.objects.filter(category__slug = self.category).select_related('category').order_by('date').first(),
-            'categories': VideoCategory.objects.all()
+            'video': Video.objects.filter(date__gte = time_delta).filter(category__slug = self.kwargs['slug']).select_related('category').order_by('-date').first(),
+            'categories': Video.objects.filter(date__gte = time_delta).select_related('category')
         }
         return context
     
-    def get(self, request):
+    def get(self, request, slug):
         context = self.get_context_data()
         context['form'] = PrayerRequestForm()
-        return render(request, 'pages/video_preobrazhenie.html', context)
+        return render(request, 'pages/video_detail.html', context)
 
     def post(self, request):
         form = PrayerRequestForm(request.POST)
@@ -80,27 +80,33 @@ class VideoDetailView(View):
 
         if not form.prayer_request_count_allowed(request.user):
             context['message'] ='Превышено количество сообщений в час. (Две записки в час).'
-            return render(request, 'pages/video_preobrazhenie.html', context)
+            return render(request, 'pages/video_detail.html', context)
 
         if form.is_valid():
             prayer_request = form.save(commit=False)
             prayer_request.user = request.user
             prayer_request.save()
-            return redirect('video-preobrazhenie-thankyou')
+            return redirect('video-detail-thankyou')
         else:
-            return redirect('video-preobrazhenie')
+            return redirect('video-detail')
+
+class CurrentVideosListView(ListView):
+    template_name = 'pages/current_videos.html'
+    model = Video
+    
+
+    def get_queryset(self):
+        time_delta = datetime.today() - timedelta(days=7)
+        queryset = Video.objects.filter(date__gte = time_delta).select_related('category')
+        return queryset
+    
 
 class VideoListView(ListView):
     template_name = 'pages/videos.html'
     model = Video
   
-    def get_context_data(self, **kwargs):
-        context = super(VideoListView, self).get_context_data(**kwargs)
-        context['categories'] = VideoCategory.objects.all()
-        return context
-    
     def get_queryset(self):
-        queryset = Video.objects.filter(category__slug = self.kwargs['category']).select_related('category').order_by('-date')
+        queryset = Video.objects.filter(interesting_event = True).select_related('category').order_by('-date')
         return queryset
 
 class ContactsFormView(FormView):

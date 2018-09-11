@@ -15,7 +15,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ['title', 'youtube_link', 'accept_prayer_request', 'category', 'date']
+    list_display = ['title', 'youtube_link', 'accept_prayer_request', 'category', 'date', 'interesting_event']
     list_filter = ('category',)
     
 admin.site.register(VideoCategory)

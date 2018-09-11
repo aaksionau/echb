@@ -13,6 +13,11 @@
     </h2>
     <section class="videos">
          <article>
+             {% if video.urgent_text %}
+             <div class="urgent">
+                   <p> {{video.urgent_text}}</p> 
+             </div>
+             {% endif %}
             <h3>{{video.title}}</h3>
             <div class="meta"> 
                 <time datetime="{{video.date|date:'Y-m-d H:i'}}">{{video.date|date:'d F Y h:i'}}</time>
@@ -27,7 +32,12 @@
                 {% if message %}
                    <p> {{message}}</p>
                 {% else %}
-                <p>Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду. (длина сообщения 250 символов)</p>
+                <p>{% if video.text_for_request %}
+                        {{video.text_for_request}}
+                    {% else %}
+                        Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.
+                    {% endif %}(длина сообщения 250 символов)
+                </p>
                 
                 <form method="post">
                         {% csrf_token %}
@@ -50,8 +60,8 @@
     <section class="video-categories">
         <h3>Категории</h3>
         <ul>
-            {% for cat in categories %}
-            <li><a href="{% url 'videos-by-filter' cat.slug %}" title="{{cat.title}}">{{cat.title}}</a></li>
+            {% for video in categories %}
+            <li><a href="{% url 'videos-by-filter' video.category.slug %}" title="{{video.category.title}}">{{video.category.title}}</a></li>
             {% endfor %}
         </ul>
     </section>
