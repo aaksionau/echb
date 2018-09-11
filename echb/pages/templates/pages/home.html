@@ -99,26 +99,21 @@
     <section class="ministries">
       <div class="container padding-30">
         <header>
-          <h2>Наши служения в регионе</h2>
-          <p class="description">Принимайте участие в служениях, представленных ниже.</p>
-          <p class="description">... заботьтесь о благосостоянии города ... и молитесь за него Господу; 
-            ибо при благосостоянии его и вам будет мир. (книга пророка Иеремии 29:7)</p>
+          <h2>Фотогалерея</h2>
+          <p class="description">Прошедшие события на фото. Больше фотографий <a href="{% url 'galleries' %}">здесь</a> </p>
         </header>
-        <div class="articles">
-        {% for item in ministries %}
-          <article>
-            <a href='{{item.get_absolute_url}}' title='{{item.title}}'>
-              <img width="80" src="{% static 'media/' %}{{item.icon}}" alt="{{item.title}}">
-            </a>
-            <div class="content">
-              <h3>
-                <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
-              </h3>
-              <p>{{item.short_description}}</p>
-            </div>
-          </article>
-          {% endfor %}
-        </div>
+        <ul class="galleries">
+            {% for gallery in photos %}
+                <li>
+                    <div class="photo-content">
+                            <a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'><div class="image" style="background-image:url('{% static 'media/galleries/' %}{{gallery.main_image }}')"></div></a>
+                        <h3><a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>{{gallery.title}}</a></h3>
+                    </div>
+                        <p> <i class="fas fa-calendar-alt"></i> {{gallery.date|date:'d F Y'}}</p> 
+                        <p><i class="fas fa-user-alt"></i> {{gallery.author.last_name}} {{gallery.author.first_name}}</p>
+                </li>
+            {% endfor %}
+        </ul>
       </div>
     </section>
     <section class="about-us">
