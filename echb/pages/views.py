@@ -74,7 +74,7 @@ class VideoDetailView(View):
         context['form'] = PrayerRequestForm()
         return render(request, 'pages/video_detail.html', context)
 
-    def post(self, request):
+    def post(self, request, slug):
         form = PrayerRequestForm(request.POST)
         context = self.get_context_data()
 
@@ -86,7 +86,7 @@ class VideoDetailView(View):
             prayer_request = form.save(commit=False)
             prayer_request.user = request.user
             prayer_request.save()
-            return redirect('video-detail-thankyou')
+            return redirect('video-detail-thankyou',slug=slug)
         else:
             return redirect('video-detail')
 
