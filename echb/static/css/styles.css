@@ -252,7 +252,7 @@ ul {
   padding-left: 0;
 }
 .padding-30 {
-  padding: 30px 0;
+  padding: 30px 30px;
 }
 main > section header {
   font-family: 'Roboto', sans-serif;
@@ -451,6 +451,7 @@ article .content p a.more {
 .resources .right .partners a {
   align-self: center;
   justify-self: center;
+  flex-basis: 100%;
 }
 footer {
   background-color: #416275;
@@ -488,6 +489,7 @@ footer .rights {
 }
 footer button {
   margin-left: 5px;
+  background-color: #e0e9ef;
 }
 .helper_nav {
   margin-top: 30px;
@@ -700,6 +702,9 @@ footer button {
 .galleries li:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+.galleries li .photo-content {
+  width: 100%;
+}
 .galleries li .image {
   max-width: 300px;
   height: 200px;
@@ -723,7 +728,6 @@ footer button {
 }
 .galleries li p {
   font-size: 0.8em;
-  justify-self: left;
 }
 .galleries li p:first-of-type {
   padding-left: 12px;
@@ -813,10 +817,40 @@ aside .submenu li a {
   padding: 1px 0;
   font-style: italic;
 }
+@media only screen and (min-width: 1200px) {
+  .main-nav {
+    color: #fff;
+    margin-bottom: 45px;
+    align-self: center;
+  }
+  .main-nav a {
+    display: inline-block;
+    font-size: 1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
+    margin: 0 7px;
+    border: 2px solid transparent;
+  }
+  .main-nav a.active,
+  .main-nav a:hover {
+    border: 2px solid #fff;
+    border-radius: 5px;
+    -webkit-transition-property: border-color;
+    transition-property: border-color;
+    transition-duration: 0.4s, 0.4s;
+    transition-timing-function: ease, ease-out;
+    transition-delay: 0s, 0.4s;
+  }
+  .home .main-nav {
+    margin-bottom: 0;
+  }
+}
 .header {
   display: grid;
-  grid-template-columns: 40% 60%;
-  grid-template-rows: 30% 70%;
+  grid-template-columns: 1fr;
+  padding: 0 15px;
 }
 .logo {
   display: grid;
@@ -856,7 +890,7 @@ main .ministries .articles article {
 }
 .about-us .container {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr;
 }
 .resources .container {
   display: grid;
@@ -869,19 +903,12 @@ main .ministries .articles article {
   grid-column-gap: 30px;
 }
 .resources .container .right .partners {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
 }
 footer .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 20px;
-  padding-bottom: 0;
-}
-footer .container .rights {
-  grid-column-start: 1;
-  grid-column-end: 5;
+  display: flex;
+  flex-flow: column;
 }
 .main-content {
   display: grid;
@@ -906,15 +933,17 @@ footer .container .rights {
   grid-auto-flow: row;
   grid-column-gap: 10px;
   grid-row-gap: 15px;
+  justify-content: center;
 }
 .galleries li {
-  display: grid;
-  grid-template-rows: 2fr 0.2fr;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-basis: 65%;
+  align-items: center;
+  margin: 3% 12%;
+  flex-flow: column;
 }
-.galleries li .photo-content {
-  grid-column-start: 1;
-  grid-column-end: 3;
+.main-galleries .galleries {
+  grid-template-columns: 1fr;
 }
 .photos {
   display: grid;
@@ -946,5 +975,40 @@ footer .container .rights {
   }
   .video-categories-detail .video-category {
     width: 30%;
+  }
+  .main-galleries .galleries {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  .main-galleries .galleries li {
+    display: flex;
+    flex-basis: 24%;
+    align-items: center;
+    margin: 0;
+    flex-flow: column;
+  }
+  .about-us .container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+  }
+  footer .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 20px;
+    padding-bottom: 0;
+  }
+  footer .container .rights {
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  .resources .container .right .partners {
+    display: flex;
+    flex-wrap: no-wrap;
+    flex-flow: row;
+  }
+  .header {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 30% 70%;
   }
 }

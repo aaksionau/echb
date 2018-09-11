@@ -1,7 +1,7 @@
 .header {
     display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: 30% 70%;
+    grid-template-columns: 1fr;
+    padding: 0 15px;
 }
 .logo{
     display: grid;
@@ -40,7 +40,7 @@
 }
 .about-us .container {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1fr;
 }
 
 .resources .container {
@@ -53,20 +53,13 @@
         grid-column-gap: 30px;
     }
     .right .partners{
-        display:grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        display:flex;
+        flex-wrap:wrap;
     }
 }
 footer .container{
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr 2fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 20px;
-    padding-bottom: 0;
-    .rights{
-        grid-column-start: 1;
-        grid-column-end: 5;
-    }
+    display: flex;
+    flex-flow: column;
 }
 .main-content{
     display: grid;
@@ -92,15 +85,17 @@ footer .container{
     grid-auto-flow: row;
     grid-column-gap: 10px;
     grid-row-gap: 15px;
+    justify-content: center;
     li{
-        display: grid;
-        grid-template-rows: 2fr 0.2fr;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-basis: 65%;
+        align-items: center;
+        margin: 3% 12%;
+        flex-flow: column;
     }
-    li .photo-content{
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
+}
+.main-galleries .galleries{
+    grid-template-columns: 1fr;
 }
 .photos{
     display: grid;
@@ -137,5 +132,40 @@ footer .container{
     }
     .video-categories-detail .video-category{
         width:30%;
+    }
+    .main-galleries .galleries{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .main-galleries .galleries li {
+        display: flex;
+        flex-basis: 24%;
+        align-items: center;
+        margin:0;
+        flex-flow: column;
+    }
+    .about-us .container {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+    }
+    footer .container{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr 2fr;
+        grid-template-rows: 1fr;
+        grid-column-gap: 20px;
+        padding-bottom: 0;
+        .rights{
+            grid-column-start: 1;
+            grid-column-end: 5;
+        }
+    }
+    .resources .container .right .partners{
+        display:flex;
+        flex-wrap:no-wrap;
+        flex-flow:row;
+    }
+    .header {
+        display: grid;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 30% 70%;
     }
 }
