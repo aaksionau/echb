@@ -35,6 +35,7 @@ class ProfileUserFormView(UpdateView):
 
 class MyPrayerRequestListView(ListView):
     model = PrayerRequest
+    context_object_name = 'my_prayer_requests'
     template_name = 'accounts/my_prayer_requests.html'
 
     def get_queryset(self):
