@@ -33,6 +33,15 @@ class ProfileUserFormView(UpdateView):
     fields = ['first_name', 'last_name', 'email']
     success_url = '/accounts/profile/success/'
 
+class MyPrayerRequestListView(ListView):
+    model = PrayerRequest
+    template_name = 'accounts/my_prayer_requests.html'
+
+    def get_queryset(self):
+        queryset = super(MyPrayerRequestListView, self).get_queryset()
+        queryset = PrayerRequest.objects.filter(user=self.request.user).select_related('user')
+        return queryset
+
 class PrayerRequestsView(LoginRequiredMixin, ListView):
     model = PrayerRequest
     context_object_name = 'prayer_requests'
@@ -52,11 +61,6 @@ class PrayerRequestsView(LoginRequiredMixin, ListView):
         context['video'] = Video.objects.filter(category__slug = 'preobrazhenie').select_related('category').order_by('date').first()
 
         return context
-
-    def get_queryset(self):
-        queryset = super(PrayerRequestsView, self).get_queryset()
-        queryset = PrayerRequest.objects.filter(user=self.request.user).select_related('user')
-        return queryset
 
     def render_to_response(self, context):
         if self.request.is_ajax():

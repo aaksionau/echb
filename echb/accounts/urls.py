@@ -22,6 +22,6 @@ urlpatterns = [
     path('reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name="accounts/password_reset_complete.html"), name="password_reset_complete"),
     path('settings/password/', auth_views.PasswordChangeView.as_view(template_name="accounts/password_change.html"), name="password_change"),
     path('settings/password/done/', auth_views.PasswordChangeDoneView.as_view(template_name="accounts/password_change_done.html"), name="password_change_done"),
-    path('prayer-requests/', views.PrayerRequestsView.as_view(), name='prayer_requests'),
+    path('my-prayer-requests/', views.MyPrayerRequestListView.as_view(), name='prayer_requests'),
     path('prayer-requests-all/', views.PrayerRequestsView.as_view(), name='prayer_requests_all'),
 ]
