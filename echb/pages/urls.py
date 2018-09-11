@@ -7,8 +7,6 @@ from django.views.generic.base import RedirectView, TemplateView
 from . import views
 
 urlpatterns = [
-    path('ministries/', views.MinistryListView.as_view(), name='ministries'),
-    path('ministries/<slug:slug>/', views.MinistryDetailView.as_view(), name='ministry-detail'),
     path('contacts/', views.ContactsFormView.as_view(), name='contacts'),
     path('contacts/thankyou/',views.ContactsThankYouView.as_view(), name='thankyou'),
     path('online/', RedirectView.as_view(url='/online/preobrazhenie/')),

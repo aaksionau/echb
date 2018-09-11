@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
 from django.template import RequestContext
 
-from .models import Page, Ministry, Feedback, Video, VideoCategory, Subscriber
+from .models import Page, Feedback, Video, VideoCategory, Subscriber
 from accounts.models import PrayerRequest
 from newsevents.models import NewsItem, Event
 from articles.models import Article
@@ -39,7 +39,6 @@ class HomePageView(View):
         page = Page.objects.get(slug='home')
         news = NewsItem.objects.all().order_by('-publication_date')[:6]
         articles = Article.objects.all().order_by('-date').select_related('author').select_related('category')[:6]
-        ministries = Ministry.objects.all()
         events = Event.objects.all().order_by('date')[:3]
         form = SubscriberForm()
         context = {
@@ -47,16 +46,8 @@ class HomePageView(View):
             'news': news,
             'articles': articles,
             'events': events,
-            'ministries': ministries,
             'form':form
         }
-        return context
-
-class ExtraContext(object):
-    
-    def get_context_data(self, **kwargs):
-        context = super(ExtraContext, self).get_context_data(**kwargs)
-        context['right_menu_ministries'] = Ministry.objects.all()
         return context
 
 class PageDetailView(DetailView):
@@ -68,11 +59,6 @@ class PageDetailView(DetailView):
         context['church_history_pages'] = Page.objects.filter(parent__slug='churches-history')
         return context
 
-class MinistryDetailView(ExtraContext, DetailView):
-    model = Ministry
-
-class MinistryListView(ExtraContext, ListView):
-    model = Ministry
 
 class VideoDetailView(View):
     category = 'preobrazhenie'

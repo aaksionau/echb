@@ -22,23 +22,6 @@ class Page(Audit, Seo):
         verbose_name = 'страница сайта'
         verbose_name_plural = 'страницы сайта'
 
-class Ministry(Audit, Seo):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
-    short_description = models.TextField()
-    description = models.TextField(null=True, blank=True)
-    icon = models.FileField(upload_to='ministries')
-
-    def __str__(self):
-            return self.title
-
-    def get_absolute_url(self):
-        return reverse('ministry-detail', kwargs={'slug': self.slug})
-
-    class Meta:
-        verbose_name = 'служение'
-        verbose_name_plural = 'служения'
-
 class Feedback(Audit):
     name = models.CharField(max_length = 100)
     email = models.EmailField()
@@ -71,6 +54,7 @@ class Video(Audit):
     accept_prayer_request = models.BooleanField()
     date = models.DateTimeField()
     category = models.ForeignKey(VideoCategory, on_delete=models.CASCADE)
+    interesting_event = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
