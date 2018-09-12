@@ -120,7 +120,7 @@ INSTALLED_APPS += ('django_summernote','newsevents','churches', 'articles', 'gal
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'video-preobrazhenie'
+LOGIN_REDIRECT_URL = 'online'
 LOGOUT_REDIRECT_URL = '/'
 
 CACHE_DURATION = {
