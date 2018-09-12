@@ -6,6 +6,7 @@ DEBUG = False
 BASE_URL = "https://paloni.webfactional.com/"
 PREPEND_WWW = True
 ALLOWED_HOSTS = ['paloni.webfactional.com', 'www.paloni.webfactional.com']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DATABASES = {
     'default': {
