@@ -867,6 +867,9 @@ aside .submenu li a {
   #top-menu {
     display: none;
   }
+  .test {
+    font: 4500;
+  }
 }
 .header {
   display: grid;

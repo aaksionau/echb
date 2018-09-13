@@ -39,7 +39,7 @@ def deploy():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
 
-    put('static/css/', env.remote_app_static_dir)
+    put('static/css/styles.min.css', f'{env.remote_app_static_dir}/css/')
     put('static/js/', env.remote_app_static_dir)
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
