@@ -26,6 +26,7 @@ def commit():
 env.use_ssh_config = True
 env.hosts = ["webfaction"]
 env.remote_app_dir = '/home/paloni/webapps/echb_project/echb/'
+env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
 @task
@@ -37,9 +38,8 @@ def restart_server():
 def deploy():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
-    
-    with cd(env.remote_app_dir):
-        run('python3.6 manage.py migrate --settings=echb.settings.production')
-        run('python3.6 manage.py collectstatic --settings=echb.settings.production --noinput')
+
+    put('static/css/', env.remote_app_static_dir)
+    put('static/js/', env.remote_app_static_dir)
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
