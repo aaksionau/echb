@@ -21,7 +21,7 @@ class SuccessfulSignUpTests(TestCase):
         }
         self.response = self.client.post(url, data)
         self.create_video_page()
-        self.videos_url = reverse('videos')
+        self.videos_url = reverse('online')
 
     def create_video_page(self):
         page = Page()

@@ -11,7 +11,7 @@ def prepare():
 
 def test():
     with settings(warn_only=True):
-        result = local("python manage.py test --settings=echb.settings.local")
+        result = local("python manage.py test --settings=echb.settings.test")
     if result.failed and not confirm("Tests failed. Continue?"):
         abort("Aborted at user request.")
 

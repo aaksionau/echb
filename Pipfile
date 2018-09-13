@@ -17,6 +17,7 @@ simplejson = "*"
 python-decouple = "*"
 "psycopg2-binary" = "*"
 "psycopg2" = "*"
+"fabric3" = "*"
 
 [requires]
 python_version = "3.6"
