@@ -1,5 +1,5 @@
 from fabric.api import task, env, run, cd, local, settings, abort
-from fabric.operations import prompt
+from fabric.operations import prompt, put
 from fabric.context_managers import prefix
 from fabric.contrib.console import confirm
 
