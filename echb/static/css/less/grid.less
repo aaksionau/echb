@@ -1,7 +1,13 @@
 .header {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-rows: 0.8fr 2fr;
     padding: 0 15px;
+    align-items: center;
+}
+.header .description {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
 .logo{
     display: grid;

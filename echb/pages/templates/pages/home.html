@@ -192,6 +192,10 @@
     </section>
   </main>
 {% include 'footer.html' %}
+{% block jsfooter %}
+<script src="{% static 'js/zepto.min.js' %}"></script> 
+<script src="{% static 'js/general.js' %}"></script>
+{% endblock jsfooter %}
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0f541057099683a88acd4b0c580627e87ecc577c4298af89e60aa7631a9d1a9f"
+            "sha256": "34a0f78a9c660300cf4a0fda2166533c24e1fe70f700f10a88eef01ac9acf6f5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,25 +26,18 @@
         },
         "django-debug-toolbar": {
             "hashes": [
-                "sha256:4af2a4e1e932dadbda197b18585962d4fc20172b4e5a479490bc659fe998864d",
-                "sha256:d9ea75659f76d8f1e3eb8f390b47fc5bad0908d949c34a8a3c4c87978eb40a0f"
+                "sha256:08e0e43f6c1fd9820af4cbdcd54b5fb80bf83a2e08b2cc952547a671174999b8",
+                "sha256:1dcae28d430522debafde2602b3450eb784410b78e16c29a00448032df2a4c90"
             ],
             "index": "pypi",
-            "version": "==1.9.1"
+            "version": "==1.10.1"
         },
         "django-summernote": {
             "hashes": [
-                "sha256:639495f5f442433c9dc7931ed863725f4d1a7e36be38cae5478228bbf5ae02fe"
+                "sha256:a3d48cd50ac23aa16beebdff8c88f04ad697f547316786b80ed7de6bcc750586"
             ],
             "index": "pypi",
-            "version": "==0.8.8.7"
-        },
-        "gulp": {
-            "hashes": [
-                "sha256:8bf974da4979cf2d1285551e2fcfa7151dcd94aa22ba5fbfdab63ae2820f1fe8"
-            ],
-            "index": "pypi",
-            "version": "==0.1.0"
+            "version": "==0.8.10.0"
         },
         "pillow": {
             "hashes": [
@@ -232,12 +225,19 @@
         }
     },
     "develop": {
-        "rope": {
+        "gulp": {
             "hashes": [
-                "sha256:a09edfd2034fd50099a67822f9bd851fbd0f4e98d3b87519f6267b60e50d80d1"
+                "sha256:8bf974da4979cf2d1285551e2fcfa7151dcd94aa22ba5fbfdab63ae2820f1fe8"
             ],
             "index": "pypi",
-            "version": "==0.10.7"
+            "version": "==0.1.0"
+        },
+        "rope": {
+            "hashes": [
+                "sha256:a108c445e1cd897fe19272ab7877d172e7faf3d4148c80e7d20faba42ea8f7b2"
+            ],
+            "index": "pypi",
+            "version": "==0.11.0"
         }
     }
 }

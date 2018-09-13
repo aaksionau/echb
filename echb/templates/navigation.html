@@ -1,5 +1,8 @@
 <nav class='main-nav'>
+    <div class="links">
     {% for link in menu_links %}
     <a{% if active_page.slug == link.slug or active_page.parent.slug == link.slug %} class='active'{% endif  %} href="{% url 'page-detail' link.slug %}" title="{{link.title}}">{{link.title}}</a>
     {% endfor %}
+    </div>
+    <a href="" id="top-menu"> <i class="fas fa-bars fa-2x"></i></a>
 </nav>

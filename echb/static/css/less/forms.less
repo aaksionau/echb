@@ -3,6 +3,9 @@ header.home .buttons a {
     color: @button-text-color;
     background-color: @button-bg-color;
     margin-right: 10px;
+    &:hover{
+        background-color: darken(@button-bg-color, 10%);
+    }
     img {
         width: 25px;
         vertical-align: middle;
@@ -23,18 +26,25 @@ header.home .buttons a {
         outline: none;
     }
 }
-
+.blue{
+    background-color: #215371;
+    &:hover {
+        background-color: lighten(#215371, 10%);
+    }
+}
+.grey{
+    background-color: #215371;
+    &:hover {
+        background-color: lighten(#215371, 10%);
+    }
+}
 button {
     .round-borders(5px);
-    background-color: #215371;
     padding: 5px 10px;
     color: @primary-color;
     font-size: 0.8em;
     line-height: 1.7em;
     border: none;
-    &:hover {
-        background-color: lighten(#215371, 10%);
-    }
 }
 
 .button {

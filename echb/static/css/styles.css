@@ -11,7 +11,7 @@ header.home .buttons a {
   margin-right: 10px;
 }
 header.home .buttons a:hover {
-  background-color: #2d7098;
+  background-color: #e6e6e6;
 }
 header.home .buttons a img {
   width: 25px;
@@ -33,19 +33,27 @@ header.home .buttons a img {
 .subscribe form input:focus {
   outline: none;
 }
+.blue {
+  background-color: #215371;
+}
+.blue:hover {
+  background-color: #2d7098;
+}
+.grey {
+  background-color: #215371;
+}
+.grey:hover {
+  background-color: #2d7098;
+}
 button {
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  background-color: #215371;
   padding: 5px 10px;
   color: #416275;
   font-size: 0.8em;
   line-height: 1.7em;
   border: none;
-}
-button:hover {
-  background-color: #2d7098;
 }
 .button {
   padding: 7px 18px;
@@ -56,9 +64,6 @@ button:hover {
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   cursor: pointer;
-}
-.button:hover {
-  background-color: #2d7098;
 }
 input[type=text],
 input[type=email],
@@ -99,12 +104,12 @@ body > header {
   background-color: #416275;
   background-blend-mode: exclusion;
   min-height: 110px;
-  padding-top: 20px;
   width: 100%;
 }
 body > header .logo > a {
   text-decoration-line: none;
   text-align: center;
+  padding-top: 20px;
 }
 body > header .logo > a img {
   width: 7em;
@@ -115,7 +120,7 @@ body > header .logo > a .logo-description {
   margin-top: 3px;
 }
 body > header .logo {
-  margin-bottom: 15px;
+  margin: 15px 0;
 }
 body > header .logo .social {
   color: #dee8ec;
@@ -163,7 +168,7 @@ body > header .hot-links a img {
 }
 body > header.home {
   background-position: 100%;
-  padding-top: 20px;
+  height: 526px;
 }
 body > header.home .logo {
   display: block;
@@ -172,7 +177,7 @@ body > header.home .logo div a {
   margin: 0 10px;
 }
 body > header.home span {
-  padding-top: 25px;
+  padding-top: 8px;
 }
 body > header.home .logo img {
   float: left;
@@ -195,30 +200,8 @@ header.home .description p {
 header.home .description .buttons {
   margin: 30px 0 60px;
 }
-.main-nav {
-  color: #fff;
-  margin-bottom: 45px;
-  align-self: center;
-}
-.main-nav a {
-  display: inline-block;
-  font-size: 1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 5px 10px;
-  color: #fff;
-  margin: 0 7px;
-  border: 2px solid transparent;
-}
-.main-nav a.active,
-.main-nav a:hover {
-  border: 2px solid #fff;
-  border-radius: 5px;
-  -webkit-transition-property: border-color;
-  transition-property: border-color;
-  transition-duration: 0.4s, 0.4s;
-  transition-timing-function: ease, ease-out;
-  transition-delay: 0s, 0.4s;
+.main-nav div {
+  display: none;
 }
 .home .main-nav {
   margin-bottom: 0;
@@ -817,11 +800,45 @@ aside .submenu li a {
   padding: 1px 0;
   font-style: italic;
 }
+#top-menu {
+  display: block;
+  color: #fff;
+  margin-left: 65px;
+}
+.mobile {
+  color: #333;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 528px;
+}
+.mobile .links {
+  display: flex;
+  flex-flow: column;
+  color: #333;
+  align-items: flex-end;
+  margin: 100px 0;
+}
+.mobile #top-menu {
+  color: #333;
+  margin-right: 45px;
+  margin-top: 55px;
+}
+.mobile .links a {
+  padding: 10px 0;
+  text-decoration: none;
+  text-transform: uppercase;
+}
 @media only screen and (min-width: 1200px) {
   .main-nav {
     color: #fff;
     margin-bottom: 45px;
     align-self: center;
+  }
+  .main-nav .links {
+    display: block;
   }
   .main-nav a {
     display: inline-block;
@@ -845,12 +862,22 @@ aside .submenu li a {
   }
   .home .main-nav {
     margin-bottom: 0;
+    display: block;
+  }
+  #top-menu {
+    display: none;
   }
 }
 .header {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-rows: 0.8fr 2fr;
   padding: 0 15px;
+  align-items: center;
+}
+.header .description {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 .logo {
   display: grid;
