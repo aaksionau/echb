@@ -1085,7 +1085,8 @@ footer .container {
   .video-categories-detail .video-category {
     width: 30%;
   }
-  .main-galleries .galleries li {
+  .main-galleries .galleries li,
+  .galleries li {
     display: flex;
     flex-basis: 24%;
     align-items: center;
