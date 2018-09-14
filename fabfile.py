@@ -12,21 +12,20 @@ env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
 @task
 def deploy():
-    test_results = False
-    test(test_results)
+    test_results = test()
     commit()
     push()
-    print(f'{test_results}==============')
     if test_results:
         deploy_to_server()
 
-def test(test_results):
+def test():
     with settings(warn_only=True):
         result = local("python manage.py test --settings=echb.settings.test")
         if result.failed and not confirm("Tests failed. Continue?"):
             abort("Aborted at user request.")
+            return False
         else:
-            test_results = True
+            return True
     
 def push():
     local("git push origin master")
