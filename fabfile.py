@@ -24,7 +24,7 @@ def commit():
     local('git add . && git commit -am "{}"'.format(message))
 
 env.use_ssh_config = True
-env.hosts = ["webfaction"]
+env.hosts = ["webfaction", "github"]
 env.remote_app_dir = '/home/paloni/webapps/echb_project/echb/'
 env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
