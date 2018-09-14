@@ -157,7 +157,7 @@ body > header.home .logo div a {
 body > header.home .logo span {
   margin-top: 20px;
   font-size: 1em;
-  width: 70%;
+  width: 100%;
 }
 body > header.home .logo img {
   float: left;
@@ -906,6 +906,9 @@ aside .submenu li a {
     transition-duration: 0.4s, 0.4s;
     transition-timing-function: ease, ease-out;
     transition-delay: 0s, 0.4s;
+  }
+  body > header.home .logo span {
+    width: 70%;
   }
   body > header .logo span {
     font-size: 0.9em;
