@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"> {% include 'seo.html' %}
   <meta name="author" content="team of christians">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-  {% if DEBUG %}
+  {% if debug %}
       <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   {% else %}
       <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
@@ -42,9 +42,9 @@
         <p>Иисус сказал ... Я есмь путь и истина и жизнь; <br/>никто не приходит к Отцу, как только через Меня. <br/>(Евангелие от Иоанна 14.6)</p>
         <div class='buttons'>
           <a href="{% url 'find-church' %}" title="Найдите церковь">
-            <img src="{% static 'img/church.png' %}" width="32" alt="Найдите церковь">Найдите церковь</a>
+            <i class="fas fa-church"></i> Найдите церковь</a>
           <a href="{% url 'online' %}" title="Прямые трансляции">
-            <img src="{% static 'img/online.png' %}" width="32" alt="Прямые трансляции">Прямые трансляции</a>
+            <i class="fas fa-video"></i> Прямые трансляции</a>
         </div>
       </div>
     </div>

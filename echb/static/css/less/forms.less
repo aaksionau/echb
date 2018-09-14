@@ -1,10 +1,12 @@
 header.home .buttons a {
     .button-small();
     color: @button-text-color;
-    background-color: @button-bg-color;
+    background-color: #6e777f;
     margin-right: 10px;
+    border-color: #fff;
+    color:#fff;
     &:hover{
-        background-color: darken(@button-bg-color, 10%);
+        background-color: darken(#a29386, 10%);
     }
     img {
         width: 25px;
@@ -63,6 +65,7 @@ textarea {
     font-size: 1em;
     line-height: 1.7em;
     width: 100%;
+    max-width: 350px;
     &:focus {
         outline: none;
         border-color: @primary-color;

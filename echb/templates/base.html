@@ -15,7 +15,7 @@
 
     <meta name="author" content="team of christians">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-    {% if DEBUG %}
+    {% if debug %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% else %}
     <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
@@ -33,21 +33,15 @@
             <div class="logo">
                 <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-img">
                     <img src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
-                    <span class="logo-description">Харьковское областное объединение церквей ЕХБ</span>
                 </a>
                 <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-text"><span>Харьков для Христа</span></a>
-                <div class='hot-links'>
-                    <a href="{% url 'find-church' %}" title="Найдите церковь">
-                      <img src="{% static 'img/church_colored.png' %}" width="32" alt="Найдите церковь">Найдите церковь</a>
-                    <a href="{% url 'online' %}" title="Прямые трансляции">
-                      <img src="{% static 'img/online_colored.png' %}" width="32" alt="Прямые трансляции">Прямые трансляции</a>
-                </div>
+                <span class="logo-description">Харьковское областное объединение церквей ЕХБ</span>
             </div>
             {% include 'navigation.html' %}
         </div>
     </header>
     <nav class="helper_nav">
-        <div class="container">
+        <div class="container padding-15">
             <ul class="breadcrumbs">
                 {% block breadcrumbs %}
                 <li>
@@ -74,7 +68,7 @@
         </div>
     </nav>
 
-    <div class="container main-content">
+    <div class="container main-content padding-15">
         <main>
             {% block content %} {% endblock content %}
         </main>
@@ -83,9 +77,10 @@
         </aside>
     </div>
     {% include 'footer.html' %} 
-    {% block jsfooter %}
     <script src="{% static 'js/zepto.min.js' %}"></script> 
     <script src="{% static 'js/general.js' %}"></script>
+    {% block jsfooter %}
+
     {% endblock jsfooter %}
 </body>
 
