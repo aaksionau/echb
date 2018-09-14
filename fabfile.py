@@ -38,7 +38,7 @@ def commit():
 def deploy_to_server():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
-        run('cd echb/')
-        run('python manage.py collectstatic')
+
+    run('cd {env.remote_app_dir}/echb/; python manage.py collectstatic')
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
