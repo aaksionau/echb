@@ -944,6 +944,9 @@ aside .submenu li a {
     float: right;
     margin-right: 30px;
   }
+  .test {
+    color: #FFF;
+  }
 }
 .header {
   display: grid;
