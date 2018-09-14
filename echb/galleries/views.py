@@ -27,28 +27,28 @@ class ExtraContext(object):
 
 class GalleriesListView(ExtraContext, ListView):
     model = Gallery
-    paginate_by = 9
+    paginate_by = 12
 
     def get_queryset(self):
         return self.model.objects.select_related('author')
 
 class GalleriesFilterByTagListView(ExtraContext, ListView):
     model = Gallery
-    paginate_by = 9
+    paginate_by = 12
 
     def get_queryset(self):
         return self.model.objects.filter(tags__in=[self.kwargs['tag']]).select_related('author')
 
 class GalleriesFilterByAuthorListView(ExtraContext, ListView):
     model = Gallery
-    paginate_by = 9
+    paginate_by = 12
 
     def get_queryset(self):
         return self.model.objects.filter(author__id=self.kwargs['author']).select_related('author')
 
 class GalleriesArchiveListView(ExtraContext, ListView):
     model = Gallery
-    paginate_by = 9
+    paginate_by = 12
 
     def get_queryset(self):
         return self.model.objects.filter(date__year=self.kwargs['year']).select_related('author')
