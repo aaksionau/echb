@@ -359,6 +359,7 @@ article .content .image {
   border-radius: 5px;
   border: 1px solid #999;
   width: 100%;
+  background-repeat: no-repeat;
 }
 article .content p {
   font-family: 'Arial', sans-serif;
