@@ -3,8 +3,6 @@ from decouple import config
 
 DEBUG = False
 
-BASE_URL = "https://paloni.webfactional.com/"
-PREPEND_WWW = True
 ALLOWED_HOSTS = ['paloni.webfactional.com', 'www.paloni.webfactional.com']
 
 DATABASES = {
