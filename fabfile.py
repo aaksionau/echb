@@ -38,8 +38,6 @@ def commit():
 def deploy_to_server():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
-
-    put('static/css/styles.min.css', f'{env.remote_app_static_dir}/css/')
-    put('static/js/', env.remote_app_static_dir)
+        run('python manage.py collectstatic')
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
