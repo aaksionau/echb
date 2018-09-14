@@ -16,6 +16,7 @@ def deploy():
     test(test_results)
     commit()
     push()
+    print(f'{test_results}==============')
     if test_results:
         deploy_to_server()
 
