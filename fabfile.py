@@ -10,17 +10,16 @@ env.remote_app_dir = '/home/paloni/webapps/echb_project/echb/'
 env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
-test_results = False
-
 @task
 def deploy():
-    test()
+    test_results = False
+    test(test_results)
     commit()
     push()
     if test_results:
         deploy_to_server()
 
-def test():
+def test(test_results):
     with settings(warn_only=True):
         result = local("python manage.py test --settings=echb.settings.test")
         if result.failed and not confirm("Tests failed. Continue?"):
