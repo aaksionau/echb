@@ -109,4 +109,6 @@ class UploadZipForm(forms.Form):
             messages.success(request,
                             'The photos have been added to gallery "{0}".'.format(gallery.title),
                             fail_silently=True)
+            
+            return gallery.pk
 
