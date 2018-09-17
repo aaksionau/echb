@@ -128,3 +128,22 @@ CACHE_DURATION = {
     'medium': 0,
     'light': 0
 }
+SUMMERNOTE_CONFIG = {
+    'airMode': True,
+
+    'width': '100%',
+    'height': '400',
+
+      'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+        # ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        # ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']],
+      ], }

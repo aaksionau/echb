@@ -32,7 +32,7 @@ class NewsItem(Audit):
     class Meta:
         verbose_name = 'новость'
         verbose_name_plural = 'новости'
-        ordering = ['publication_date']
+        ordering = ['-publication_date']
 
 
 class Event(Audit):
