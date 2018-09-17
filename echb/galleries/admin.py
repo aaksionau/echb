@@ -45,7 +45,7 @@ class GalleryAdmin(admin.ModelAdmin):
             form = UploadZipForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save(request=request)
-                return HttpResponseRedirect('..')
+                return reverse('admin:app_list', 'galleries')
         else:
             form = UploadZipForm()
         context['form'] = form

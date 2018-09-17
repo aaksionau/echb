@@ -35,7 +35,6 @@ class Gallery(Audit):
     main_image = models.FileField(upload_to='galleries', null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='galleries', blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    temp_id = models.IntegerField()
 
     objects = GalleryQuerySet.as_manager()
 
