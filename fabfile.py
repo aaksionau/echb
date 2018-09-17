@@ -39,6 +39,6 @@ def deploy_to_server():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
 
-    run(f'cd {env.remote_app_dir}/echb/; python3.6 manage.py collectstatic --settings=echb.settings.production')
+    run(f'cd {env.remote_app_dir}/echb/; python3.6 manage.py collectstatic --settings=echb.settings.production --noinput')
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
