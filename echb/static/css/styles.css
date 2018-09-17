@@ -185,9 +185,9 @@ body > header.home .description .buttons a {
 }
 body > header .hot-links {
   margin-top: 5px;
-  width: 100px;
+  width: 105px;
   float: right;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 body > header .hot-links a {
   color: #fff;

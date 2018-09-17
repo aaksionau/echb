@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.urls import reverse
 import uuid
@@ -55,7 +56,7 @@ class Video(Audit):
     youtube_link = models.CharField(max_length=200)
     urgent_text = models.CharField(max_length=250, verbose_name="Текст срочного объявления", blank=True, null=True)
     accept_prayer_request = models.BooleanField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(VideoCategory, on_delete=models.CASCADE)
     interesting_event = models.BooleanField(default=False)
     text_for_request = models.CharField(max_length=200, blank=True, null=True, help_text="Введите текст для формы, по умолчанию: Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.")
