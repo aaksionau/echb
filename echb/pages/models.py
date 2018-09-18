@@ -55,7 +55,7 @@ class Video(Audit):
     title = models.CharField(max_length=150)
     youtube_link = models.CharField(max_length=200)
     urgent_text = models.CharField(max_length=250, verbose_name="Текст срочного объявления", blank=True, null=True)
-    accept_prayer_request = models.BooleanField()
+    accept_prayer_request = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(VideoCategory, on_delete=models.CASCADE)
     interesting_event = models.BooleanField(default=False)
@@ -63,7 +63,7 @@ class Video(Audit):
 
     def __str__(self):
         return self.title
-    
+
     class Meta:
         verbose_name = 'видео'
         verbose_name_plural = 'видео'

@@ -8,6 +8,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
 from django.template import RequestContext
+from django.contrib import messages
 
 from .models import Page, Feedback, Video, VideoCategory, Subscriber
 from accounts.models import PrayerRequest
@@ -82,7 +83,7 @@ class VideoDetailView(View):
         context = self.get_context_data()
 
         if not form.prayer_request_count_allowed(request.user):
-            context['message'] ='Превышено количество сообщений в час. (Две записки в час).'
+            messages.info(request, 'Превышено количество сообщений в час. (Две записки в час).')
             return render(request, 'pages/video_detail.html', context)
 
         if form.is_valid():
@@ -91,7 +92,8 @@ class VideoDetailView(View):
             prayer_request.save()
             return redirect('video-detail-thankyou',slug=slug)
         else:
-            return redirect('video-detail')
+            messages.info(request, 'Ваше сообщение слишком длинное. Максимум 250 символов.')
+            return render(request, 'pages/video_detail.html', context)
 
 class CurrentVideosListView(ListView):
     template_name = 'pages/current_videos.html'
@@ -127,14 +129,14 @@ class ContactsThankYouView(TemplateView):
 
 class ActivateSubscriber(View):
     def get(self, request, uuid):
-        subscriber = Subscriber.objects.get(uuid=uuid)
+        subscriber = Subscriber.objects.filter(uuid=uuid).first()
 
         if subscriber:
             subscriber.activated = True
             subscriber.save()
 
             return redirect('subscriber-activated')
-        redirect('home')
+        return redirect('home')
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')

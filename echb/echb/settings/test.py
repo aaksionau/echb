@@ -9,6 +9,8 @@ INSTALLED_APPS += ('debug_toolbar',)
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+USE_TZ = False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

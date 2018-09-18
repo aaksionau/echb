@@ -17,6 +17,10 @@
                 <a href="{% url 'videos-by-filter' video.category.slug %}"> <img src="{% static 'media/' %}{{video.category.icon}}" alt=""></a>
                <h3><a href="{% url 'videos-by-filter' video.category.slug %}"></a>{{video.category.title}}</a></h3>
             </div>
+            {% empty %}
+                <h4>За прошедшие 7 дней не было онлайн трансляций.</h4>
+                <p>Вы можете посмотреть видео из <a href="{% url 'interesting-videos' %}">интересных событий</a>, или почитать <a href="{% url 'articles' %}">статьи</a></p>
+
         {% endfor %}
     </section>
     

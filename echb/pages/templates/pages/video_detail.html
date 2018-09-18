@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+﻿{% extends "base.html" %} 
 {% block breadcrumbs %}
     {{ block.super }} 
         <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
@@ -29,14 +29,18 @@
     <section class="prayer-request">
         {% if video.accept_prayer_request %}
             {% if user.is_authenticated %}
-                {% if message %}
-                   <p> {{message}}</p>
-                {% else %}
-                <p>{% if video.text_for_request %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p> {{message}}</p>
+                    {% endfor %}
+                {% endif %}
+                <p>
+                {% if video.text_for_request %}
                         {{video.text_for_request}}
                     {% else %}
                         Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.
-                    {% endif %}(длина сообщения 250 символов)
+                {% endif %}
+                (длина сообщения 250 символов)
                 </p>
                 
                 <form method="post">
@@ -44,7 +48,6 @@
                         <p> <textarea name="description" id="description" cols="30" rows="5" maxlength="250" required></textarea></p>
                         <button type="submit" class="button">Отправить</button>
                 </form>
-                {% endif %}
             {% else %}
             <p>Вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду. Для этого зайдите, пожалуйста, в Ваш аккаунт или зарегистрируйтесь.</p>
             <a href="{% url 'login' %}">Вход</a>
