@@ -46,9 +46,9 @@
                 </h3>
                 <section class="content">
                     <h3>
-                        <a href='{{domain}}{{event.get_absolute_url}}' title='{{event.title}}'>{{item.title}}</a>
+                        <a style="color: #424242;" href='{{domain}}{{event.get_absolute_url}}' title='{{event.title}}'>{{item.title}}</a>
                     </h3>
-                    <p>{{event.short_description}}</p>
+                    <p style="color: #424242;">{{event.short_description}}</p>
                 </section>
             </div>
             {% endfor %}
@@ -64,14 +64,14 @@
                     <a href='{{domain}}{{article.get_absolute_url}}' target="_blank"  alt='{{article.title}}'>{{article.title}}</a>
                 </h3>
                 <div class="meta">
-                    <time datetime="{{article.date|date:'Y-m-d'}}">{{article.date|date:'d F Y'}}</time>
-                    <span>
+                    <time style="color: #424242;" datetime="{{article.date|date:'Y-m-d'}}">{{article.date|date:'d F Y'}}</time>
+                    <span style="color: #424242;">
                         <a target="_blank"  href="{% url 'author-filter' article.author.id %}"
                             alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
                             {{article.author.first_name}}</a>
                     </span> |
                     <span>
-                        <a target="_blank"  href="{% url 'category-filter' article.category.slug %}"
+                        <a style="color: #424242;" target="_blank"  href="{% url 'category-filter' article.category.slug %}"
                             alt="{{article.category.title}}">{{article.category.title}}</a>
                     </span>
                 </div>
