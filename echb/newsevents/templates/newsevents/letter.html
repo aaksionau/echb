@@ -10,23 +10,23 @@
     </div>
     <div class="container" style="padding: 15px 15px;">
         <div class="greetings">
-            <p>Здравствуйте!</p>
-            <p>В этом письме вы найдете последние новости, статьи и предстоящие
+            <p style="color:#333;">Здравствуйте!</p>
+            <p style="color:#333;">В этом письме вы найдете последние новости, статьи и предстоящие
                 события.</p>
         </div>
         <div class="list">
-            <h2 style="border-bottom: 1px solid #424242;">Последние новости</h2>
+            <h2 style="color:#424242;border-bottom: 1px solid #424242;">Последние новости</h2>
             {% for item in news %}
             <div class='item'>
                 <h3>
                     <a style="text-decoration: none;line-height: 1.4em;color: #424242;" href='{{domain}}{{item.get_absolute_url}}' title='{{item.title}}' target="_blank" >{{item.title}}</a>
                 </h3>
                 <div class="meta">
-                    <time datetime="{{item.publication_date|date:'Y-m-d'}}">{{item.publication_date|date:'d F Y'}}</time>
-                    {{item.author.last_name}} {{item.author.first_name}}
+                    <time datetime="{{item.publication_date|date:'Y-m-d'}}" style="color:#424242;">{{item.publication_date|date:'d F Y'}}</time> | 
+                    <span style="color:#424242;">{{item.author.last_name}} {{item.author.first_name}}</span>
                 </div>
                 <section class="content">
-                    <p>
+                    <p style="color:#333;">
                         {{item.description|striptags|truncatechars:250|safe}}
                         <a style="color: #424242;" class='more' href='{{item.get_absolute_url}}' target="_blank" title='{{item.title}}'>читать
                             далее...</a>
@@ -38,7 +38,7 @@
 
         {% if events %}
         <div class="list">
-            <h2 style="border-bottom: 1px solid #424242;">Предстоящие события</h2>
+            <h2 style="color:#424242;border-bottom: 1px solid #424242;">Предстоящие события</h2>
             {% for event in events %}
             <div class="item">
                 <h3 style="padding-bottom:3px;line-height: 1.4em;color: #424242;">
@@ -57,7 +57,7 @@
 
         {% if articles %}
         <div class="list">
-            <h2 style="border-bottom: 1px solid #424242;">Последние статьи</h2>
+            <h2 style="color:#424242;border-bottom: 1px solid #424242;">Последние статьи</h2>
             {% for article in articles %}
             <div class="item">
                 <h3 style="padding-bottom:3px;line-height: 1.4em;color: #424242;">
@@ -76,7 +76,7 @@
                     </span>
                 </div>
                 <div class="content">
-                    <p>{{article.description|striptags|truncatechars:250|safe}}...</p>
+                    <p style="color:#333;">{{article.description|striptags|truncatechars:250|safe}}...</p>
                 </div>
             </div>
             {% endfor %}
