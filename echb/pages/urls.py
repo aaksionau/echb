@@ -19,4 +19,6 @@ urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
     path('home/', views.HomePageView.as_view(), name='home-page-unique'),
     path('<slug:slug>/', views.PageDetailView.as_view(), name='page-detail'),
+    path('send-letter', views.SendLetterToSubscribers.as_view(), name='send_letter'),
+    path('letter', views.Letter.as_view(), name='letter'),
 ]

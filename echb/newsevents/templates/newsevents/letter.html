@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Обновления с сайта ecb.kh.ua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-size:1em;
+            font-family:Tahoma;
+        }
+
+        .main-header {
+            background-image: url('{{domain}}/static/img/echb_bkgrnd.jpg');
+            background-repeat: no-repeat;
+            background-color: #416275;
+            background-blend-mode: exclusion;
+            max-height: 200px;
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: flex-start;
+            flex-flow: row;
+            align-items: center;
+        }
+        .logo a{
+            border-bottom: 0;
+        }
+        .logo img {
+            width: 100px;
+        }
+
+        .logo h4 {
+            color: #fff;
+            margin-left: 15px;
+            width: 60%;
+        }
+
+        .container {
+            padding: 15px 15px;
+        }
+        a{
+            text-decoration: none;
+            border-bottom: 1px solid #424242;
+            line-height: 1.4em;
+            color: #424242;
+        }
+        .item h3{
+            margin-bottom:5px;
+        }
+        .meta time::after{
+            content:' | '
+        }
+        h2, h3{
+            color:#424242;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="{{domain}}" target="_blank" > <img src="{{domain}}/static/img/logo.png" alt="Харьковское областное объединение церквей ЕХБ"></a>
+                <a href="{{domain}}" target="_blank" > <h4>Харьковское областное объединение церквей ЕХБ</h4></a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="greetings">
+            <p>Здравствуйте!</p>
+            <p>В этом письме вы найдете последние новости, статьи и предстоящие
+                события.</p>
+        </div>
+        <div class="list">
+            <h2>Последние новости</h2>
+            {% for item in news %}
+            <div class='item'>
+                <h3>
+                    <a href='{{domain}}{{item.get_absolute_url}}' title='{{item.title}}' target="_blank" >{{item.title}}</a>
+                </h3>
+                <div class="meta">
+                    <time datetime="{{item.publication_date|date:'Y-m-d'}}">{{item.publication_date|date:'d F Y'}}</time>
+                    {{item.author.last_name}} {{item.author.first_name}}
+                </div>
+                <section class="content">
+                    <p>
+                        {{item.description|striptags|truncatechars:250|safe}}
+                        <a class='more' href='{{item.get_absolute_url}}' target="_blank" title='{{item.title}}'>читать
+                            далее...</a>
+                    </p>
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if events %}
+        <div class="list">
+            <h2>Предстоящие события</h2>
+            {% for event in events %}
+            <div class="item">
+                <h3>
+                    <time datetime="{{event.date|date:'Y-m-d'}}">{{event.date|date:'d F Y'}}</time>
+                </h3>
+                <section class="content">
+                    <h3>
+                        <a href='{{domain}}{{event.get_absolute_url}}' title='{{event.title}}'>{{item.title}}</a>
+                    </h3>
+                    <p>{{event.short_description}}</p>
+                </section>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if articles %}
+        <div class="list">
+            <h2>Последние статьи</h2>
+            {% for article in articles %}
+            <div class="item">
+                <h3>
+                    <a href='{{domain}}{{article.get_absolute_url}}' target="_blank"  alt='{{article.title}}'>{{article.title}}</a>
+                </h3>
+                <div class="meta">
+                    <time datetime="{{article.date|date:'Y-m-d'}}">{{article.date|date:'d F Y'}}</time>
+                    <span>
+                        <a target="_blank"  href="{% url 'author-filter' article.author.id %}"
+                            alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
+                            {{article.author.first_name}}</a>
+                    </span> |
+                    <span>
+                        <a target="_blank"  href="{% url 'category-filter' article.category.slug %}"
+                            alt="{{article.category.title}}">{{article.category.title}}</a>
+                    </span>
+                </div>
+                <div class="content">
+                    <p>{{article.description|striptags|truncatechars:250|safe}}...</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    С уважением,
+    администрация ресурса "Харьков для Христа"
+    </div>
+
+</body>
+
+</html>

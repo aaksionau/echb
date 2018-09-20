@@ -1,3 +1,5 @@
+import warnings
+
 from datetime import datetime, timedelta
 
 from django.shortcuts import render, redirect, render_to_response
@@ -9,8 +11,12 @@ from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import resolve
 from django.template import RequestContext
 from django.contrib import messages
+from django.core import mail
+from django.template.loader import get_template
+from django.utils import timezone
+from django.contrib.sites.shortcuts import get_current_site
 
-from .models import Page, Feedback, Video, VideoCategory, Subscriber
+from .models import Page, Feedback, Video, VideoCategory, Subscriber, MailingLog
 from accounts.models import PrayerRequest
 from newsevents.models import NewsItem, Event
 from articles.models import Article
@@ -135,8 +141,79 @@ class ActivateSubscriber(View):
             subscriber.activated = True
             subscriber.save()
 
+            send_mail(request, [subscriber.email,])
+
             return redirect('subscriber-activated')
         return redirect('home')
+
+class SendLetterToSubscribers(View):
+    def get(self, request):
+        last_month = datetime.now() - timedelta(days=30)
+        already_sent = MailingLog.objects.filter(date__gte = last_month).filter(date__lte=datetime.now()).first()
+
+        if already_sent is not None:
+            return HttpResponse(f'Letters were sent earlier: {already_sent.date.strftime("%d/%m/%y")}', content_type="text/plain")
+        
+        subscribers = Subscriber.objects.filter(activated=True)
+
+        emails = [subscriber.email for subscriber in subscribers]
+        send_mail(request, emails)
+        return HttpResponse(f'Letters were successfuly sent: {timezone.now().strftime("%d/%m/%y")}', content_type="text/plain")
+
+def get_context_for_letter(request):
+        time_delta_past = datetime.today() - timedelta(days=30)
+        time_delta_future = datetime.today() + timedelta(days=30)
+        news = NewsItem.objects.filter(publication_date__gte=time_delta_past).filter(publication_date__lt=datetime.today()).filter(published=True)
+        events = Event.objects.filter(date__gt=datetime.today()).filter(date__lt=time_delta_future)
+        articles = Article.objects.filter(date__gte=time_delta_past).filter(date__lt=datetime.today()).select_related('category').select_related('author')
+        domain = get_domain(request)
+        context = {
+            'news': news,
+            'events': events,
+            'articles':articles,
+            'domain': domain
+        }
+        return context
+
+class Letter(View):
+    def get(self, request):
+        context = get_context_for_letter(request)
+        return render(request, 'newsevents/letter.html', context)
+
+def send_mail(request, emails):
+    mailing_log = MailingLog()
+    mailing_log.save()
+
+    context = get_context_for_letter(request)
+    message = get_template('newsevents/letter.html').render(context)
+
+    emails_for_log = emails[:] #to change array if there is any error with email
+
+    for address in emails:
+        try:
+            with mail.get_connection() as connection:
+                email = mail.EmailMessage(
+                    subject='Последние новости с сайта ecb.kh.ua',
+                    body=message,
+                    to=(address,),
+                    connection=connection
+                )
+                email.content_subtype = 'html'
+                email.send()
+        except Exception as e:
+            emails_for_log.pop(address, None)
+
+    mailing_log_finished = MailingLog.objects.filter(pk=mailing_log.id).first()
+    mailing_log_finished.message = message
+    mailing_log_finished.finished = timezone.now()
+    mailing_log_finished.emails = emails_for_log
+    mailing_log_finished.save()
+
+    return mailing_log_finished
+
+def get_domain(request):
+    current_site = get_current_site(request)
+    return f'{request.scheme}://{current_site.domain}'
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')

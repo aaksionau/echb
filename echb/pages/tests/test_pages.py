@@ -94,7 +94,7 @@ class PagesTests(TestCase):
         self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber.uuid}))
         subscriber = Subscriber.objects.all().first()
         self.assertTrue(subscriber.activated)
-    
+
     def test_subscriber_not_activated_with_wrong_uuid(self):
         self.client.post(
             reverse('home-page-unique'), data={'email': 'test@test.ru'})
@@ -104,6 +104,40 @@ class PagesTests(TestCase):
         self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber_uuid}))
         subscriber = Subscriber.objects.all().first()
         self.assertFalse(subscriber.activated)
+
+    def test_after_subscription_user_get_last_letter(self):
+        response = self.client.post(
+            reverse('home-page-unique'), data={'email': 'test@test.ru'})
+        self.assertEqual(mail.outbox[0].subject, 'Подтверждение о подписке на новости')
+        subscriber = Subscriber.objects.all().first()
+        self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber.uuid}))
+
+        subscriber = Subscriber.objects.all().first()
+        self.assertTrue(subscriber.activated)
+
+        self.assertEqual(mail.outbox[1].subject, 'Последние новости с сайта ecb.kh.ua')
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_send_several_letters(self):
+        for item in range(10):
+            subscriber = Subscriber.objects.create(email=f'test_{item}@test.ru', activated=True)
+            subscriber.save()
+
+        self.client.get(reverse('send_letter'))
+        self.assertEqual(len(mail.outbox), 10)
+
+    def test_letter_was_already_sent_recently(self):
+        for item in range(10):
+            subscriber = Subscriber.objects.create(email=f'test_{item}@test.ru', activated=True)
+            subscriber.save()
+
+        response = self.client.get(reverse('send_letter'))
+        self.assertContains(response, 'Letters were successfuly sent')
+
+        response = self.client.get(reverse('send_letter'))
+        self.assertContains(response, 'Letters were sent earlier')
+
+        self.assertEqual(len(mail.outbox), 10)
 
     def test_about_us_page_contains_menu(self):
         parent = Page.objects.create(

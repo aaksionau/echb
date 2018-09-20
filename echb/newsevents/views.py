@@ -1,14 +1,17 @@
 from datetime import datetime, timedelta, date
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.contrib.syndication.views import Feed
 from django.urls import reverse
 from django.db.models.functions import TruncMonth
 from django.template import RequestContext
-from helpers.utils import BreadCrumLink
 from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from .models import NewsItem, Author, Event
+from articles.models import Article
+from pages.models import Subscriber
 
 class NewsListView(ListView):
     model = NewsItem
@@ -61,3 +64,8 @@ class LatestEntriesFeed(Feed):
 
 class EventDetailView(DetailView):
     model = Event
+
+
+
+
+

@@ -1,6 +1,5 @@
 from .models import Page
 from django.conf.urls import url
-from helpers.utils import BreadCrumLink
 
 def add_menu_elements(request):
     menu_links = Page.objects.filter(parent=None, visible_in_menu=True).order_by('order')
