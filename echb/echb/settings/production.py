@@ -3,7 +3,7 @@ from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['paloni.webfactional.com', 'www.paloni.webfactional.com']
+ALLOWED_HOSTS = ['ecb.kh.ua','www.ecb.kh.ua']
 
 DATABASES = {
     'default': {
