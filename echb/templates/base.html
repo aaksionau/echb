@@ -97,10 +97,11 @@
     </div>
     {% include 'footer.html' %} 
     <script src="{% static 'js/zepto.min.js' %}"></script> 
-    <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/general.js' %}"></script>  
     {% block jsfooter %}
 
     {% endblock jsfooter %}
+    {% include 'analytics.html' %}  
 </body>
 
 </html>
