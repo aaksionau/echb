@@ -7,7 +7,7 @@
     
 
 {% block breadcrumbs %}
-    {{ block.super }} <li> <a href="{{ event.get_absolute_url }}">{{ newsitem.title }}</a></li>
+    {{ block.super }} <li> <a href="{{ event.get_absolute_url }}">{{ event.title }}</a></li>
 {% endblock %}
 
 {% block content %}
