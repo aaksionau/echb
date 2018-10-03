@@ -1,12 +1,12 @@
-{% extends "base.html" %} {% load static %} {% block javascript %}
-<script src="{% static 'js/zepto.min.js' %}"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+{% extends "base.html" %} {% load static %} 
+{% block jshead %}
 <script>
-    function validateFeedback(token) {
-        document.getElementById("feedbackForm").submit();
+    function validateFeedback(){
+        $('#feedbackForm').get(0).submit();
     }
 </script>
-{% endblock javascript %} 
+{% endblock jshead %} 
+
 {% block breadcrumbs %} 
 {{ block.super }}
 <li>
@@ -25,9 +25,13 @@
                 {% endif %}
             </div>
             {% endfor %}
-            <button class="button g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="validateFeedback">
+            <button 
+                class="button g-recaptcha"
+                data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
+                data-callback="validateFeedback">
                 Отправить
             </button>
+
         </form>
     </div>
     <div class="address">

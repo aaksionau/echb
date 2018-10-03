@@ -5,3 +5,6 @@ $(document).ready(function(){
         return false;
     });
 });
+function AddSubscriber(){
+    $('#subscriberForm').get(0).submit();
+}

@@ -1,4 +1,6 @@
 import warnings
+import requests
+from django.conf import settings
 
 from datetime import datetime, timedelta
 
@@ -32,7 +34,10 @@ class HomePageView(View):
     def post(self, request):
         form = SubscriberForm(request.POST)
         context = self._get_context_data()
-        if form.is_valid():
+
+        captcha_is_valid = check_captcha(request)
+
+        if form.is_valid() and captcha_is_valid:
             subscriber = form.save()
             domain = form.get_domain(request)
             form.send_mail(subscriber, domain)
@@ -125,10 +130,14 @@ class ContactsFormView(FormView):
     success_url = '/contacts/thankyou/'
     form_class = FeedbackForm
 
-    def form_valid(self, form):
-        form.send_email()
-        form.save()
-        return super().form_valid(form)
+    def form_valid(self, form, **kwargs):
+        captcha_is_valid = check_captcha(self.request)
+        if captcha_is_valid:
+            form.send_email()
+            form.save()
+            return super().form_valid(form)
+        else:
+            return redirect('contacts')
 
 class ContactsThankYouView(TemplateView):
     template_name = 'pages/thankyou.html'
@@ -214,6 +223,12 @@ def send_mail(request, emails):
 def get_domain(request):
     current_site = get_current_site(request)
     return f'{request.scheme}://{current_site.domain}'
+
+
+def check_captcha(request):
+    captcha = request.POST.get('g-recaptcha-response');
+    response = requests.post("https://www.google.com/recaptcha/api/siteverify", data={'secret': '6LfamGAUAAAAAEnS0-AF5p_EVmAFriMZqkkll-HM', 'response': captcha})
+    return settings.DEBUG if settings.DEBUG else response.json()['success']
 
 def handler404(request, exception, template_name='pages/404.html'):
     response = render_to_response('pages/404.html')

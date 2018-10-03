@@ -42,10 +42,15 @@
                 <p>Мы отправили вам письмо, где вам нужно подтвердить подписку. Благодарим!</p>
             {% else %}
                 {{ errors }}
-                <form action="{% url 'home' %}" method="POST">
+                <form action="{% url 'home' %}" method="POST" id="subscriberForm">
                     {% csrf_token %}
                     <input type="email" name="email" id="email">
-                    <button type="submit">Подписаться</button>
+                    <button 
+                            class="g-recaptcha"
+                            data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
+                            data-callback="AddSubscriber">
+                            Подписаться
+                            </button>
                 </form>
             {% endif %}
         </div>

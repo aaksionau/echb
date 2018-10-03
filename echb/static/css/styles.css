@@ -457,6 +457,9 @@ footer {
   color: #b0c6d2;
   font-family: 'Roboto', sans-serif;
 }
+footer #email {
+  float: left;
+}
 footer h4 {
   font-weight: 400;
 }
