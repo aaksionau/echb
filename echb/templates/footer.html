@@ -17,10 +17,11 @@
                     <a href="{% url 'find-church' %}">Церкви</a>
                 </li>
                 <li>
-                    <a href="{% url 'page-detail' 'churches-history' %}">История церквей</a>
+                    <a href="{% url 'page-detail' 'churches-history' %}">История
+                        церквей</a>
                 </li>
                 <li>
-                     <a href="{% url 'contacts' %}">Контакты</a>
+                    <a href="{% url 'contacts' %}">Контакты</a>
                 </li>
             </ul>
         </div>
@@ -37,25 +38,26 @@
         </div>
         <div class="subscribe">
             <h4>Подписывайтесь на наши письма</h4>
-            <p>Вы будете получать письма с новостями, будущими событиями и обновлениями сайта</p>
+            <p>Вы будете получать письма с новостями, будущими событиями и
+                обновлениями сайта</p>
             {% if success_subscriber %}
-                <p>Мы отправили вам письмо, где вам нужно подтвердить подписку. Благодарим!</p>
+            <p>Мы отправили вам письмо, где вам нужно подтвердить подписку.
+                Благодарим!</p>
             {% else %}
-                {{ errors }}
-                <form action="{% url 'home' %}" method="POST" id="subscriberForm">
-                    {% csrf_token %}
-                    <input type="email" name="email" id="email">
-                    <button 
-                            class="g-recaptcha"
-                            data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
-                            data-callback="AddSubscriber">
-                            Подписаться
-                            </button>
-                </form>
+            {{ errors }}
+            <form action="{% url 'home' %}" method="POST" id="subscriberForm">
+                {% csrf_token %}
+                <input type="email" name="email" id="email">
+                <button class="g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
+                    data-callback="AddSubscriber">
+                    Подписаться
+                </button>
+            </form>
             {% endif %}
         </div>
         <div class="rights">
-            <p>© Все права принадлежат ВСЦ ЕХБ 2011-{% now 'Y' %}</p>
+            <p>© Все права принадлежат Харьковскому областному объединению
+                союза церквей ЕХБ 2011-{% now 'Y' %}</p>
         </div>
     </div>
 </footer>
