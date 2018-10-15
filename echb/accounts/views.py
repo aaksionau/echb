@@ -66,8 +66,8 @@ class PrayerRequestsView(LoginRequiredMixin, ListView):
         date_delta, prayer_requests_all = self.get_prayer_requests()
         context['last_video_date'] = date_delta
         context['prayer_requests_all'] = prayer_requests_all
-        context['video'] = Video.objects.filter(
-            category__slug='preobrazhenie').select_related('category').order_by('date').first()
+        context['video'] = Video.objects.all().select_related(
+            'category').order_by('-date').first()
 
         return context
 
