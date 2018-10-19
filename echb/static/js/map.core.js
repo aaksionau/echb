@@ -173,6 +173,7 @@ echbNS.Core = function (google) {
         calculateRoute,
         addUserPositionToMap,
         getClosestChurches,
+        addRegionNameToChurch,
         initializeMap
     };
 };

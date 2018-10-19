@@ -52,6 +52,7 @@ echbNS.UI = function (core) {
     };
     var initialize = function () {
         core.initializeMap(49.8353139, 36.663565, 8, 'map');
+        core.addRegionNameToChurch();
         core.addChurchMarkersToMap();
         showRegionsInMenu();
         initializeEventsOnDom();
