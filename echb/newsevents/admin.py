@@ -13,6 +13,6 @@ class NewsItemAdmin(SummernoteModelAdmin):
 
 @admin.register(Event)
 class EventAdmin(SummernoteModelAdmin):
-    list_display = ('title', 'date', 'short_description')
+    list_display = ('title', 'date')
 
 admin.site.register(Author)
