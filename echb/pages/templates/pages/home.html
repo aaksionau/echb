@@ -123,7 +123,7 @@
               <h3>
                 <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
               </h3>
-              <p>{{item.short_description|safe}}</p>
+              {{item.short_description|safe}}
             </section>
           </article>
           {% endfor %}

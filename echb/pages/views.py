@@ -52,7 +52,7 @@ class HomePageView(View):
         page = Page.objects.get(slug='home')
         news = NewsItem.objects.all().order_by('-publication_date')[:6]
         articles = Article.objects.all().order_by('-date').select_related('author').select_related('category')[:6]
-        events = Event.objects.all().order_by('date')[:3]
+        events = Event.objects.all().order_by('date')[:6]
         photos = Gallery.objects.all().order_by('-date')[:4]
         form = SubscriberForm()
         context = {

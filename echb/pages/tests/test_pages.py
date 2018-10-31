@@ -63,7 +63,7 @@ class PagesTests(TestCase):
 
         self.assertContains(response, 'newsitem_title',
                             count=18)  # 6 total (exclude title)
-        self.assertContains(response, 'event_title', count=6)  # 3 total
+        self.assertContains(response, 'event_title', count=12)  # 6 total
         self.assertContains(response, 'gallery_title', count=12)  # 4 total
         self.assertContains(response, 'article_title', count=12)  # 6 total
 
