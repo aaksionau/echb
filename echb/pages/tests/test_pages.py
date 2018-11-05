@@ -1,3 +1,4 @@
+from datetime import timedelta  
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
@@ -31,7 +32,7 @@ class PagesTests(TestCase):
         for item in range(6):
             event = Event()
             event.title = f'event_title {item}'
-            event.date = timezone.now()
+            event.date = timezone.now() + timedelta(days=1)
             event.short_description = f'desciption {item}'
             event.save()
 
