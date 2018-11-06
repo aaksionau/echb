@@ -6,6 +6,9 @@ from django.core.files.base import ContentFile
 from PIL import Image as PILImage
 from django.conf import settings
 import ntpath
+import logging
+
+logger = logging.getLogger(__name__)
 
 from unidecode import unidecode
 
@@ -52,19 +55,22 @@ class UploadZipForm(forms.Form):
         return cleaned_data
 
     def resize_image(self, image_name, folder):
-        base_path = os.path.join(settings.MEDIA_ROOT, 'galleries', folder)
-        image_path = os.path.join(base_path, image_name)
-        resized_image_path = os.path.join(base_path, 'small', image_name)
+        try:
+            base_path = os.path.join(settings.MEDIA_ROOT, 'galleries', folder)
+            image_path = os.path.join(base_path, image_name)
+            resized_image_path = os.path.join(base_path, 'small', image_name)
 
-        basewidth = 300
+            basewidth = 300
 
-        img = PILImage.open(image_path)
-        wpercent = (basewidth / float(img.size[0]))
-        hsize = int((float(img.size[1]) * float(wpercent)))
-        img = img.resize((basewidth, hsize), PILImage.ANTIALIAS)
-        if not os.path.exists(os.path.dirname(resized_image_path)):
-            os.makedirs(os.path.dirname(resized_image_path))
-        img.save(resized_image_path)
+            img = PILImage.open(image_path)
+            wpercent = (basewidth / float(img.size[0]))
+            hsize = int((float(img.size[1]) * float(wpercent)))
+            img = img.resize((basewidth, hsize), PILImage.ANTIALIAS)
+            if not os.path.exists(os.path.dirname(resized_image_path)):
+                os.makedirs(os.path.dirname(resized_image_path))
+            img.save(resized_image_path)
+        except Exception as ex:
+            logger.error(ex.args)
 
     def change_slug(self, slug):
         return unidecode(self.cleaned_data['title'].replace(' ', '-').lower())
