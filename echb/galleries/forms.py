@@ -70,7 +70,7 @@ class UploadZipForm(forms.Form):
                 os.makedirs(os.path.dirname(resized_image_path))
             img.save(resized_image_path, quality=90)
         except Exception as ex:
-            logger.error(ex.args)
+            logger.error(ex)
 
     def change_slug(self, slug):
         return unidecode(self.cleaned_data['title'].replace(' ', '-').lower())
