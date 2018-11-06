@@ -8,7 +8,7 @@ from django.conf import settings
 import ntpath
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('ECHB')
 
 from unidecode import unidecode
 
@@ -68,7 +68,7 @@ class UploadZipForm(forms.Form):
             img = img.resize((basewidth, hsize), PILImage.ANTIALIAS)
             if not os.path.exists(os.path.dirname(resized_image_path)):
                 os.makedirs(os.path.dirname(resized_image_path))
-            img.save(resized_image_path)
+            img.save(resized_image_path, quality=90)
         except Exception as ex:
             logger.error(ex.args)
 
