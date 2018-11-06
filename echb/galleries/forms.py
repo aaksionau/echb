@@ -4,7 +4,7 @@ from django import forms
 from django.contrib import messages
 from django.core.files.base import ContentFile
 from PIL import Image as PILImage
-from echb.settings.base import BASE_DIR
+from django.conf import settings
 import ntpath
 
 from unidecode import unidecode
@@ -52,7 +52,7 @@ class UploadZipForm(forms.Form):
         return cleaned_data
 
     def resize_image(self, image_name, folder):
-        base_path = os.path.join(BASE_DIR, 'static', 'media', 'galleries', folder)
+        base_path = os.path.join(settings.MEDIA_ROOT, 'galleries', folder)
         image_path = os.path.join(base_path, image_name)
         resized_image_path = os.path.join(base_path, 'small', image_name)
 
