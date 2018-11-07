@@ -8,3 +8,4 @@ settings.json
 /static
 */htmlcov
 **/flake-report
+Pipfile.lock
