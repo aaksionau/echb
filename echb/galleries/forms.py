@@ -98,17 +98,20 @@ class UploadZipForm(forms.Form):
             if os.path.dirname(filename):
                 continue
 
-            data = zip.read(filename)
-            photo = Image(title = self.cleaned_data['title'], image=filename)
-            photo.gallery = gallery
-            photo.save()
+            try:
+                data = zip.read(filename)
+                photo = Image(title = self.cleaned_data['title'], image=filename)
+                photo.gallery = gallery
+                photo.save()
 
-            contentfile = ContentFile(data)
-            photo.image.save(filename, contentfile)
-            photo.thumbnail = filename
-            photo.save()
+                contentfile = ContentFile(data)
+                photo.image.save(filename, contentfile)
+                photo.thumbnail = filename
+                photo.save()
 
-            self.resize_image(filename, gallery.slug)
+                self.resize_image(filename, gallery.slug)
+            except Exception as ex:
+                logger.error(ex)
 
         zip.close()
         if request:
