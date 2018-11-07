@@ -107,7 +107,7 @@ class UploadZipForm(forms.Form):
                 photo.image.save(filename, contentfile)
 
                 self.resize_image(filename, gallery.slug)
-                logger.error(filename)
+                logger.info(filename)
             except Exception as ex:
                 pass
 
