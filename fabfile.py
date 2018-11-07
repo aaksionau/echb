@@ -41,9 +41,9 @@ def deploy_to_server():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
 
-    manage_py = f'cd {env.remote_app_dir}/echb/; python3.6 manage.py'
+    #manage_py = f'cd {env.remote_app_dir}/echb/; python3.6 manage.py'
 
     #run(f'{manage_py} migrate --settings=echb.settings.production')
-    run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
+    #run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
