@@ -128,6 +128,9 @@ CACHE_DURATION = {
     'medium': 0,
     'light': 0
 }
+SUMMERNOTE_CONFIG = {
+    'attachment_filesize_limit': 1024*500
+}
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
