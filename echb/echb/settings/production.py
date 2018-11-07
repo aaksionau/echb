@@ -1,9 +1,10 @@
-from .base import *
+import os
+from .base import BASE_DIR
 from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['ecb.kh.ua','www.ecb.kh.ua']
+ALLOWED_HOSTS = ['ecb.kh.ua', 'www.ecb.kh.ua']
 
 DATABASES = {
     'default': {
@@ -37,6 +38,6 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
 
-FILE_UPLOAD_MAX_MEMORY_SIZE = 1024*30 #30Mb
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024*30  # 30Mb
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o775
 FILE_UPLOAD_PERMISSIONS = 0o644

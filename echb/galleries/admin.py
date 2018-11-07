@@ -1,14 +1,15 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.admin import helpers
 
-from .models import *
+from .models import Tag, Author, Image, Gallery
 from .forms import UploadZipForm
 
 admin.site.register(Tag)
 admin.site.register(Author)
+
 
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'gallery', 'image_thumb')
@@ -16,11 +17,13 @@ class ImageAdmin(admin.ModelAdmin):
     list_per_page = 20
     readonly_fields = ["image_thumb"]
 
+
 admin.site.register(Image, ImageAdmin)
 
+
 class GalleryAdmin(admin.ModelAdmin):
-    list_display = ('title','date','slug','main_image','author')
-    list_filter = ['date','author','tags']
+    list_display = ('title', 'date', 'slug', 'main_image', 'author')
+    list_filter = ['date', 'author', 'tags']
     search_fields = ['title', 'slug']
     readonly_fields = ['image_count']
     list_per_page = 20
@@ -53,5 +56,6 @@ class GalleryAdmin(admin.ModelAdmin):
                                                  list([(None, {'fields': form.base_fields})]),
                                                  {})
         return render(request, 'admin/galleries/upload_zip.html', context)
+
 
 admin.site.register(Gallery, GalleryAdmin)

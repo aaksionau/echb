@@ -27,12 +27,12 @@ class VideoTests(TestCase):
     def test_interesting_events_include_only_video_with_interesting_checked(self):
         self.create_video('', False, interesting_event=True)
         response = self.client.get(reverse('interesting-videos'))
-        self.assertContains(response, 'Test0 video') #video title
+        self.assertContains(response, 'Test0 video')  # video title
 
     def test_interesting_events_dont_show_video_without_interesting_checked(self):
         self.create_video('', False, interesting_event=False)
         response = self.client.get(reverse('interesting-videos'))
-        self.assertNotContains(response, 'Test0 video') #video title
+        self.assertNotContains(response, 'Test0 video')  # video title
 
     def test_not_authorised_user_can_see_login_and_register_buttons(self):
         self.create_video('', False)
@@ -63,12 +63,12 @@ class VideoTests(TestCase):
     def test_authorised_user_can_see_feedback_form(self):
         self.create_video('', True)
 
-        result = self.client.login(username='user', password='passphrase')
+        self.client.login(username='user', password='passphrase')
         response = self.client.get(
             reverse('videos-by-filter', kwargs={'slug': 'test-0'}))
 
         self.assertContains(
-            response, 'Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.')
+            response, 'Оставьте молитвенную записку, чтобы во время служения Церковь могла молиться за Вашу нужду.')
 
     def test_authorized_user_redirect_to_thank_you_page(self):
         self.create_video('', True)
@@ -80,7 +80,7 @@ class VideoTests(TestCase):
 
     def test_authorized_user_will_see_error_if_feedback_is_too_long(self):
         self.create_video('', True)
-        result = self.client.login(username='user', password='passphrase')
+        self.client.login(username='user', password='passphrase')
         text = ''.join(random.choices(
             string.ascii_uppercase + string.digits, k=300))
 
@@ -92,12 +92,13 @@ class VideoTests(TestCase):
 
     def test_not_authorized_user_cannot_see_feedback_form(self):
         self.create_video('', False, timezone.now())
-        result = self.client.login(username='user', password='passphrase')
+        self.client.login(username='user', password='passphrase')
         response = self.client.get(
             reverse('videos-by-filter', kwargs={'slug': 'test-0'}))
 
         self.assertNotContains(
-            response, 'Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.')
+            response,
+            'Оставьте молитвенную записку, чтобы во время служения Церковь могла молиться за Вашу нужду.')
 
     def test_authorized_user_see_custom_feedback_text(self):
         text = 'Здесь вы можете оставить ваш вопрос'

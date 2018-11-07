@@ -1,17 +1,13 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView
 from django.contrib.syndication.views import Feed
 from django.urls import reverse
 from django.db.models.functions import TruncMonth
-from django.template import RequestContext
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render
-from django.http import HttpResponse
 
-from .models import NewsItem, Author, Event
-from articles.models import Article
-from pages.models import Subscriber
+from .models import NewsItem, Event
+
 
 class NewsListView(ListView):
     model = NewsItem
@@ -19,7 +15,8 @@ class NewsListView(ListView):
 
     def _get_archive_months(self):
         time_delta = datetime.today() - timedelta(18*(365/12))
-        dates = NewsItem.objects.values('publication_date').filter(publication_date__gte=time_delta).annotate(month=TruncMonth('publication_date')).distinct('month').order_by('-month')
+        dates = NewsItem.objects.values('publication_date').filter(publication_date__gte=time_delta).annotate(
+            month=TruncMonth('publication_date')).distinct('month').order_by('-month')
         return dates
 
     def get_context_data(self, **kwargs):
@@ -28,12 +25,15 @@ class NewsListView(ListView):
         context['archive_news'] = self._get_archive_months()
 
         return context
-    
+
     def get_queryset(self):
         if 'month' in self.kwargs and 'year' in self.kwargs:
-            return self.model.objects.filter(publication_date__month=self.kwargs['month'], publication_date__year=self.kwargs['year']).select_related('author')
+            return self.model.objects.filter(
+                publication_date__month=self.kwargs['month'],
+                publication_date__year=self.kwargs['year']).select_related('author')
         else:
             return self.model.objects.select_related('author').order_by('-publication_date')
+
 
 class NewsDetailView(DetailView):
     model = NewsItem
@@ -43,6 +43,7 @@ class NewsDetailView(DetailView):
         context['latest_news'] = NewsItem.objects.order_by('-publication_date')[:5]
         context['domain'] = get_current_site(self.request)
         return context
+
 
 class LatestEntriesFeed(Feed):
     title = "Последние новости"
@@ -62,10 +63,6 @@ class LatestEntriesFeed(Feed):
     def item_link(self, item):
         return reverse('news-detail', args=[item.pk])
 
+
 class EventDetailView(DetailView):
     model = Event
-
-
-
-
-

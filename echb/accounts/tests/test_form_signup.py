@@ -1,9 +1,10 @@
 from django.test import TestCase
 from ..forms import SignUpForm
 
+
 class SignUpFormTest(TestCase):
     def test_form_has_fields(self):
         form = SignUpForm()
-        expected = ['first_name','username','email','password1','password2']
+        expected = ['first_name', 'username', 'email', 'password1', 'password2']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)

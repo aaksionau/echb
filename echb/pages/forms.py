@@ -5,6 +5,7 @@ from django.template.loader import get_template
 
 from .models import Feedback, Subscriber
 
+
 class FeedbackForm(ModelForm):
     def _send_message(self, subject, message, recipients):
         with mail.get_connection() as connection:
@@ -24,16 +25,18 @@ class FeedbackForm(ModelForm):
         name = self.cleaned_data['name']
         cc_myself = self.cleaned_data['cc_myself']
 
-        recipients = ['cbc.ooc.kh@gmail.com','valeryj82@gmail.com']
-        self._send_message(subject, message, recipients)
+        message_to_admin = f'Сообщение от {name}: {message}'
+
+        recipients = ['cbc.ooc.kh@gmail.com', 'valeryj82@gmail.com']
+        self._send_message(subject, message_to_admin, recipients)
         if cc_myself:
             recipients = [email]
             subject = 'Копия вашего сообщения с сайта Харьков для Христа: ' + subject
             self._send_message(subject, message, recipients)
-            
+
     class Meta:
         model = Feedback
-        fields = ['name','email', 'subject','message', 'cc_myself']
+        fields = ['name', 'email', 'subject', 'message', 'cc_myself']
         labels = {
             'name': 'Ваше имя',
             'email': 'Ваш email',
@@ -42,6 +45,7 @@ class FeedbackForm(ModelForm):
             'message': 'Ваше сообщение'
         }
 
+
 class SubscriberForm(ModelForm):
     def get_domain(self, request):
         current_site = get_current_site(request)
@@ -49,7 +53,8 @@ class SubscriberForm(ModelForm):
 
     def send_mail(self, subscriber, domain):
         email = self.cleaned_data['email']
-        message = get_template('pages/subscriber_activation_letter.html').render({'subscriber':subscriber,'domain':domain})
+        message = get_template(
+            'pages/subscriber_activation_letter.html').render({'subscriber': subscriber, 'domain': domain})
         with mail.get_connection() as connection:
             email = mail.EmailMessage(
                 subject='Подтверждение о подписке на новости',

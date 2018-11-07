@@ -1,22 +1,20 @@
-from datetime import timedelta  
+from datetime import timedelta
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
 from django.core import mail
 
-from ..models import Page, Feedback, Subscriber
-from accounts.models import PrayerRequest
+from ..models import Page, Subscriber
 from newsevents.models import NewsItem, Event, Author
 from articles.models import Article, Category, Author as ArticleAuthor
 from galleries.models import Gallery, Author as GalleryAuthor
-from pages.forms import FeedbackForm, SubscriberForm
 
 
 class PagesTests(TestCase):
     def setUp(self):
         self.client = Client()
 
-        page = Page.objects.create(
+        Page.objects.create(
             title='home', slug='home', order=1, visible_in_menu=True)
 
         for item in range(12):
@@ -56,7 +54,7 @@ class PagesTests(TestCase):
             article.save()
 
     def test_404_page(self):
-        response = self.client.get(reverse('page-detail', kwargs={'slug':'about'}))
+        response = self.client.get(reverse('page-detail', kwargs={'slug': 'about'}))
         self.assertContains(response, 'Запрошенная страница не найдена.', status_code=404)
 
     def test_home_page_has_news_events_articles_galleries(self):
@@ -119,6 +117,7 @@ class PagesTests(TestCase):
         self.assertEqual(mail.outbox[1].subject, 'Последние новости с сайта ecb.kh.ua')
         self.assertEqual(len(mail.outbox), 2)
     """
+
     def test_send_several_letters(self):
         for item in range(10):
             subscriber = Subscriber.objects.create(email=f'test_{item}@test.ru', activated=True)
@@ -141,13 +140,13 @@ class PagesTests(TestCase):
         self.assertEqual(len(mail.outbox), 10)
 
     def test_about_us_page_contains_menu(self):
-        parent = Page.objects.create(
+        Page.objects.create(
             title='parent', slug='about-us', order=1, visible_in_menu=True)
-        child = Page.objects.create(
+        Page.objects.create(
             title='child', slug='child-about-us', order=2, visible_in_menu=True)
-        church_parent = Page.objects.create(
+        Page.objects.create(
             title='church', slug='churches-history', order=2, visible_in_menu=True)
-        church_child = Page.objects.create(
+        Page.objects.create(
             title='church child', slug='churches-history-child', order=2, visible_in_menu=True)
 
         response = self.client.get(

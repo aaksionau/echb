@@ -1,9 +1,9 @@
-﻿{% extends "base.html" %} 
+﻿{% extends "base.html" %}
 {% block breadcrumbs %}
-    {{ block.super }} 
-        <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
-        <li><a href="/{{active_page.slug}}/" title="{{active_page.title}}">{{active_page.title}}</a></li>
-        <li><a href="/online/{{video.category.slug}}/" title="{{video.category.title}}">{{video.category.title}}</a></li>
+{{ block.super }}
+<li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+<li><a href="/{{active_page.slug}}/" title="{{active_page.title}}">{{active_page.title}}</a></li>
+<li><a href="/online/{{video.category.slug}}/" title="{{video.category.title}}">{{video.category.title}}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -12,47 +12,49 @@
         {{active_page.title}}
     </h2>
     <section class="videos">
-         <article>
-             {% if video.urgent_text %}
-             <div class="urgent">
-                   <p> {{video.urgent_text}}</p> 
-             </div>
-             {% endif %}
+        <article>
+            {% if video.urgent_text %}
+            <div class="urgent">
+                <p> {{video.urgent_text}}</p>
+            </div>
+            {% endif %}
             <h3>{{video.title}}</h3>
-            <div class="meta"> 
+            <div class="meta">
                 <time datetime="{{video.date|date:'Y-m-d H:i'}}">{{video.date|date:'d F Y h:i'}}</time>
                 <span>{{video.category.title}}</span>
             </div>
-            <iframe width="100%" height="500px" src="{{video.youtube_link}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </article>   
+            <iframe width="100%" height="500px" src="{{video.youtube_link}}" frameborder="0" allow="autoplay; encrypted-media"
+                allowfullscreen></iframe>
+        </article>
     </section>
     <section class="prayer-request">
         {% if video.accept_prayer_request %}
-            {% if user.is_authenticated %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <p> {{message}}</p>
-                    {% endfor %}
-                {% endif %}
-                <p>
-                {% if video.text_for_request %}
-                        {{video.text_for_request}}
-                    {% else %}
-                        Здесь вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду.
-                {% endif %}
-                (длина сообщения 250 символов)
-                </p>
-                
-                <form method="post">
-                        {% csrf_token %}
-                        <p> <textarea name="description" id="description" cols="30" rows="5" maxlength="250" required></textarea></p>
-                        <button type="submit" class="button">Отправить</button>
-                </form>
+        {% if user.is_authenticated %}
+        {% if messages %}
+        {% for message in messages %}
+        <p> {{message}}</p>
+        {% endfor %}
+        {% endif %}
+        <p>
+            {% if video.text_for_request %}
+            {{video.text_for_request}}
             {% else %}
-            <p>Вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду. Для этого зайдите, пожалуйста, в Ваш аккаунт или зарегистрируйтесь.</p>
-            <a href="{% url 'login' %}">Вход</a>
-            <a href="{% url 'signup' %}">Регистрация</a>
+            Оставьте молитвенную записку, чтобы во время служения Церковь могла молиться за Вашу нужду.
             {% endif %}
+            (длина сообщения 250 символов)
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <p> <textarea name="description" id="description" cols="30" rows="5" maxlength="250" required></textarea></p>
+            <button type="submit" class="button">Отправить</button>
+        </form>
+        {% else %}
+        <p>Вы можете оставить молитвенную записку, чтобы во время служения Церковь могла молится за Вашу нужду. Для
+            этого зайдите, пожалуйста, в Ваш аккаунт или зарегистрируйтесь.</p>
+        <a href="{% url 'login' %}">Вход</a>
+        <a href="{% url 'signup' %}">Регистрация</a>
+        {% endif %}
         {% endif %}
     </section>
 </article>
@@ -60,13 +62,12 @@
 {% endblock content %}
 
 {% block rightside %}
-    <section class="video-categories">
-        <h3>Категории</h3>
-        <ul>
-            {% for video in categories %}
-            <li><a href="{% url 'videos-by-filter' video.category.slug %}" title="{{video.category.title}}">{{video.category.title}}</a></li>
-            {% endfor %}
-        </ul>
-    </section>
+<section class="video-categories">
+    <h3>Категории</h3>
+    <ul>
+        {% for video in categories %}
+        <li><a href="{% url 'videos-by-filter' video.category.slug %}" title="{{video.category.title}}">{{video.category.title}}</a></li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock rightside %}
-    
