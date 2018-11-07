@@ -102,16 +102,14 @@ class UploadZipForm(forms.Form):
                 data = zip.read(filename)
                 photo = Image(title = self.cleaned_data['title'], image=filename)
                 photo.gallery = gallery
-                photo.save()
-
+                photo.thumbnail = filename
                 contentfile = ContentFile(data)
                 photo.image.save(filename, contentfile)
-                photo.thumbnail = filename
-                photo.save()
 
                 self.resize_image(filename, gallery.slug)
+                logger.error(filename)
             except Exception as ex:
-                logger.error(ex)
+                pass
 
         zip.close()
         if request:
