@@ -113,10 +113,10 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
-MEDIA_URL =  '/static/media/'
+MEDIA_URL = '/static/media/'
 
 
-INSTALLED_APPS += ('django_summernote','newsevents','churches', 'articles', 'galleries', 'pages', 'accounts')
+INSTALLED_APPS += ('django_summernote', 'newsevents', 'churches', 'articles', 'galleries', 'pages', 'accounts')
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
@@ -143,10 +143,10 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'applogfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'echb.log'),
-            'maxBytes': 1024*1024*15, # 15MB
+            'maxBytes': 1024*1024*15,  # 15MB
             'backupCount': 10,
         },
     },
@@ -157,7 +157,7 @@ LOGGING = {
             'propagate': True,
         },
         'ECHB': {
-            'handlers': ['applogfile',],
+            'handlers': ['applogfile', ],
             'level': 'DEBUG',
         },
     }
