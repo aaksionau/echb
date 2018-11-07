@@ -2,7 +2,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse, resolve
-from django.contrib.auth.forms import UserCreationForm
 
 from ..views import SignUpFormView
 from ..forms import SignUpForm
@@ -10,14 +9,15 @@ from ..forms import SignUpForm
 
 from pages.models import Page
 
+
 class SuccessfulSignUpTests(TestCase):
     def setUp(self):
         url = reverse('signup')
         data = {
-            'username':'john',
-            'email':'john@test.ru',
-            'password1':'#4erdfcV1234',
-            'password2':'#4erdfcV1234'
+            'username': 'john',
+            'email': 'john@test.ru',
+            'password1': '#4erdfcV1234',
+            'password2': '#4erdfcV1234'
         }
         self.response = self.client.post(url, data)
         self.create_video_page()
@@ -41,6 +41,7 @@ class SuccessfulSignUpTests(TestCase):
         user = response.context.get('user')
         self.assertTrue(user.is_authenticated)
 
+
 class SignUpTests(TestCase):
     def setUp(self):
         url = reverse('signup')
@@ -59,5 +60,3 @@ class SignUpTests(TestCase):
 
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
-
-
