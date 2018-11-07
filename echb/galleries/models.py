@@ -6,6 +6,7 @@ from .managers import GalleryQuerySet
 
 from helpers.models import Audit
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=50)
 
@@ -15,6 +16,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'тэг'
         verbose_name_plural = 'тэги'
+
 
 class Author(Audit):
     last_name = models.CharField(max_length=50)
@@ -26,6 +28,7 @@ class Author(Audit):
     class Meta:
         verbose_name = 'автор'
         verbose_name_plural = 'авторы'
+
 
 class Gallery(Audit):
     title = models.CharField(max_length=200)
@@ -42,7 +45,7 @@ class Gallery(Audit):
         return self.title
 
     def image_count(self):
-        return Image.objects.filter(gallery_id = self.pk).count()
+        return Image.objects.filter(gallery_id=self.pk).count()
 
     def get_absolute_url(self):
         return reverse('gallery-detail', kwargs={'slug': self.slug})
@@ -52,11 +55,14 @@ class Gallery(Audit):
         verbose_name_plural = 'галереи'
         ordering = ['-date']
 
+
 def gallery_upload_path(instance, filename):
-    return f'galleries/{instance.gallery.slug}/{filename}'
+    return f'{instance.gallery.slug}/{filename}'
+
 
 def gallery_upload_path_for_small(instance, filename):
-    return f'galleries/{instance.gallery.slug}/small/{filename}'
+    return f'{instance.gallery.slug}/small/{filename}'
+
 
 class Image(Audit):
     title = models.CharField(max_length=100)

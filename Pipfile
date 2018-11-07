@@ -7,6 +7,8 @@ name = "pypi"
 rope = "*"
 gulp = "*"
 coverage = "*"
+"flake8" = "*"
+"flake8-html" = "*"
 
 [packages]
 django = "==2.0.7"
