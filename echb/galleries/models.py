@@ -57,11 +57,11 @@ class Gallery(Audit):
 
 
 def gallery_upload_path(instance, filename):
-    return f'{instance.gallery.slug}/{filename}'
+    return f'galleries/{instance.gallery.slug}/{filename}'
 
 
 def gallery_upload_path_for_small(instance, filename):
-    return f'{instance.gallery.slug}/small/{filename}'
+    return f'galleries/{instance.gallery.slug}/small/{filename}'
 
 
 class Image(Audit):
@@ -71,7 +71,7 @@ class Image(Audit):
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
 
     def image_thumb(self):
-        return mark_safe(f'<img src="/static/media/galleries/{self.thumbnail}" width="100"/>')
+        return mark_safe(f'<img src="/static/media/{self.thumbnail}" width="100"/>')
     image_thumb.allow_tags = True
 
     def __str__(self):

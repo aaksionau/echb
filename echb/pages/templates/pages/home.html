@@ -142,7 +142,7 @@
           <li>
             <div class="photo-content">
               <a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>
-                <div class="image" style="background-image:url('{% static 'media/galleries/' %}{{gallery.main_image }}')"></div>
+                <div class="image" style="background-image:url('{% static 'media' %}/{{gallery.main_image }}')"></div>
               </a>
               <h3><a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>{{gallery.title}}</a></h3>
             </div>
