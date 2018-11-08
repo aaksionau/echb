@@ -25,7 +25,7 @@ class GalleryAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'slug', 'main_image', 'author')
     list_filter = ['date', 'author', 'tags']
     search_fields = ['title', 'slug']
-    readonly_fields = ['image_count']
+    readonly_fields = ['image_count', 'slug']
     list_per_page = 20
 
     def get_urls(self):

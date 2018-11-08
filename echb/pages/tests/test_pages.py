@@ -37,7 +37,6 @@ class PagesTests(TestCase):
         for item in range(6):
             gallery = Gallery()
             gallery.title = f'gallery_title {item}'
-            gallery.slug = f'gallery-{item}'
             gallery.author = GalleryAuthor.objects.create(
                 last_name='last_name', first_name='gallery first_name')
             gallery.date = timezone.now()
@@ -63,7 +62,7 @@ class PagesTests(TestCase):
         self.assertContains(response, 'newsitem_title',
                             count=18)  # 6 total (exclude title)
         self.assertContains(response, 'event_title', count=12)  # 6 total
-        self.assertContains(response, 'gallery_title', count=12)  # 4 total
+        self.assertContains(response, 'photo-content', count=4)  # 4 total
         self.assertContains(response, 'article_title', count=12)  # 6 total
 
     def test_home_page_contains_subscriber_form(self):

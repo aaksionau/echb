@@ -13,10 +13,12 @@ Returns:
 import logging
 import os
 import zipfile
+import datetime
 
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.utils.text import slugify
 from django.core.files.base import ContentFile
 from PIL import Image as PILImage
 from unidecode import unidecode
@@ -35,7 +37,7 @@ class UploadZipForm(forms.Form):
                             help_text="Введите название галереи, если хотите создать новую")
     gallery = forms.ModelChoiceField(Gallery.objects.all(
     ), required=False, help_text='Выберите галерею для загрузки фотографий или оставьте пустой для создания новой')
-    date = forms.DateField(help_text='Введите дату съемки фотографий')
+    date = forms.DateField(widget=forms.SelectDateWidget, help_text='Введите дату съемки фотографий')
     author = forms.ModelChoiceField(Author.objects.all(
     ), required=False, help_text="Выберите автора фотографий")
     tags = forms.ModelMultipleChoiceField(Tag.objects.all(), required=False)
@@ -61,6 +63,10 @@ class UploadZipForm(forms.Form):
             raise forms.ValidationError(
                 'Галерея с таким названием уже существует')
 
+        slug = self.get_slug(title)
+        if Gallery.objects.filter(slug=slug).exists():
+            raise forms.ValidationError('Существует галерея с таким адресом, измените название')
+
         return title
 
     def clean(self):
@@ -70,6 +76,7 @@ class UploadZipForm(forms.Form):
             if not cleaned_data.get('title', None) and not cleaned_data['gallery']:
                 raise forms.ValidationError(
                     'Выберите галерею или введите название для галереи')
+
         return cleaned_data
 
     def resize_image(self, image_name, folder):
@@ -88,10 +95,12 @@ class UploadZipForm(forms.Form):
             os.makedirs(os.path.dirname(resized_image_path))
         img.save(resized_image_path, quality=90)
 
-        return f'{all_galleries_folder}/{folder}/small/{image_name}'
+        return os.path.join(all_galleries_folder, folder, 'small', image_name)
 
-    def change_slug(self, slug):
-        return unidecode(self.cleaned_data['title'].replace(' ', '-').lower())
+    def get_slug(self, title):
+        uni_code = unidecode(title).lower()
+        slug = slugify(uni_code)
+        return slug
 
     def save_images(self, zip_file, gallery):
 
@@ -114,16 +123,22 @@ class UploadZipForm(forms.Form):
             image.gallery = gallery
 
             contentfile = ContentFile(data)
+            filename = filename.replace('(', '_').replace(')', '_').replace(' ', '')
             image.image.save(filename, contentfile)
 
             image.thumbnail.name = self.resize_image(filename, gallery.slug)
+
             image.save()
+            logger.info(f'Image {image.image.name} successfully processed')
 
         zip.close()
 
         return first_image
 
     def save(self, request):
+
+        logger.info('=================================================')
+        logger.info(f'Gallery Import started: {datetime.datetime.now()}')
 
         gallery = self.cleaned_data['gallery']
         author_id = self.cleaned_data['author']
@@ -151,12 +166,14 @@ class UploadZipForm(forms.Form):
                              f'Успешно создана галерея и добавлены фотографии "{gallery.title}".',
                              fail_silently=True)
 
+        logger.info(f'Import finished: {datetime.datetime.now()}')
+        logger.info('=================================================')
         return gallery.pk
 
     def createGallery(self, author_id, title, description, date):
         gallery = Gallery()
         gallery.title = title
-        gallery.slug = self.change_slug(title)
+        gallery.slug = self.get_slug(title)
         gallery.description = description
         gallery.date = date
         gallery.author = author_id
