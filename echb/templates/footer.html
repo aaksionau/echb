@@ -48,16 +48,14 @@
             <form action="{% url 'home' %}" method="POST" id="subscriberForm">
                 {% csrf_token %}
                 <input type="email" name="email" id="email">
-                <button class="g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
-                    data-callback="AddSubscriber">
+                <button class="g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="AddSubscriber">
                     Подписаться
                 </button>
             </form>
             {% endif %}
         </div>
         <div class="rights">
-            <p>© Все права принадлежат Харьковскому областному объединению
-                союза церквей ЕХБ 2011-{% now 'Y' %}</p>
+            <p>© Все права принадлежат Харьковскому ООЦ ЕХБ 2011-{% now 'Y' %}</p>
         </div>
     </div>
 </footer>
