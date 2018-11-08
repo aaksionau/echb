@@ -55,6 +55,10 @@ class UploadZipForm(forms.Form):
             zip.close()
             raise forms.ValidationError('Файл содержит ошибки')
 
+        if zip.fp.size > 1024*1024*10:
+            zip.close()
+            raise forms.ValidationError('Размер файла превышает 10 Мб')
+
         return zip_file
 
     def clean_title(self):
