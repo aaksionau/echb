@@ -59,7 +59,7 @@ class ImageUploadTests(TestCase):
     #         response = self.client.post(self.change_url, data, follow=True)
     #         self.assertEqual(response.status_code, 200)
 
-    #     gallery = Gallery.objects.all().first()
+    ##     gallery = Gallery.objects.all().first()
     #     self.assertTrue(gallery.main_image)
 
     # def test_slug_already_exists(self):
