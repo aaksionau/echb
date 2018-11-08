@@ -3,6 +3,7 @@ from django_summernote.admin import SummernoteModelAdmin
 
 from .models import NewsItem, Event, Author
 
+
 @admin.register(NewsItem)
 class NewsItemAdmin(SummernoteModelAdmin):
     summernote_fields = 'description'
@@ -11,8 +12,10 @@ class NewsItemAdmin(SummernoteModelAdmin):
     list_filter = ('published', 'author')
     list_display = ('title', 'published', 'publication_date', 'author')
 
+
 @admin.register(Event)
 class EventAdmin(SummernoteModelAdmin):
     list_display = ('title', 'date')
+
 
 admin.site.register(Author)

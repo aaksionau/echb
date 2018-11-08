@@ -20,10 +20,14 @@ class NewsItem(Audit):
     title = models.CharField(max_length=150, help_text="Введите название в нижнем регистре (кроме первой буквы)")
     published = models.BooleanField(default=True)
     publication_date = models.DateTimeField()
-    main_image = models.FileField(upload_to='news', null=True, blank=True,
+    main_image = models.FileField(upload_to='news',
+                                  null=True,
+                                  blank=True,
                                   help_text="Маленькое изображение, которое будет появляться около новости")
     description = models.TextField(
-        null=True, blank=True, help_text="Проверяйте орфографию <a target='_blank' href='https://advego.com/text/'>здесь</a>")
+        null=True,
+        blank=True,
+        help_text="Проверяйте орфографию <a target='_blank' href='https://advego.com/text/'>здесь</a>")
     author = models.ForeignKey(Author, on_delete=models.DO_NOTHING, default=0)
 
     def __str__(self):
