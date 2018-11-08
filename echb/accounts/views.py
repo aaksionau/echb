@@ -1,18 +1,18 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
-from django.utils import timezone
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-from django.shortcuts import render
-from django.views.generic.edit import FormView, UpdateView
-from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
+from django.http import JsonResponse
+from django.utils import timezone
+from django.views.generic import ListView
+from django.views.generic.edit import FormView, UpdateView
 
-from pages.models import OldUser, Video
-from .models import PrayerRequest
+from pages.models import Video
+
 from .forms import SignUpForm
+from .models import PrayerRequest
 
 
 class SignUpFormView(FormView):
