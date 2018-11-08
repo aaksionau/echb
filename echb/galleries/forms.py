@@ -112,10 +112,12 @@ class UploadZipForm(forms.Form):
             image = Image()
             image.title = self.cleaned_data['title']
             image.gallery = gallery
-            image.thumbnail.name = self.resize_image(filename, gallery.slug)
 
             contentfile = ContentFile(data)
             image.image.save(filename, contentfile)
+
+            image.thumbnail.name = self.resize_image(filename, gallery.slug)
+            image.save()
 
         zip.close()
 
