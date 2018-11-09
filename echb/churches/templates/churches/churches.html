@@ -56,9 +56,12 @@
             <a class="church-route" href="" data-val-lat="{%= church.lat %}" data-val-lng="{%= church.lng %}">Проложить маршрут</a>
             <ul class="info" style="display:none;">
                 <li><span>Адрес: </span> {%= church.address %}</li>
+                {% if(church.tel) { %}
                 <li><span>Телефоны: </span>{%= church.tel %}</li>
-                <li><span>Факс: </span>{%= church.fax %}</li>
-                <li><span>Сайт: </span>{%= church.website %}</li>
+                {% } %}
+                {% if(church.website && church.website != '-') { %}
+                    <li><span>Сайт: </span>{%= church.website %}</li>
+                {% } %}
                 <li><span>Расписание богослужений: </span>{%# church.schedule %}</li>
             </ul>
     </div>
@@ -66,8 +69,12 @@
     <script  type="text/x-tmpl" id="church-info-gmap">
      <div class="church-gmap">
                     <h3>{%= churchInfo.title %}</h3>
+                    {% if(churchInfo.tel && churchInfo.tel !='-') { %}
                     <p> <span>Телефон: </span> {%= churchInfo.tel %}</p>
-                    <p> <span>Сайт: </span> <a target='_blank' href='{%= churchInfo.website %}'> {%= churchInfo.website %}</a></p>
+                    {% } %}
+                    {% if(churchInfo.website && churchInfo.website != '-') { %}
+                        <p> <span>Сайт: </span> <a target='_blank' href='{%= churchInfo.website %}'> {%= churchInfo.website %}</a></p>
+                    {% } %}
                     <p> <span>Адрес: </span>{%= churchInfo.address %}</p>
                     <p> <span>Регион: </span>{%= churchInfo.region_name %}</p>
                     <p> <span>Расписание богослужений: </span>{%# churchInfo.schedule %}</p>
