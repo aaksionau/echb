@@ -7,22 +7,24 @@ class Tag(Audit):
     title = models.CharField(max_length=100)
 
     def __str__(self):
-            return self.title
+        return self.title
 
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
+
 
 class Category(Audit):
     title = models.CharField(max_length=150)
     slug = models.SlugField()
 
     def __str__(self):
-            return self.title
+        return self.title
 
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
+
 
 class Author(models.Model):
     last_name = models.CharField(max_length=100)
@@ -31,11 +33,12 @@ class Author(models.Model):
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
-            return self.last_name + ' ' + self.first_name
+        return self.last_name + ' ' + self.first_name
 
     class Meta:
         verbose_name = 'автор'
         verbose_name_plural = 'авторы'
+
 
 class Article(Audit):
     title = models.CharField(max_length=150)
@@ -46,7 +49,7 @@ class Article(Audit):
     author = models.ForeignKey(Author, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-            return self.title
+        return self.title
 
     def get_absolute_url(self):
         return reverse('articles-detail', args=[self.id])
