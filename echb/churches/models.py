@@ -2,17 +2,19 @@ from django.db import models
 
 from helpers.models import Audit
 
+
 class Region(Audit):
     name = models.CharField(max_length=150)
     city_img = models.FileField(upload_to='regions')
 
     def __str__(self):
-            return self.name
+        return self.name
 
     class Meta:
         verbose_name = 'регион'
         verbose_name_plural = 'регионы'
         ordering = ['name']
+
 
 class Church(Audit):
     title = models.CharField(max_length=150)
@@ -28,7 +30,7 @@ class Church(Audit):
     lng = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
-            return self.title
+        return self.title
 
     class Meta:
         verbose_name = 'церковь'
