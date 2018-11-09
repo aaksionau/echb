@@ -13,7 +13,7 @@ Returns:
 import logging
 import os
 import zipfile
-import datetime
+from datetime import datetime
 
 from django import forms
 from django.conf import settings
@@ -37,11 +37,12 @@ class UploadZipForm(forms.Form):
                             help_text="Введите название галереи, если хотите создать новую")
     gallery = forms.ModelChoiceField(Gallery.objects.all(
     ), required=False, help_text='Выберите галерею для загрузки фотографий или оставьте пустой для создания новой')
-    date = forms.DateField(widget=forms.SelectDateWidget, help_text='Введите дату съемки фотографий')
+    date = forms.DateField(widget=forms.SelectDateWidget,
+                           help_text='Введите дату съемки фотографий', required=False, initial=datetime.now())
     author = forms.ModelChoiceField(Author.objects.all(
     ), required=False, help_text="Выберите автора фотографий")
     tags = forms.ModelMultipleChoiceField(Tag.objects.all(), required=False)
-    description = forms.CharField(required=False)
+    description = forms.CharField(widget=forms.Textarea, required=False)
 
     def clean_zip_file(self):
         zip_file = self.cleaned_data['zip_file']
@@ -75,11 +76,19 @@ class UploadZipForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(UploadZipForm, self).clean()
+        title = cleaned_data.get('title')
+        gallery = cleaned_data.get('gallery')
+        date = cleaned_data.get('date')
+        author = cleaned_data.get('author')
+        tags = cleaned_data.get('tags')
 
-        if not self['title'].errors:
-            if not cleaned_data.get('title', None) and not cleaned_data['gallery']:
-                raise forms.ValidationError(
-                    'Выберите галерею или введите название для галереи')
+        if not title and not gallery:
+            raise forms.ValidationError(
+                'Выберите галерею или введите название для галереи')
+
+        if title:
+            if not date or not author or not tags:
+                raise forms.ValidationError('Для новой галереи поля date, author, tags - обязательны')
 
         return cleaned_data
 
@@ -142,7 +151,7 @@ class UploadZipForm(forms.Form):
     def save(self, request):
 
         logger.info('=================================================')
-        logger.info(f'Gallery Import started: {datetime.datetime.now()}')
+        logger.info(f'Gallery Import started: {datetime.now()}')
 
         gallery = self.cleaned_data['gallery']
         author_id = self.cleaned_data['author']
@@ -170,7 +179,7 @@ class UploadZipForm(forms.Form):
                              f'Успешно создана галерея и добавлены фотографии "{gallery.title}".',
                              fail_silently=True)
 
-        logger.info(f'Import finished: {datetime.datetime.now()}')
+        logger.info(f'Import finished: {datetime.now()}')
         logger.info('=================================================')
         return gallery.pk
 

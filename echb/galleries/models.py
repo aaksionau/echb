@@ -35,12 +35,12 @@ class Author(Audit):
 
 
 class Gallery(Audit):
-    title = models.CharField(max_length=200, null=True, blank=True)
-    date = models.DateField(null=True, blank=True)
+    title = models.CharField(max_length=200)
+    date = models.DateField()
     slug = models.SlugField(unique=True)
     description = models.TextField(null=True, blank=True)
-    main_image = models.FileField(upload_to='galleries', null=True, blank=True)
-    tags = models.ManyToManyField(Tag, related_name='galleries', blank=True)
+    main_image = models.FileField(upload_to='galleries')
+    tags = models.ManyToManyField(Tag, related_name='galleries')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     objects = GalleryQuerySet.as_manager()
