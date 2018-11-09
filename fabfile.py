@@ -11,11 +11,28 @@ env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
 @task
 def deploy():
+    """Runing tests
+    Commit changes
+    Push to the git server
+    Deploy to the server
+    """
+
     test_results = test()
     commit()
     push()
     if test_results:
         deploy_to_server()
+
+
+@task
+def cmt():
+    """Commits and push changes to the git server after running tests
+    """
+
+    test_results = test()
+    if test_results:
+        commit()
+        push()
 
 
 def test():
