@@ -75,7 +75,6 @@ class PagesTests(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertContains(
             response, 'Ваш email добавлен в список подписчиков')
-    
     def test_subscriber_not_added_if_email_incorrect(self):
         response = self.client.post(
             reverse('home-page-unique'), data={'email': 'test'})

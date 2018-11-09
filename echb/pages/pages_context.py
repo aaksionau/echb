@@ -1,11 +1,10 @@
 from .models import Page
-from django.conf.urls import url
+
 
 def add_menu_elements(request):
     menu_links = Page.objects.filter(parent=None, visible_in_menu=True).order_by('order')
     path_parts = request.path_info.split('/')
     active_page = None
-    parent = None
     if len(path_parts) > 2:
         page = Page.objects.filter(slug=path_parts[1]).select_related('parent').first()
         if page:
