@@ -1,8 +1,8 @@
+import logging
+import os
 from datetime import datetime, timedelta
 
 import requests
-import logging
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
@@ -19,7 +19,7 @@ from galleries.models import Gallery
 from newsevents.models import Event, NewsItem
 
 from .forms import FeedbackForm, SubscriberForm
-from .models import (MailingLog, Page, Subscriber, Video)
+from .models import MailingLog, Page, Subscriber, Video
 
 logger = logging.getLogger('ECHB')
 
@@ -135,6 +135,7 @@ class ContactsFormView(FormView):
 
     def form_valid(self, form, **kwargs):
         captcha_is_valid = check_captcha(self.request)
+
         if captcha_is_valid:
             form.send_email()
             form.save()
@@ -244,7 +245,10 @@ def check_captcha(request):
     captcha = request.POST.get('g-recaptcha-response')
     response = requests.post("https://www.google.com/recaptcha/api/siteverify",
                              data={'secret': '6LfamGAUAAAAAEnS0-AF5p_EVmAFriMZqkkll-HM', 'response': captcha})
-    return settings.DEBUG if settings.DEBUG else response.json()['success']
+
+    debug_mode = bool(os.environ.get("DEBUG", False))
+
+    return debug_mode if debug_mode else response.json()['success']
 
 
 def handler404(request, exception, template_name='pages/404.html'):

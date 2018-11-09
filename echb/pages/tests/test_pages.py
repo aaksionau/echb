@@ -68,27 +68,28 @@ class PagesTests(TestCase):
     def test_home_page_contains_subscriber_form(self):
         response = self.client.get(reverse('home-page-unique'))
         self.assertContains(response, 'form')
-    """
+
     def test_user_can_subscribe_to_letter(self):
         response = self.client.post(
             reverse('home-page-unique'), data={'email': 'test@test.ru'})
         self.assertEqual(len(mail.outbox), 1)
         self.assertContains(
             response, 'Ваш email добавлен в список подписчиков')
+
     def test_subscriber_not_added_if_email_incorrect(self):
-        response = self.client.post(
+        self.client.post(
             reverse('home-page-unique'), data={'email': 'test'})
         self.assertEqual(len(mail.outbox), 0)
 
     def test_subscriber_can_activate_his_subscription(self):
-        response = self.client.post(
+        self.client.post(
             reverse('home-page-unique'), data={'email': 'test@test.ru'})
         self.assertEqual(mail.outbox[0].subject, 'Подтверждение о подписке на новости')
         subscriber = Subscriber.objects.all().first()
         self.assertFalse(subscriber.activated)
-        change_url = reverse('activate-subscriber', kwargs={'uuid':subscriber.uuid})
+        change_url = reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid})
         self.assertIn(change_url, mail.outbox[0].body)
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber.uuid}))
+        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid}))
         subscriber = Subscriber.objects.all().first()
         self.assertTrue(subscriber.activated)
 
@@ -98,23 +99,22 @@ class PagesTests(TestCase):
         subscriber = Subscriber.objects.all().first()
         self.assertFalse(subscriber.activated)
         subscriber_uuid = '98194856-4050-4397-9388-396669b5485b'
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber_uuid}))
+        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber_uuid}))
         subscriber = Subscriber.objects.all().first()
         self.assertFalse(subscriber.activated)
 
     def test_after_subscription_user_get_last_letter(self):
-        response = self.client.post(
+        self.client.post(
             reverse('home-page-unique'), data={'email': 'test@test.ru'})
         self.assertEqual(mail.outbox[0].subject, 'Подтверждение о подписке на новости')
         subscriber = Subscriber.objects.all().first()
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid':subscriber.uuid}))
+        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid}))
 
         subscriber = Subscriber.objects.all().first()
         self.assertTrue(subscriber.activated)
 
         self.assertEqual(mail.outbox[1].subject, 'Последние новости с сайта ecb.kh.ua')
         self.assertEqual(len(mail.outbox), 2)
-    """
 
     def test_send_several_letters(self):
         for item in range(10):
@@ -151,33 +151,33 @@ class PagesTests(TestCase):
             reverse('page-detail', kwargs={'slug': 'about-us'}))
         self.assertContains(response, 'child-about-us')
         self.assertContains(response, 'churches-history-child')
-    """
+
     def test_user_can_send_feedback(self):
-        contacts = Page.objects.create(
+        Page.objects.create(
             title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
-            'email':'test@test.ru',
-            'subject':'test',
+            'email': 'test@test.ru',
+            'subject': 'test',
             'message': 'test'
         }
         response = self.client.post(reverse('contacts'), data=data, follow=True)
+
         self.assertEqual(len(mail.outbox), 1)
         self.assertContains(response, 'Спасибо за ваше сообщение.')
 
     def test_feedback_form_send_copy_email_to_user(self):
-        contacts = Page.objects.create(
+        Page.objects.create(
             title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
-            'email':'test@test.ru',
-            'subject':'test',
+            'email': 'test@test.ru',
+            'subject': 'test',
             'message': 'test',
             'cc_myself': True
         }
         response = self.client.post(reverse('contacts'), data=data, follow=True)
-        self.assertEqual(len(mail.outbox), 2) #to admin + user
+        self.assertEqual(len(mail.outbox), 2)  # to admin + user
         self.assertContains(response, 'Спасибо за ваше сообщение.')
-    """
