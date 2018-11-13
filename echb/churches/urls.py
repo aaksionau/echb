@@ -4,6 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.find_church, name='find-church'),
-    path('churches.js', views.get_churches, name='churches'),
-    path('regions.js', views.get_regions, name='regions')
+    path('data/<str:type>', views.get_data, name='map-data')
 ]

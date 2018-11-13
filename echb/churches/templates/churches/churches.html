@@ -1,10 +1,5 @@
 {% extends "base.html" %} 
 {% load static %}
-{% block jshead %}
-    <script src="{% static 'js/zepto.min.js' %}"></script>
-    <script src="{% url 'churches' %}"></script>
-    <script src="{% url 'regions' %}"></script>
-{% endblock jshead %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -15,6 +10,7 @@
 {% block content %}
 <article>
 <h2>Найдите церковь</h2>
+<div id="messages"></div>
 <p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
 <div id="details">
         <a href="" id="closestChurches" class="button">Найти ближайшие церкви</a>
@@ -25,17 +21,15 @@
 {% endblock content %}
 
 {% block rightside %}
-<section class="regions">
-    <h3>Фильтр по региону</h3>
-        <ul id="regions"></ul> 
+<section class="regions" id="regions">
 </section>   
 {% endblock rightside %}
 
 
 {% block jsfooter %}
+<script src="{% static 'js/zepto.min.js' %}"></script>
 <script src="{% static 'js/tmpl.min.js' %}"></script>
-<script src="{% static 'js/map.core.js' %}"></script>
-<script src="{% static 'js/map.ui.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
 
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWjsOGJ81bvg4NQDHs_IauOsNRnffn6Yg">
@@ -43,9 +37,12 @@
 
 <script>
     $(document).ready(function(){
-        var core = echbNS.Core(google);
-        var UI = echbNS.UI(core);
-        UI.initialize();
+        const data = new Data('data/regions', 'data/churches');
+        const helper = new Helper();
+        const gMap = new GMapServices(49.8353139, 36.663565, 8, "map", google);
+        data.getPromise().then(data => {
+            new App(data.regions, data.churches, gMap, helper);
+        });
     });
 </script>
 
@@ -68,18 +65,28 @@
     </script> 
     <script  type="text/x-tmpl" id="church-info-gmap">
      <div class="church-gmap">
-                    <h3>{%= churchInfo.title %}</h3>
-                    {% if(churchInfo.tel && churchInfo.tel !='-') { %}
-                    <p> <span>Телефон: </span> {%= churchInfo.tel %}</p>
+                    <h3>{%= o.title %}</h3>
+                    {% if(o.tel && o.tel !='-') { %}
+                    <p> <span>Телефон: </span> {%= o.tel %}</p>
                     {% } %}
-                    {% if(churchInfo.website && churchInfo.website != '-') { %}
-                        <p> <span>Сайт: </span> <a target='_blank' href='{%= churchInfo.website %}'> {%= churchInfo.website %}</a></p>
+                    {% if(o.website && o.website != '-') { %}
+                        <p> <span>Сайт: </span> <a target='_blank' href='{%= o.website %}'> {%= o.website %}</a></p>
                     {% } %}
-                    <p> <span>Адрес: </span>{%= churchInfo.address %}</p>
-                    <p> <span>Регион: </span>{%= churchInfo.region_name %}</p>
-                    <p> <span>Расписание богослужений: </span>{%# churchInfo.schedule %}</p>
+                    <p> <span>Адрес: </span>{%= o.address %}</p>
+                    <p> <span>Регион: </span>{%= o.region_name %}</p>
+                    <p> <span>Расписание богослужений: </span>{%# o.schedule %}</p>
     </div>
     </script>
+    <script  type="text/x-tmpl" id="regions-list">
+        <h3>Фильтр по региону</h3>
+        <ul id="regions" class="regions-list">
+            <li><a class="regions-list__link regions-list__link--active" href="" data-region="0">Все</a></li>
+            {% for (var i=0; i<o.length; i++) { %}
+            <li><a class="regions-list__link" href="" data-region='{%= o[i].pk %}'>{%=o[i].fields.name %}</a></li>
+            {% } %}
+        </ul>
+    </script>
+
 {% endverbatim %}
 
 {% endblock jsfooter %}
