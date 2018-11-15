@@ -37,10 +37,10 @@ class GMapServices {
       icon: "/static/img/church-gmap.png"
     });
   }
-  filterChurches(filter) {
+  filterGpointsByChurchIds(churchIds) {
     var bounds = new google.maps.LatLngBounds();
     this.map.gmarkers.forEach(gmarker => {
-      if (filter(gmarker)) {
+      if (churchIds.indexOf(gmarker.churchId) > -1) {
         let pt = new google.maps.LatLng(
           gmarker.position.lat(),
           gmarker.position.lng()
@@ -53,9 +53,25 @@ class GMapServices {
     });
     this.map.fitBounds(bounds);
   }
-  getRadian(x) {
-    return (x * Math.PI) / 180;
+  filterGpointsByRegion(regionId) {
+    var bounds = new google.maps.LatLngBounds();
+    this.map.gmarkers.forEach(gmarker => {
+      let filter = regionId != 0 ? gmarker.regionId == regionId : true;
+
+      if (filter) {
+        let pt = new google.maps.LatLng(
+          gmarker.position.lat(),
+          gmarker.position.lng()
+        );
+        bounds.extend(pt);
+        gmarker.setVisible(true);
+      } else {
+        gmarker.setVisible(false);
+      }
+    });
+    this.map.fitBounds(bounds);
   }
+
   calculateRoute(lat, lng) {
     const start = new google.maps.LatLng(userPosition.lat, userPosition.lng);
     const end = new google.maps.LatLng(lat, lng);
@@ -84,6 +100,7 @@ class GMapServices {
       }
     });
   }
+
   addMarkersToMap(gmarkers) {
     this.map.gmarkers = gmarkers;
   }

@@ -46,7 +46,8 @@ def test():
 
 
 def push():
-    local("git push origin master")
+    message = prompt("Enter a branch to push into: ")
+    local("git push origin {}".format(message))
 
 
 def commit():

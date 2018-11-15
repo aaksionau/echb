@@ -1,12 +1,11 @@
 class App {
-  constructor(regions, churches, gMap, helper) {
+  constructor(regions, churches, gMap, closestChurchesQnty) {
     this.regions = regions;
     this.churches = churches;
+
     this.gMap = gMap;
-    this.helper = helper;
 
-    this.closestChurchesCount = 6;
-
+    this.closestChurchesQnty = closestChurchesQnty;
     this.showRegions();
     this.showChurches();
     this.initializeClosestChurches();
@@ -23,63 +22,78 @@ class App {
       return false;
     });
     $("#regions").on("click", "li a", () => {
-      this.gMap.filterChurches(this.filterByRegion);
+      const region = document.getElementsByClassName(
+        "regions-list__link--active"
+      );
+      const regionId = region[0].dataset.region;
+      this.gMap.filterGpointsByRegion(regionId);
       return false;
     });
   }
   initializeClosestChurches() {
     $("#closestChurches").on("click", () => {
-      this.helper.getUserCoordinates();
-      if (this.helper.userPosition) {
-        this.gMap.filterChurches(this.filterByUserPosition);
-      }
+      //!!!TODO: make getting coordinates more clear
+      this.getUserCoordinates();
+      return false;
     });
   }
-  filterByRegion(gmarker) {
-    const region = document.getElementsByClassName(
-      "regions-list__link--active"
-    );
-    const regionId = region[0].dataset.region;
-    if (regionId != 0) {
-      return gmarker.regionId == regionId;
-    } else {
-      return true;
+  setUserPosition(userPosition) {
+    this.userPosition = userPosition.coords;
+    if (this.userPosition) {
+      this.addDistanceFromUserPosition(this.userPosition);
+      let closestChurches = this.getClosestChurches();
+      //Get closest churches id to filter on them later
+      closestChurches = closestChurches.reduce((acc, church) => {
+        acc.push(church.pk);
+        return acc;
+      }, []);
+      this.gMap.filterGpointsByChurchIds(closestChurches);
     }
   }
-  addDistanceFromUserPosition(userPosition) {
+  getUserCoordinates() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.setUserPosition(position);
+        },
+        function() {
+          this.showMessage("Невозможно определить ваше положение.");
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      this.showMessage("Ваш браузер не поддерживает функцию Геолокации.");
+    }
+  }
+  showMessage(message) {
+    $("#messages").innerHTML = message;
+  }
+  getRadian(x) {
+    return (x * Math.PI) / 180;
+  }
+  addDistanceFromUserPosition() {
     var R = 6371; // radius of earth in km
 
     this.churches.forEach(church => {
-      var dLat = rad(mlat - userPosition.lat);
-      var dLong = rad(mlng - userPosition.lng);
+      var dLat = this.getRadian(church.fields.lat - this.userPosition.latitude);
+      var dLong = this.getRadian(
+        church.fields.lng - this.userPosition.longitude
+      );
       var a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.getRadian(userPosition.lat)) *
-          Math.cos(this.getRadian(userPosition.lat)) *
+        Math.cos(this.getRadian(this.userPosition.latitude)) *
+          Math.cos(this.getRadian(this.userPosition.latitude)) *
           Math.sin(dLong / 2) *
           Math.sin(dLong / 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       church.distanceFromUser = R * c;
     });
   }
-  filterByUserPosition(gmarker) {
-    if (this.userPosition) {
-      this.addDistanceFromUserPosition(userPosition);
-      let sortedByDistanceChurches = this.getClosestChurches();
-      sortedByDistanceChurches.forEach(church => {
-        if (gmarker.churchId == church.pk) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    }
-  }
   getClosestChurches() {
     this.churches.sort(
-      (church1, church2) => church1.distance - church2.distance
+      (church1, church2) => church1.distanceFromUser - church2.distanceFromUser
     );
-    return churches.slice(0, this.closestChurchesCount);
+    return this.churches.slice(0, this.closestChurchesQnty);
   }
   showChurches() {
     const gmarkers = [];
@@ -171,10 +185,10 @@ class GMapServices {
       icon: "/static/img/church-gmap.png"
     });
   }
-  filterChurches(filter) {
+  filterGpointsByChurchIds(churchIds) {
     var bounds = new google.maps.LatLngBounds();
     this.map.gmarkers.forEach(gmarker => {
-      if (filter(gmarker)) {
+      if (churchIds.indexOf(gmarker.churchId) > -1) {
         let pt = new google.maps.LatLng(
           gmarker.position.lat(),
           gmarker.position.lng()
@@ -187,9 +201,25 @@ class GMapServices {
     });
     this.map.fitBounds(bounds);
   }
-  getRadian(x) {
-    return (x * Math.PI) / 180;
+  filterGpointsByRegion(regionId) {
+    var bounds = new google.maps.LatLngBounds();
+    this.map.gmarkers.forEach(gmarker => {
+      let filter = regionId != 0 ? gmarker.regionId == regionId : true;
+
+      if (filter) {
+        let pt = new google.maps.LatLng(
+          gmarker.position.lat(),
+          gmarker.position.lng()
+        );
+        bounds.extend(pt);
+        gmarker.setVisible(true);
+      } else {
+        gmarker.setVisible(false);
+      }
+    });
+    this.map.fitBounds(bounds);
   }
+
   calculateRoute(lat, lng) {
     const start = new google.maps.LatLng(userPosition.lat, userPosition.lng);
     const end = new google.maps.LatLng(lat, lng);
@@ -218,37 +248,8 @@ class GMapServices {
       }
     });
   }
+
   addMarkersToMap(gmarkers) {
     this.map.gmarkers = gmarkers;
-  }
-}
-
-class Helper {
-  constructor() {
-    this.userPosition = {};
-  }
-  getUserCoordinates() {
-    // Try HTML5 geolocation.
-    let userPosition = {};
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.success, function() {
-        showMessage("Невозможно определить ваше положение.");
-      });
-      console.log(`outside: ${userPosition}`);
-    } else {
-      // Browser doesn't support Geolocation
-      showMessage("Ваш браузер не поддерживает функцию Геолокации.");
-    }
-  }
-  success(pos) {
-    var crd = pos.coords;
-
-    console.log("Your current position is:");
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-  }
-  showMessage(message) {
-    $("#messages").innerHTML = message;
   }
 }
