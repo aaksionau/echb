@@ -43,11 +43,11 @@ class App {
       this.addDistanceFromUserPosition(this.userPosition);
       let closestChurches = this.getClosestChurches();
       //Get closest churches id to filter on them later
-      closestChurches = closestChurches.reduce((acc, church) => {
+      let closestChurchIds = closestChurches.reduce((acc, church) => {
         acc.push(church.pk);
         return acc;
       }, []);
-      this.gMap.filterGpointsByChurchIds(closestChurches);
+      this.gMap.filterGpointsByChurchIds(closestChurchIds);
     }
   }
   getUserCoordinates() {
