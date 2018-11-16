@@ -10,6 +10,7 @@ class App {
     this.showChurches();
     this.initializeClosestChurches();
     this.userPosition = {};
+    this.closestChurches = [];
   }
   showRegions() {
     document.getElementById("regions").innerHTML = tmpl(
@@ -26,35 +27,66 @@ class App {
         "regions-list__link--active"
       );
       const regionId = region[0].dataset.region;
+      this.gMap.resetDirections();
       this.gMap.filterGpointsByRegion(regionId);
       return false;
     });
   }
   initializeClosestChurches() {
-    $("#closestChurches").on("click", () => {
+    $("#get_closest_churches").on("click", () => {
       //!!!TODO: make getting coordinates more clear
-      this.getUserCoordinates();
+      this.showclosestChurches();
       return false;
     });
+    $("#closest-churches-list").on("click", "li a", function(el) {
+      $(this)
+        .parent()
+        .children(".closest-churches-list__list")
+        .toggleClass("closest-churches-list__list--none");
+      return false;
+    });
+    $("#closest-churches-list").on(
+      "click",
+      "li .closest-churches-list__button",
+      el => {
+        let churchCoordinates = {
+          lat: el.target.dataset.lat,
+          lng: el.target.dataset.lng
+        };
+        this.gMap.calculateRoute(churchCoordinates, this.userPosition);
+        return false;
+      }
+    );
+  }
+  filterGpointsByChurchIds() {
+    this.addDistanceFromUserPosition(this.userPosition);
+    this.closestChurches = this.getClosestChurches();
+    //Get closest churches id to filter on them later
+    let closestChurchIds = this.closestChurches.reduce((acc, church) => {
+      acc.push(church.pk);
+      return acc;
+    }, []);
+    this.gMap.filterGpointsByChurchIds(closestChurchIds);
+  }
+  showListOfChurches() {
+    document.getElementById("closest-churches-list").innerHTML = tmpl(
+      "church-info-search",
+      this.closestChurches
+    );
   }
   setUserPosition(userPosition) {
     this.userPosition = userPosition.coords;
-    if (this.userPosition) {
-      this.addDistanceFromUserPosition(this.userPosition);
-      let closestChurches = this.getClosestChurches();
-      //Get closest churches id to filter on them later
-      let closestChurchIds = closestChurches.reduce((acc, church) => {
-        acc.push(church.pk);
-        return acc;
-      }, []);
-      this.gMap.filterGpointsByChurchIds(closestChurchIds);
-    }
   }
-  getUserCoordinates() {
+  showclosestChurches() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
           this.setUserPosition(position);
+          if (position) {
+            this.filterGpointsByChurchIds();
+            this.showListOfChurches();
+            this.gMap.addUserGpoint(this.userPosition);
+          }
         },
         function() {
           this.showMessage("Невозможно определить ваше положение.");
@@ -86,7 +118,7 @@ class App {
           Math.sin(dLong / 2) *
           Math.sin(dLong / 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      church.distanceFromUser = R * c;
+      church.distanceFromUser = Math.round(R * c);
     });
   }
   getClosestChurches() {
@@ -219,23 +251,44 @@ class GMapServices {
     });
     this.map.fitBounds(bounds);
   }
-
-  calculateRoute(lat, lng) {
-    const start = new google.maps.LatLng(userPosition.lat, userPosition.lng);
-    const end = new google.maps.LatLng(lat, lng);
+  addUserGpoint(userPosition) {
+    const userGpoint = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        userPosition.latitude,
+        userPosition.longitude
+      ),
+      map: this.map,
+      regionId: 0,
+      churchId: 0,
+      icon: "/static/img/location.png"
+    });
+    this.map.gmarkers.push(userGpoint);
+  }
+  resetDirections() {
+    this.directionsDisplay.setMap(null);
+  }
+  calculateRoute(churchCoordinates, userCoordinates) {
+    const start = new google.maps.LatLng(
+      userCoordinates.latitude,
+      userCoordinates.longitude
+    );
+    const end = new google.maps.LatLng(
+      churchCoordinates.lat,
+      churchCoordinates.lng
+    );
     let bounds = new google.maps.LatLngBounds();
     bounds.extend(start);
     bounds.extend(end);
-    map.fitBounds(bounds);
+    this.map.fitBounds(bounds);
     const request = {
       origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.DRIVING
     };
-    this.directionsService.route(request, function(response, status) {
+    this.directionsService.route(request, (response, status) => {
       if (status == google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-        directionsDisplay.setMap(map);
+        this.directionsDisplay.setDirections(response);
+        this.directionsDisplay.setMap(this.map);
       } else {
         console.log(
           "Directions Request from " +

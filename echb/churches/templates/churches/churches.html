@@ -9,27 +9,27 @@
 
 {% block content %}
 <article>
-<h2>Найдите церковь</h2>
-<div id="messages"></div>
-<p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
-<div id="details">
-        <a href="" id="closestChurches" class="button">Найти ближайшие церкви</a>
-        <div id="closest-churches-list"></div>
-</div>
-<div id="map"></div>
+    <h2>Найдите церковь</h2>
+    <div id="messages"></div>
+    <p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
+    <div id="details">
+            <a href="" id="get_closest_churches" class="button">Найти ближайшие церкви</a>
+            <div id="closest-churches-list"></div>
+    </div>
+    <div id="map"></div>
 </article>   
 {% endblock content %}
 
 {% block rightside %}
-<section class="regions" id="regions">
-</section>   
+    <section class="regions" id="regions">
+    </section>   
 {% endblock rightside %}
 
 
 {% block jsfooter %}
 <script src="{% static 'js/zepto.min.js' %}"></script>
 <script src="{% static 'js/tmpl.min.js' %}"></script>
-<script src="{% static 'js/map.js' %}"></script>
+<script src="{% static 'js/map-min.js' %}"></script>
 
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWjsOGJ81bvg4NQDHs_IauOsNRnffn6Yg">
@@ -44,49 +44,6 @@
         });
     });
 </script>
-
-{% verbatim %}
-<script type="text/x-tmpl" id="church-info-search">
-    <div>
-            <a class="church-details" href="">{%=church.title %}</a> ~ {%= church.distance%} км.
-            <a class="church-route" href="" data-val-lat="{%= church.lat %}" data-val-lng="{%= church.lng %}">Проложить маршрут</a>
-            <ul class="info" style="display:none;">
-                <li><span>Адрес: </span> {%= church.address %}</li>
-                {% if(church.tel) { %}
-                <li><span>Телефоны: </span>{%= church.tel %}</li>
-                {% } %}
-                {% if(church.website && church.website != '-') { %}
-                    <li><span>Сайт: </span>{%= church.website %}</li>
-                {% } %}
-                <li><span>Расписание богослужений: </span>{%# church.schedule %}</li>
-            </ul>
-    </div>
-    </script> 
-    <script  type="text/x-tmpl" id="church-info-gmap">
-     <div class="church-gmap">
-                    <h3>{%= o.title %}</h3>
-                    {% if(o.tel && o.tel !='-') { %}
-                    <p> <span>Телефон: </span> {%= o.tel %}</p>
-                    {% } %}
-                    {% if(o.website && o.website != '-') { %}
-                        <p> <span>Сайт: </span> <a target='_blank' href='{%= o.website %}'> {%= o.website %}</a></p>
-                    {% } %}
-                    <p> <span>Адрес: </span>{%= o.address %}</p>
-                    <p> <span>Регион: </span>{%= o.region_name %}</p>
-                    <p> <span>Расписание богослужений: </span>{%# o.schedule %}</p>
-    </div>
-    </script>
-    <script  type="text/x-tmpl" id="regions-list">
-        <h3>Фильтр по региону</h3>
-        <ul id="regions" class="regions-list">
-            <li><a class="regions-list__link regions-list__link--active" href="" data-region="0">Все</a></li>
-            {% for (var i=0; i<o.length; i++) { %}
-            <li><a class="regions-list__link" href="" data-region='{%= o[i].pk %}'>{%=o[i].fields.name %}</a></li>
-            {% } %}
-        </ul>
-    </script>
-
-{% endverbatim %}
-
+{% include 'churches/map_templates.html' %}
 {% endblock jsfooter %}
     

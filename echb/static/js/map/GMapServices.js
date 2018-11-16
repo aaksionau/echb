@@ -71,23 +71,44 @@ class GMapServices {
     });
     this.map.fitBounds(bounds);
   }
-
-  calculateRoute(lat, lng) {
-    const start = new google.maps.LatLng(userPosition.lat, userPosition.lng);
-    const end = new google.maps.LatLng(lat, lng);
+  addUserGpoint(userPosition) {
+    const userGpoint = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        userPosition.latitude,
+        userPosition.longitude
+      ),
+      map: this.map,
+      regionId: 0,
+      churchId: 0,
+      icon: "/static/img/location.png"
+    });
+    this.map.gmarkers.push(userGpoint);
+  }
+  resetDirections() {
+    this.directionsDisplay.setMap(null);
+  }
+  calculateRoute(churchCoordinates, userCoordinates) {
+    const start = new google.maps.LatLng(
+      userCoordinates.latitude,
+      userCoordinates.longitude
+    );
+    const end = new google.maps.LatLng(
+      churchCoordinates.lat,
+      churchCoordinates.lng
+    );
     let bounds = new google.maps.LatLngBounds();
     bounds.extend(start);
     bounds.extend(end);
-    map.fitBounds(bounds);
+    this.map.fitBounds(bounds);
     const request = {
       origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.DRIVING
     };
-    this.directionsService.route(request, function(response, status) {
+    this.directionsService.route(request, (response, status) => {
       if (status == google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-        directionsDisplay.setMap(map);
+        this.directionsDisplay.setDirections(response);
+        this.directionsDisplay.setMap(this.map);
       } else {
         console.log(
           "Directions Request from " +

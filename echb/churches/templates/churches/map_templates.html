@@ -1,0 +1,48 @@
+{% verbatim %}
+<script type="text/x-tmpl" id="church-info-search">
+    <ul class="closest-churches-list" id="closest-churches-list">
+        {% for (var i=0; i<o.length; i++) { %}
+        <li class="closest-churches-list__item">
+            <a class="closest-churches-list__link" href="">{%= o[i].fields.title %}</a> ~ {%= o[i].distanceFromUser%} км.
+            <button class="closest-churches-list__button" href="" data-lat="{%= o[i].fields.lat %}" data-lng="{%= o[i].fields.lng %}">Проложить маршрут</button>
+            <ul class="closest-churches-list__list closest-churches-list__list--none" id="closest_church_details">
+                <li><span>Адрес: </span> {%= o[i].fields.address %}</li>
+                
+                {% if(o[i].fields.tel) { %}
+                    <li><span>Телефоны: </span>{%= o[i].fields.tel %}</li>
+                {% } %}
+                
+                {% if(o[i].fields.website && o[i].fields.website != '-') { %}
+                    <li><span>Сайт: </span>{%= o[i].fields.website %}</li>
+                {% } %}
+                <li><span>Расписание богослужений: </span>{%# o[i].fields.schedule %}</li>
+            </ul>
+        </li>
+        {% } %}
+    </ul>
+    </script> 
+    <script  type="text/x-tmpl" id="church-info-gmap">
+     <div class="church-gmap">
+                    <h3>{%= o.title %}</h3>
+                    {% if(o.tel && o.tel !='-') { %}
+                    <p> <span>Телефон: </span> {%= o.tel %}</p>
+                    {% } %}
+                    {% if(o.website && o.website != '-') { %}
+                        <p> <span>Сайт: </span> <a target='_blank' href='{%= o.website %}'> {%= o.website %}</a></p>
+                    {% } %}
+                    <p> <span>Адрес: </span>{%= o.address %}</p>
+                    <p> <span>Регион: </span>{%= o.region_name %}</p>
+                    <p> <span>Расписание богослужений: </span>{%# o.schedule %}</p>
+    </div>
+    </script>
+    <script  type="text/x-tmpl" id="regions-list">
+        <h3>Фильтр по региону</h3>
+        <ul id="regions" class="regions-list">
+            <li><a class="regions-list__link regions-list__link--active" href="" data-region="0">Все</a></li>
+            {% for (var i=0; i<o.length; i++) { %}
+            <li><a class="regions-list__link" href="" data-region='{%= o[i].pk %}'>{%=o[i].fields.name %}</a></li>
+            {% } %}
+        </ul>
+    </script>
+
+{% endverbatim %}
