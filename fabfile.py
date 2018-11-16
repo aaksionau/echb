@@ -8,6 +8,23 @@ env.remote_app_dir = '/home/paloni/webapps/echb_project/echb/'
 env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb_project/apache2/'
 
+command = "python manage.py {} --settings=echb.settings.local"
+
+
+@task
+def runserver():
+    local(command.format('runserver'))
+
+
+@task
+def makemigrations():
+    local(command.format('makemigrations'))
+
+
+@task
+def migrate():
+    local(command.format('migrate'))
+
 
 @task
 def deploy():
