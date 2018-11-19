@@ -11,6 +11,7 @@ class App {
     this.initializeClosestChurches();
     this.userPosition = {};
     this.closestChurches = [];
+    this.helper = new Helper();
   }
   showRegions() {
     document.getElementById("regions").innerHTML = tmpl(
@@ -27,6 +28,7 @@ class App {
         "regions-list__link--active"
       );
       const regionId = region[0].dataset.region;
+      //if there is a google routes on the map - clear it
       this.gMap.resetDirections();
       this.gMap.filterGpointsByRegion(regionId);
       return false;
@@ -34,7 +36,6 @@ class App {
   }
   initializeClosestChurches() {
     $("#get_closest_churches").on("click", () => {
-      //!!!TODO: make getting coordinates more clear
       this.showclosestChurches();
       return false;
     });
@@ -81,46 +82,33 @@ class App {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => {
-          this.setUserPosition(position);
           if (position) {
+            this.setUserPosition(position);
             this.filterGpointsByChurchIds();
             this.showListOfChurches();
             this.gMap.addUserGpoint(this.userPosition);
           }
         },
         function() {
-          this.showMessage("Невозможно определить ваше положение.");
+          this.helper.showMessage("Невозможно определить ваше положение.");
         }
       );
     } else {
       // Browser doesn't support Geolocation
-      this.showMessage("Ваш браузер не поддерживает функцию Геолокации.");
+      this.helper.showMessage(
+        "Ваш браузер не поддерживает функцию Геолокации."
+      );
     }
   }
-  showMessage(message) {
-    $("#messages").innerHTML = message;
-  }
-  getRadian(x) {
-    return (x * Math.PI) / 180;
-  }
   addDistanceFromUserPosition() {
-    var R = 6371; // radius of earth in km
-
     this.churches.forEach(church => {
-      var dLat = this.getRadian(church.fields.lat - this.userPosition.latitude);
-      var dLong = this.getRadian(
-        church.fields.lng - this.userPosition.longitude
+      church.distanceFromUser = this.helper.calculateDistance(
+        church,
+        this.userPosition
       );
-      var a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.getRadian(this.userPosition.latitude)) *
-          Math.cos(this.getRadian(this.userPosition.latitude)) *
-          Math.sin(dLong / 2) *
-          Math.sin(dLong / 2);
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      church.distanceFromUser = Math.round(R * c);
     });
   }
+
   getClosestChurches() {
     this.churches.sort(
       (church1, church2) => church1.distanceFromUser - church2.distanceFromUser
