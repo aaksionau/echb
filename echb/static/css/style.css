@@ -1,0 +1,237 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.15;
+  color: #424242;
+  font-size: 16px;
+}
+
+h1, h2, h3 {
+  font-weight: unset;
+}
+
+p {
+  line-height: 1.4em;
+}
+
+.container {
+  margin: 0 auto;
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1200px;
+  }
+}
+
+.home-section--events {
+  background: url(/static/img/calendar.png) #f2e8dc;
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  padding-bottom: 30px;
+}
+.home-section--about-us {
+  background-image: url(/static/img/people.jpg);
+  background-attachment: fixed;
+  margin-top: 70px;
+}
+.home-section--events {
+  margin-top: 70px;
+}
+.home-section__header {
+  text-align: center;
+  padding: 30px 0 20px;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+}
+.home-section__title {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+.home-section__link {
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+}
+.home-section__content--news {
+  display: flex;
+  flex-flow: row wrap;
+}
+.home-section__content--about-us {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 50px 0;
+  align-items: center;
+}
+
+.meta-info {
+  display: flex;
+  font-size: 0.9em;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.meta-info__item:after {
+  content: "|";
+  padding-right: 3px;
+}
+.meta-info__item:last-child:after {
+  content: "";
+}
+
+.news-item__title {
+  font-size: 1.3em;
+  margin-bottom: 12px;
+  line-height: 1.3em;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+.news-item__link {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+}
+.news-item__image {
+  float: left;
+  width: 170px;
+  height: 120px;
+  background-position: center;
+  margin-right: 15px;
+  border-radius: 5px;
+  border: 1px solid #999;
+}
+.news-item__more {
+  text-decoration: none;
+  border: 1px solid #424242;
+  border-radius: 5px;
+  font-size: 0.9em;
+  padding: 0 7px;
+  margin-top: 8px;
+  padding: 0 7px;
+  display: table;
+  color: #424242;
+}
+.news-item__text {
+  padding-top: 3px;
+}
+.news-item--home {
+  flex-basis: 45%;
+  margin-right: 2%;
+}
+
+.event {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.event__date {
+  font-size: 1.4em;
+}
+.event__content {
+  margin-left: 60px;
+}
+.event__link {
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+}
+.event__title {
+  margin-bottom: 0;
+  font-size: 1.3em;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+}
+
+.gallery {
+  flex-basis: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 7px;
+  transition: transform 0.2s;
+}
+.gallery:hover {
+  transform: scale(1.05);
+}
+@media (min-width: 1200px) {
+  .gallery {
+    flex-basis: 23%;
+    width: 280px;
+  }
+}
+.gallery__title {
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  font-size: 1.1em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 230px;
+}
+.gallery__more {
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+  display: inline-block;
+}
+.gallery__list {
+  display: flex;
+  flex-flow: row wrap;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.gallery__list-item {
+  margin-right: 1.5%;
+}
+.gallery__image {
+  max-width: 300px;
+  height: 200px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+.gallery__meta {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  padding: 10px;
+}
+.gallery__meta-icon {
+  margin-right: 5px;
+}
+.gallery__meta-item {
+  margin: 10px 0;
+  font-size: 0.9em;
+}
+
+.about-us__title {
+  font-size: 2em;
+}
+.about-us__link {
+  font-size: 1.3em;
+  margin: 7px 0;
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+  border-bottom-style: dotted;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+}
+.about-us__links {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-right: 50px;
+}
+.about-us__image {
+  max-width: 340px;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,11 @@
+.meta-info
+    display: flex
+    font-size: .9em
+    +reset-list()
+    +element('item')
+        &:after
+            content: '|'
+            padding-right:3px
+        &:last-child:after
+            content: ''
+

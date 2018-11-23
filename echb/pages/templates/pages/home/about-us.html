@@ -1,0 +1,20 @@
+{% load static %}
+
+<section class="home-section home-section--about-us">
+    <div class="container">
+        <div class="home-section__content--about-us">
+            <img class="about-us__image" src="{% static 'img/' %}church_preobrageniya.png" alt=""> 
+            <div class="about-us__menu">
+                    <h2 class="about-us__title">О нас</h2>
+                    <div class="about-us__links">
+                        <a class="about-us__link" href="{% url 'page-detail' 'faith' %}">Вероучение</a>
+                        <a class="about-us__link" href="{% url 'page-detail' 'about-us' %}">История церквей</a>
+                        <a class="about-us__link" href="{% url 'find-church' %}">Найдите церковь</a>
+                        <a class="about-us__link" href="{% url 'galleries' %}">Фотогалереи</a>
+                        <a class="about-us__link" href="{% url 'contacts' %}">Контакты</a>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</section>

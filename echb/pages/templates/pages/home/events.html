@@ -1,0 +1,23 @@
+<section class="home-section home-section--events">
+    <div class="container">
+        <header class="home-section__header">
+          <h2 class="home-section__title">События</h2>
+          <p class='home-section__description'>Важные события в Харьковской области и в
+            Украине.</p>
+        </header>
+        <section class="home-section__content--events">
+            {% for item in events %}
+                <article class="event">
+                    <time class="event__date" datetime="{{item.date|date:'Y-m-d'}}">
+                      {{item.date|date:'d F Y'}}</time>
+                    <section class="event__content">
+                      <h3 class="event__title">
+                        <a class="event__link" href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
+                      </h3>
+                      {{item.short_description|safe}}
+                    </section>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+</section>

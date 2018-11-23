@@ -1,0 +1,36 @@
+.news-item
+    +element('title') 
+        font-size: $article-title-size-in-list
+        margin-bottom: 12px
+        line-height: 1.3em
+        +roboto-styles()
+        +text-overflow()
+
+
+    +element('link')
+        display: inline-block
+        +link()
+
+    +element('image')
+        float: left 
+        width: 170px 
+        height: 120px 
+        background-position: center 
+        margin-right: 15px 
+        border-radius: 5px 
+        border: 1px solid #999
+    +element('more')
+        +button()
+        font-size: .9em
+        padding: 0 7px
+        margin-top: 8px
+        padding: 0 7px
+        display: table
+        color: $primary-black
+    +element('text')
+        padding-top: 3px
+
+    +modifier('home')
+        flex-basis:45%
+        margin-right:2%
+    

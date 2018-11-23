@@ -1,0 +1,28 @@
+<section class="home-section home-section--resources">
+    <div class="container">
+        <header class="home-section__header">
+          <h2 class="home-section__title">Ресурсы</h2>
+          <p class='home-section__description'>Читайте статьи, слушайте передачи на нашем
+            сайте и сайтах наших партнеров.</p>
+        </header>
+        <div class="home_section__content--articles">
+            {% for article in articles %}
+                <article class="resource">
+                    <h3 class="resource__title">
+                    <a class="reource__link" href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
+                    </h3>
+                    <ul class="resource__meta-list">
+                        <li class="resource__meta-item"><time class="resource__date" datetime="{{article.date|date:'Y-m-d'}}">
+                                {{article.date|date:'d F Y'}}</time></li>
+                        <li class="resource__meta-item"><a class="resource__author" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
+                                {{article.author.first_name}}</a></li>
+
+                        <li class="resource__meta-item"><a class="resource__category" href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a></li>
+                    </div>
+                    <div class="resource__content">
+                    <p>{{article.description|striptags|truncatechars:100|safe}}...</p>
+                    </div>
+                </article>
+            {% endfor %}
+    </div>
+</section>
