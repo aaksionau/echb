@@ -63,7 +63,7 @@ class PagesTests(TestCase):
                             count=6)
         self.assertContains(response, 'class="event"', count=6)
         self.assertContains(response, 'class="gallery"', count=4)
-        self.assertContains(response, 'class="resource"', count=6)
+        self.assertContains(response, 'class="resource--home"', count=6)
 
     def test_home_page_contains_subscriber_form(self):
         response = self.client.get(reverse('home-page-unique'))

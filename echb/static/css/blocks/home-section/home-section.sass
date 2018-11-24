@@ -13,6 +13,9 @@
     +modifier('events')
         margin-top:70px
 
+    +modifier('partners')
+        margin-top:50px
+
     +element('header')
         text-align: center
         padding: 30px 0 20px
@@ -24,6 +27,8 @@
 
     +element('link')
         +link()
+
+        
     +element('content')
 
         +modifier('news')
@@ -37,3 +42,7 @@
             background-color: rgba(255,255,255,.8)
             padding:50px 0
             align-items: center
+        
+        +modifier('resources')
+            display: flex
+            flex-flow: row wrap

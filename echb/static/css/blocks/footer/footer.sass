@@ -1,0 +1,35 @@
+$text-color: lighten($primary-color, 40%)
+
+.footer
+    background-color: $primary-color
+    color: $text-color
+    
+    +element('sections')
+        display: flex
+        flex-flow: row wrap
+        margin-top: 40px
+
+    +element('title')
+        text-transform: uppercase
+        font-size: 1em
+        +roboto-styles()
+
+    +element('menu-list')
+        +reset-list()
+        +roboto-styles()
+
+    +element('section')
+        padding: 40px 0
+        +desktop()
+            flex-basis:18%
+            &:last-child
+                flex-basis: 40%
+
+    +element('menu-item')
+        line-height: 1.8em
+        border-bottom: 1px dotted
+        width: 75%
+
+    +element('link')
+        color: $text-color
+        text-decoration: none

@@ -9,6 +9,7 @@ gulp = "*"
 coverage = "*"
 "flake8" = "*"
 "flake8-html" = "*"
+termcolor = "*"
 
 [packages]
 django = "==2.0.7"

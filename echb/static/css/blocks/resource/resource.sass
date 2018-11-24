@@ -1,0 +1,26 @@
+.resource
+    +modifier('home')
+        +desktop()
+            flex-basis: 32%
+            padding-right:1%
+    +element('title')
+        font-size: $article-title-size-in-list
+        +text-overflow(280px)
+        margin: 5px 0
+    +element('link')
+        +link($secondary-color, $secondary-color)
+        display: inline-block
+
+    +element('category')
+        background: lighten($secondary-color, 10%)
+        color: lighten($secondary-color, 50)
+        border-radius: 3px
+        font-size:0.8em
+        padding:1px 5px 4px 2px
+        text-transform: lowercase
+        &:before
+            content: '○'
+            color: #fff
+            display: inline-block
+            padding: 0 8px 0 3px
+            font-stretch: expanded

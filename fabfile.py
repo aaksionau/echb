@@ -1,6 +1,8 @@
 from fabric.api import abort, cd, env, local, run, settings, task
 from fabric.contrib.console import confirm
 from fabric.operations import prompt
+import os
+from termcolor import colored
 
 env.use_ssh_config = True
 env.hosts = ["webfaction"]
@@ -24,6 +26,18 @@ def makemigrations():
 @task
 def migrate():
     local(command.format('migrate'))
+
+
+@task
+def bem(css_class):
+    base_path = os.path.dirname(os.path.realpath(__file__))
+    css_blocks_path = os.path.join(base_path, 'echb', 'static', 'css', 'blocks')
+    css_new_class_path = os.path.join(css_blocks_path, css_class)
+    sass_file_path = os.path.join(css_new_class_path, f'{css_class}.sass')
+    local(f'md {css_new_class_path}')
+
+    local(f'echo .{css_class} > {sass_file_path}')
+    print(colored(f'Folder and sass file were successfuly created here: {sass_file_path}', 'green'))
 
 
 @task

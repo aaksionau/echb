@@ -15,10 +15,8 @@
                     </h3>
                     <ul class="meta-info">
                         <li class="meta-info__item">
-                            <time class="meta-info__date" datetime="{{item.publication_date|date:'Y-m-d'}}">
-                                {{item.publication_date|date:'d F Y'}}
-                            </time>
-                        </li>
+                            <time class="meta-info__text" datetime="{{item.publication_date|date:'Y-m-d'}}">
+                                {{item.publication_date|date:'d F Y'}}</time></li>
                         <li class="meta-info__item">{{item.author.last_name}} {{item.author.first_name}}</li>
                     </ul>
                     <section class="news-item__content">

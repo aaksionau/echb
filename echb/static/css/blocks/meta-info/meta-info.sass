@@ -3,9 +3,13 @@
     font-size: .9em
     +reset-list()
     +element('item')
+        padding:0 5px 0 0
         &:after
             content: '|'
-            padding-right:3px
+            margin-left:5px
         &:last-child:after
             content: ''
+    +element('link')
+        +link(#416275)
+    
 
