@@ -45,12 +45,12 @@
                 <p>Мы отправили вам письмо, где вам нужно подтвердить подписку.
                     Благодарим!</p>
                 {% else %}
-                {{ errors }}
+                <div class="errors">{{ errors.as_text }}</div>
             </div>
-            <form action="{% url 'home' %}" method="POST" id="subscriberForm" class="form">
+            <form action="{% url 'home' %}" method="POST" id="subscriberForm" class="form form--footer">
                 {% csrf_token %}
-                <input type="email" name="email" id="email" class="form__text--footer">
-                <button class="button--footer g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="AddSubscriber">
+                <input type="email" name="email" id="email" class="form__text form__text--footer" placeholder="Ваш email">
+                <button class="button button--footer g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="AddSubscriber">
                     Подписаться
                 </button>
             </form>

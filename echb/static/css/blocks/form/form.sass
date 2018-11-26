@@ -1,1 +1,14 @@
 .form 
+    +element('text')
+        line-height: 1.3em
+        border: none
+        border-radius: 5px
+        padding: 5px 10px
+        width: 15em
+        
+        +modifier('footer')
+            background-color: lighten($secondary-color, 40%)
+            color: $secondary-color
+    +modifier('footer')
+        display: flex
+        flex-flow: row nowrap

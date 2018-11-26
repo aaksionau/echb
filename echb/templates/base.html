@@ -58,6 +58,14 @@
                 <span class="logo-description">Харьковское областное объединение церквей ЕХБ</span>
             </div>
             {% include 'navigation.html' %}
+            <div class='header__links'>
+                <a href="{% url 'find-church' %}" title="Найдите церковь">
+                    <i class="fas fa-church"></i>
+                </a>
+                <a href="{% url 'online' %}" title="Прямые трансляции">
+                    <i class="fas fa-video"></i>
+                </a>
+            </div>
         </div>
     </header>
     <nav class="helper_nav">

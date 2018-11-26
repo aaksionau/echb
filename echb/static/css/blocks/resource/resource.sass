@@ -12,12 +12,14 @@
         display: inline-block
 
     +element('category')
-        background: lighten($secondary-color, 10%)
+        background: lighten($secondary-color, 30%)
         color: lighten($secondary-color, 50)
         border-radius: 3px
         font-size:0.8em
         padding:1px 5px 4px 2px
         text-transform: lowercase
+        &:hover
+            background: $secondary-color
         &:before
             content: '○'
             color: #fff

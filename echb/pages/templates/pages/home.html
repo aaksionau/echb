@@ -25,36 +25,43 @@
   <script src='https://www.google.com/recaptcha/api.js'></script>
 
   <script>
-    document.write('<script src="http://' + (location.host || '${1:localhost}').split(':')[0] + ':${2:35729}/livereload.js?snipver=1"></' + 'script>')
+    document.write('<script src="http://' + (location.host || '${1:localhost}').split(':')[0] + ':${2:5500}/livereload.js?snipver=1"></' + 'script>')
 </script>
 </head>
 
 <body class="home">
-  <header class="home-header">
+  <header class="header">
     <div class='container'>
-      <div class="logo">
-        <a class="logo__link" href="/home/" title="Харьковское областное объединение церквей ЕХБ">
-          <img class="logo__img" src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
-          <span class="logo__title">Харьковское областное объединение церквей ЕХБ</span>
-        </a>
+    <div class="header__main">
+        <div class="logo">
+            <a href="/home/" title="Харьковское областное объединение церквей ЕХБ">
+                <img class="logo__img" src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
+            </a>
+            <div class="logo__text">
+                <a class="logo__link" href="/home/" title="Харьковское областное объединение церквей ЕХБ">
+                    <span class="logo__title">Харьков для Христа</span>
+                </a>
+                <span class="logo__description">Харьковское областное объединение церквей ЕХБ</span>
+            </div>
+        </div>
+        {% include 'navigation.html' %}
       </div>
-      {% include 'navigation.html' %}
-      <div class="home-header__description">
-        <h1 class="home-header__title">Харьков для Христа</h1>
-        <div class="social">
-          <a class="social__link" target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">
+      <div class="header__description">
+        <h1 class="header__title">Харьков для Христа</h1>
+        <div class="header__icons">
+          <a class="header__social" target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">
             <i class="fab fa-facebook-f fa-2x"></i></a>
-          <a class="social__link" target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">
+          <a class="header__social" target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">
             <i class="fab fa-youtube fa-2x"></i>
           </a>
         </div>
         <p>Иисус сказал ... Я есмь путь и истина и жизнь; <br />никто не
           приходит к Отцу, как только через Меня. <br />(Евангелие от Иоанна
           14.6)</p>
-        <div class='home-header__buttons'>
-          <a class="button home-header__button" href="{% url 'find-church' %}" title="Найдите церковь">
+        <div class='header__buttons'>
+          <a class="button button--header" href="{% url 'find-church' %}" title="Найдите церковь">
             <i class="fas fa-church"></i> Найдите церковь</a>
-          <a class="button home-header__button" href="{% url 'online' %}" title="Прямые трансляции">
+          <a class="button button--header" href="{% url 'online' %}" title="Прямые трансляции">
             <i class="fas fa-video"></i> Прямые трансляции</a>
         </div>
       </div>

@@ -1,0 +1,32 @@
+.menu
+    display: flex
+    flex-flow: column nowrap 
+    margin-left: 100px
+    +desktop()
+        flex-flow: row nowrap
+
+    +element('mobile')
+        +desktop()
+            display: none
+     
+    +element('item')
+        display: inline-block
+        font-size: 1em
+        text-transform: uppercase
+        text-decoration: none
+        padding: 5px 10px
+        margin: 0 7px
+        color: #fff
+        +modifier('active')
+            border: 2px solid #fff
+            padding: 3px 8px
+            border-radius: 5px
+        &:hover
+            border: 2px solid #fff
+            border-radius: 5px
+            padding: 3px 8px
+            transition-property: border-color
+            transition-duration: .4s,.4s
+            transition-timing-function: ease,ease-out
+            transition-delay: 0s,.4s
+        
