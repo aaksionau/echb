@@ -3,12 +3,11 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <li><a href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
-    <li> <a href="{% url 'find-church' %}" title="Найдите церковь">Найдите церковь</a></li>
+    <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+    <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{% url 'find-church' %}" title="Найдите церковь">Найдите церковь</a></li>
 {% endblock %}
 
 {% block content %}
-<article>
     <h2>Найдите церковь</h2>
     <div id="messages"></div>
     <p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
@@ -16,12 +15,11 @@
             <a href="" id="get_closest_churches" class="button">Найти ближайшие церкви</a>
             <div id="closest-churches-list"></div>
     </div>
-    <div id="map"></div>
-</article>   
+    <div id="map"></div>  
 {% endblock content %}
 
 {% block rightside %}
-    <section class="regions" id="regions">
+    <section id="regions">
     </section>   
 {% endblock rightside %}
 

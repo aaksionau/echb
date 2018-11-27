@@ -1,14 +1,16 @@
 .menu
-    display: flex
-    flex-flow: column nowrap 
-    margin-left: 100px
-    +desktop()
-        flex-flow: row nowrap
+    +element('links')
+        display: none
 
-    +element('mobile')
+        +desktop()
+            display: flex
+            flex-flow: row nowrap
+            margin-left: 98px
+
+    +element('mobile-link')
         +desktop()
             display: none
-     
+             
     +element('item')
         display: inline-block
         font-size: 1em
@@ -21,6 +23,7 @@
             border: 2px solid #fff
             padding: 3px 8px
             border-radius: 5px
+
         &:hover
             border: 2px solid #fff
             border-radius: 5px

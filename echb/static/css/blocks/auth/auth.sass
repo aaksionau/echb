@@ -1,0 +1,22 @@
+.auth
+    width: 150px
+    padding: 15px 10px
+    background-color: lighten($secondary-color, 60%) 
+    +element('list')
+        display: flex
+        flex-flow: row nowrap 
+        +reset-list()
+
+    +element('link')
+        +link()
+        font-size: 0.9em
+        +roboto-styles(300)
+        margin-right:10px
+
+    +element('title')
+        display: flex
+        justify-content: space-between
+
+    +element('username')
+        margin:0 
+        +roboto-styles(300)

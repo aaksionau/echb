@@ -16,16 +16,13 @@
     padding: 0
     margin: 0
 
-=button($text-color:$primary-black)
+=button($hover-background: rgba(65, 98, 117, 0.7))
     text-decoration: none
-    border: 1px solid $primary-black
     border-radius: 5px
     padding:5px 10px
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2)
-    color: $text-color
-    background: lighten($text-color, 50%)
     &:hover
-        background: lighten($text-color, 70%)
+        background: $hover-background
 
 =text-overflow($width:500px)
     white-space: nowrap
@@ -33,9 +30,9 @@
     text-overflow: ellipsis
     max-width: $width
 
-=roboto-styles()
+=roboto-styles($font-weight: 300)
     font-family: Roboto,sans-serif
-    font-weight: 300
+    font-weight: $font-weight
 
 =tablet()
   @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})

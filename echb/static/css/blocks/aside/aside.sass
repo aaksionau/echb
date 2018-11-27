@@ -1,0 +1,19 @@
+.aside 
+    width: 25%
+    float: right
+    margin-top:60px
+
+    +element('menu-list')
+        +reset-list()
+    
+    +element('menu-item')
+        line-height: 1.5em
+        padding: 7px 0
+
+    +element('menu-link')
+        +roboto-styles()
+        +link()
+
+    +element('submenu')
+        +reset-list()
+        margin-left:20px

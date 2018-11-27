@@ -19,13 +19,13 @@ class App {
       this.regions
     );
     $("#regions").on("click", "li a", function(e) {
-      $(".regions-list__link").removeClass("regions-list__link--active");
-      $(this).addClass("regions-list__link--active");
+      $(".aside__menu-link").removeClass("aside__menu-link--active");
+      $(this).addClass("aside__menu-link--active");
       return false;
     });
     $("#regions").on("click", "li a", () => {
       const region = document.getElementsByClassName(
-        "regions-list__link--active"
+        "aside__menu-link--active"
       );
       const regionId = region[0].dataset.region;
       //if there is a google routes on the map - clear it

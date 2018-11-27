@@ -37,10 +37,10 @@
     </script>
     <script  type="text/x-tmpl" id="regions-list">
         <h3>Фильтр по региону</h3>
-        <ul id="regions" class="regions-list">
-            <li><a class="regions-list__link regions-list__link--active" href="" data-region="0">Все</a></li>
+        <ul id="regions" class="aside__menu-list">
+            <li class="aside__menu-item"><a class="aside__menu-link aside__menu-link--active" href="" data-region="0">Все</a></li>
             {% for (var i=0; i<o.length; i++) { %}
-            <li><a class="regions-list__link" href="" data-region='{%= o[i].pk %}'>{%=o[i].fields.name %}</a></li>
+                <li class="aside__menu-item"><a class="aside__menu-link" href="" data-region='{%= o[i].pk %}'>{%=o[i].fields.name %}</a></li>
             {% } %}
         </ul>
     </script>
