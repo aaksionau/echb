@@ -3,19 +3,21 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
+    <li class="breadcrumbs__item">
+        <a class="breadcrumbs__link" href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a>
+    </li>
     <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{% url 'find-church' %}" title="Найдите церковь">Найдите церковь</a></li>
 {% endblock %}
 
 {% block content %}
-    <h2>Найдите церковь</h2>
-    <div id="messages"></div>
-    <p class="description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
+    <h2 class="content__title">Найдите церковь</h2>
+    <div id="messages" class="content__messages"></div>
+    <p class="content__description">Здесь вы можете найти ближайшие к себе церкви, входящие в наш союз.</p>
     <div id="details">
-            <a href="" id="get_closest_churches" class="button">Найти ближайшие церкви</a>
+            <a href="" id="get_closest_churches" class="button button--content">Найти ближайшие церкви</a>
             <div id="closest-churches-list"></div>
     </div>
-    <div id="map"></div>  
+    <div id="map" class="content__map"></div>  
 {% endblock content %}
 
 {% block rightside %}
@@ -25,9 +27,8 @@
 
 
 {% block jsfooter %}
-<script src="{% static 'js/third-party/zepto.min.js' %}"></script>
 <script src="{% static 'js/third-party/tmpl.min.js' %}"></script>
-<script src="{% static 'js/map-min.js' %}"></script>
+<script src="{% static 'js/map.js' %}"></script>
 
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWjsOGJ81bvg4NQDHs_IauOsNRnffn6Yg">

@@ -10,24 +10,7 @@
         <section class="home-section__content--news">
             {% for item in news %}
                 <article class="news-item--home">
-                    <h3 class="news-item__title">
-                        <a class="news-item__link" href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
-                    </h3>
-                    <ul class="meta-info">
-                        <li class="meta-info__item">
-                            <time class="meta-info__text" datetime="{{item.publication_date|date:'Y-m-d'}}">
-                                {{item.publication_date|date:'d F Y'}}</time></li>
-                        <li class="meta-info__item">{{item.author.last_name}} {{item.author.first_name}}</li>
-                    </ul>
-                    <section class="news-item__content">
-                        {% if item.main_image %}
-                            <div class="news-item__image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')"></div>
-                        {% endif %}
-                        <p class="news-item__text">{{item.description|striptags|truncatechars:160|safe}}
-                        <a class='news-item__more' href='{{item.get_absolute_url}}' title='{{item.title}}'>читать
-                            далее...</a>
-                        </p>
-                    </section>
+                    {% include 'newsevents/newsitem_summary.html' with item=item %}
                 </article>
             {% endfor %}
         </section>

@@ -42,8 +42,8 @@ class App {
     $("#closest-churches-list").on("click", "li a", function(el) {
       $(this)
         .parent()
-        .children(".closest-churches-list__list")
-        .toggleClass("closest-churches-list__list--none");
+        .children(".church__closest-list")
+        .toggleClass("church__closest-list--none");
       return false;
     });
     $("#closest-churches-list").on(

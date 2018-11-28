@@ -132,6 +132,7 @@ p {
   border-radius: 5px;
   padding: 5px 10px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-style: initial;
   font-size: 0.9em;
   padding: 0 7px;
   margin-top: 8px;
@@ -144,6 +145,7 @@ p {
 }
 .news-item__text {
   padding-top: 3px;
+  font-size: 0.9em;
 }
 .news-item--home {
   flex-basis: 45%;
@@ -384,6 +386,7 @@ p {
   border-radius: 5px;
   padding: 5px 10px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-style: initial;
 }
 .button:hover {
   background: rgba(65, 98, 117, 0.7);
@@ -397,6 +400,14 @@ p {
   background-color: #6e777f;
   margin-right: 10px;
   color: #ffffff;
+}
+.button--content {
+  background-color: #6e777f;
+  color: #ffffff;
+}
+.button--small {
+  padding: 3px 7px;
+  font-size: 0.7em;
 }
 
 .address__text {
@@ -415,7 +426,7 @@ p {
 
 .header {
   font-family: Roboto, sans-serif;
-  border-bottom: 10px solid #778f9c;
+  border-bottom: 10px solid #8c8583;
   background-image: url(/static/img/echb_bkgrnd.jpg);
   background-repeat: no-repeat;
   background-color: #416275;
@@ -557,7 +568,7 @@ p {
 .auth {
   width: 150px;
   padding: 15px 10px;
-  background-color: #f1f5f7;
+  background-color: #eeeded;
 }
 .auth__list {
   display: flex;
@@ -586,7 +597,7 @@ p {
 }
 
 .helper-nav {
-  background-color: #d0dde5;
+  background-color: #d6d3d2;
 }
 .helper-nav__blocks {
   display: flex;
@@ -614,7 +625,7 @@ p {
   margin-left: -7px;
 }
 .dropdown__list--active {
-  background-color: #f1f5f7;
+  background-color: #eeeded;
   max-height: 100px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
@@ -633,6 +644,33 @@ p {
   color: #416275;
 }
 
+.church__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+.church__list-item {
+  margin: 10px 0;
+}
+.church__link {
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+}
+.church__closest-list {
+  margin-top: 10px;
+  display: block;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.church__closest-list--none {
+  display: none;
+}
+
 .content {
   width: 70%;
   float: left;
@@ -642,11 +680,21 @@ p {
   font-family: Roboto, sans-serif;
   font-weight: 400;
 }
+.content__map {
+  width: 100%;
+  height: 700px;
+  margin-top: 50px;
+}
+.content__link {
+  text-decoration: none;
+  border-bottom: 1px solid #424242;
+  color: #424242;
+}
 
 .aside {
   width: 25%;
   float: right;
-  margin-top: 60px;
+  margin-top: 15px;
 }
 .aside__menu-list {
   list-style-type: none;
@@ -672,7 +720,7 @@ p {
 }
 
 .main {
-  margin-top: 50px;
+  margin-top: 25px;
   margin-bottom: 80px;
   overflow: auto;
 }
