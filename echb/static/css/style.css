@@ -235,7 +235,8 @@ p {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between; }
+    justify-content: space-between;
+    background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.36) 45%, rgba(0, 0, 0, 0) 100%); }
   .gallery__aside-list {
     display: flex;
     flex-flow: row wrap;
