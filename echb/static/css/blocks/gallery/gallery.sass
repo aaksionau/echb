@@ -4,12 +4,13 @@
     transition: .3s
     border-radius: 7px
     transition: transform .2s
+    margin-bottom: 20px
     &:hover
         transform: scale(1.05)
 
     +desktop()
         flex-basis: 23%
-        width: 280px
+        width: 250px
 
     +element('title')
         +roboto-styles()
@@ -24,10 +25,11 @@
     +element('list')
         display: flex
         flex-flow: row wrap
+        justify-content: space-between
         +reset-list()
     
     +element('list-item')
-        margin-right:1.5%
+        margin-right: 1.5%
 
     +element('image')
         max-width: 300px
@@ -40,11 +42,48 @@
         display: flex
         flex-flow: column wrap
         align-items: center
-        padding:10px
+        padding: 10px
     
     +element('meta-icon')
-        margin-right:5px
+        margin-right: 5px
 
     +element('meta-item')
-        margin:10px 0
+        margin: 10px 0
         font-size: 0.9em
+
+    +element('aside-image')
+        width: 230px
+        height: 142px
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2)
+        display: flex
+        flex-flow: column nowrap
+        justify-content: space-between
+
+    +element('aside-list')
+        display: flex
+        flex-flow: row wrap
+        +reset-list()
+
+    +element('aside-link')
+        text-decoration: none
+        color: #ffffff
+        +roboto-styles()
+        padding: 5px
+        display: block
+        background-color: linear-gradient(to bottom, rgba(255,0,0,0), rgba(0, 0, 0, 0.8))
+
+
+    +element('aside-item')
+        flex-basis: 230px
+        margin: 15px 0
+    
+    +element('aside-date')
+        transform: rotate(270deg)
+        display: inline-block
+        position: absolute
+        margin-left: -52px
+        margin-top: 90px
+        background-color: darken(#8c8583,20%)
+        padding: 1px 10px 1px 10px
+        color: #fff
+        +roboto-styles(400)

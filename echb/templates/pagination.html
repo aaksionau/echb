@@ -1,25 +1,23 @@
 {% if is_paginated %}
 <div class="pagination">
-  <div class="page-links">
-    <div class='page-link'>
-      {% if page_obj.has_previous %}
-      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
-        <i class="far fa-arrow-alt-circle-left fa-2x"></i>
-      </a>
-      {% endif %}
+      <div class='pagination__item'>
+        {% if page_obj.has_previous %}
+            <a class="pagination__link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+              <i class="pagination__icon far fa-arrow-alt-circle-left fa-2x"></i>
+            </a>
+        {% endif %}
+      </div>
+      <div class="pagination__item">
+          <span class="pagination__current-page">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+          </span>
+      </div>
+      <div class="pagination__item">
+          {% if page_obj.has_next %}
+              <a class="pagination__link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                <i class="pagination__icon far fa-arrow-alt-circle-right fa-2x"></i>
+              </a>
+          {% endif %}
     </div>
-    <div class="page-link">
-      <span class="page-current">
-        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
-      </span>
-    </div>
-    <div class="page-link">
-      {% if page_obj.has_next %}
-      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">
-        <i class="far fa-arrow-alt-circle-right fa-2x"></i>
-      </a>
-      {% endif %}
-    </div>
-  </div>
 </div>
 {% endif %}

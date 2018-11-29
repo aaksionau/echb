@@ -1,10 +1,11 @@
 .content 
-    width: 70%
+    width: 73%
     float: left
-    margin-right: 5%
+    margin-right: 4%
 
     +element('title')
         +roboto-styles(400)
+        margin-bottom: 7px
 
     +element('map')
         width: 100%
@@ -13,3 +14,9 @@
 
     +element('link')
         +link()
+
+    +element('text')
+        font-size: 0.9em !important
+
+    &__text img
+        width: 100% !important

@@ -12,24 +12,26 @@
 
 {% block breadcrumbs %}
 {{ block.super }}
-<li>
-    <a href="{{ gallery.get_absolute_url }}" title="{{ gallery.title }}">{{ gallery.title }}</a>
+<li class="breadcrumbs__item">
+    <a class="breadcrumbs__link" href="{{ gallery.get_absolute_url }}" title="{{ gallery.title }}">{{ gallery.title }}</a>
 </li>
 {% endblock %}
 
 {% block content %}
-<article class="photo">
+<article>
     <header>
-        <h2>{{gallery.title}}</h2>
-    </header>
-    <div class="meta">
-        <time datetime="{{gallery.date|date:'Y-m-d'}}">{{gallery.date|date:'d F Y'}}</time>
-        {{gallery.author.last_name}} {{gallery.author.first_name}}
-    </div>
-    <section class="photos" id="lightgallery">
+        <h2 class="content__title">{{gallery.title}}</h2>
+    </header>   
+    <ul class="meta-info">
+        <li class="meta-info__item">
+            <time class="meta-info__text" datetime="{{gallery.date|date:'Y-m-d'}}">
+                {{gallery.date|date:'d F Y'}}</time></li>
+        <li class="meta-info__item">{{gallery.author.last_name}} {{gallery.author.first_name}}</li>
+    </ul>
+    <section class="gallery-photo__list" id="lightgallery">
         {% for image in images %}
-        <div class="item" data-src="{% static 'media/' %}{{image.image}}">
-            <div class="image" style="background-image:url('{% static 'media/' %}{{image.thumbnail }}')"></div>
+        <div class="gallery-photo__item" data-src="{% static 'media/' %}{{image.image}}">
+            <div class="gallery-photo__image" style="background-image:url('{% static 'media/' %}{{image.thumbnail }}')"></div>
         </div>
         {% endfor %}
     </section>
@@ -39,10 +41,13 @@
 {% block rightside %}
 <section class="last_photos">
     <h3>Последние фотогалереи</h3>
-    <ul>
+    <ul class="gallery__aside-list">
         {% for item in latest_galleries %}
-        <li>
-            <a href="{{ item.get_absolute_url }}" title='{{item.title}}'>{{item.title}}</a>
+        <li class="gallery__aside-item">
+                <div class="gallery__aside-cat"><span class="gallery__aside-date">{{item.date|date:'F y'}}</span></div>
+                <div class="gallery__aside-image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')">
+                        <a class="gallery__aside-link" href="{{ item.get_absolute_url }}" title='{{item.title}}'>{{item.title}}</a>
+                </div>
         </li>
         {% endfor %}
     </ul>
@@ -51,8 +56,7 @@
 
 
 {% block jsfooter %}
-<script src="{% static 'js' %}/zepto.min.js"></script>
-<script src="{% static 'js/third-party' %}/lightgallery.min.js"></script>
+<script src="{% static 'js/third-party/lightgallery.min.js' %}"></script>
 
 <script>
     $(document).ready(function () {
