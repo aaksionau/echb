@@ -13,6 +13,6 @@
         <div class="news-item__image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')"></div>
     {% endif %}            
     <p class="news-item__text">{{item.description|striptags|truncatechars:text_limit|safe}}
-        <a class='news-item__more' href='{{item.get_absolute_url}}' title='{{item.title}}'>читать далее...</a>
     </p>
+    <a class='news-item__more' href='{{item.get_absolute_url}}' title='{{item.title}}'>читать далее...</a>
 </section>
