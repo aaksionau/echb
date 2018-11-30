@@ -1,0 +1,14 @@
+
+<a class="resource__category" href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
+<h3 class="resource__title--home">
+    <a class="resource__link" href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
+</h3>
+<ul class="meta-info">
+    <li class="meta-info__item"><time class="meta-info__text" datetime="{{article.date|date:'Y-m-d'}}">
+            {{article.date|date:'d F Y'}}</time></li>
+    <li class="meta-info__item"><a class="meta-info__link" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
+            {{article.author.first_name}}</a></li>
+</ul>
+<div class="resource__content">
+    <p>{{article.description|striptags|truncatechars:100|safe}}</p>
+</div>

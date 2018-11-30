@@ -6,34 +6,42 @@
 {% endblock pagetitle %}
 
 {% block breadcrumbs %}
-    {{ block.super }} <li> <a href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
+    {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
 {% endblock %}
 
 {% block content %}
 <article>
-    <h2>
+    <h2 class="content__title">
         {{article.title}}
     </h2>
-    <div class="meta">
-    <span> {{article.date|date:'d F Y'}}</span>
-    <span> <a href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}} {{article.author.first_name}}</a></span> |
-    <span><a href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a></span>
+    <ul class="meta-info">
+        <li class="meta-info__item"><time class="meta-info__text" datetime="{{article.date|date:'Y-m-d'}}">
+                {{article.date|date:'d F Y'}}</time></li>
+        <li class="meta-info__item"><a class="meta-info__link" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
+                {{article.author.first_name}}</a></li>
+        <li class="meta-info__item">
+            <a class="meta-info__link" href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
+        </li>
+    </ul>
+    <div class="content__text">
+        {{article.description|safe}}
     </div>
-    {{article.description|safe}}
 </article>
 {% endblock content %} 
 
 {% block rightside %}
-<section class="last_articles">
-<h3>Последние статьи</h3>
-<ul>
-    {% for item in latest_articles %}
-    <li>
-        <a href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a> <span> {{item.author.last_name}} {{item.author.first_name}}</span>
-    </li>
-    {% empty %}
-    <p>Нет статей</p>
-    {% endfor %}
-</ul>
+<section>
+    <h3>Последние статьи</h3>
+    <ul class="resource__aside-list">
+        {% for item in latest_articles %}
+            <li class="resource__aside-item">
+                <span class="resource__aside-name">{{item.author.last_name}} {{item.author.first_name}}</span>
+                <h4 class="resource__aside-title"><a class="resource__aside-link"  href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a></h4>
+                <p class="resource__aside-text">{{item.description|striptags|truncatechars:70|safe}}</p>
+            </li>
+            {% empty %}
+            <p>Нет статей</p>
+        {% endfor %}
+    </ul>
 </section>
 {% endblock rightside %}
