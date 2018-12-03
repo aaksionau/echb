@@ -14,11 +14,12 @@
 <header>
     <h2 class="content__title">Статьи</h2>
     <p class="content__text">{{active_page.description|safe}}</p>
-    <h3 class="resource__chosen-title">{% if chosen_author %}
-        Выбран автор: {{chosen_author.last_name}} {{chosen_author.first_name}}
+    <h3 class="resource__chosen-title">
+        {% if chosen_author %}
+            <span class="resource__cat-selected"> Выбран автор: {{chosen_author.last_name}} {{chosen_author.first_name}}</span>
         {% endif %}
         {% if chosen_category %}
-            Выбрана категория: {{chosen_category.title}}
+            <span class="resource__cat-selected"> Выбрана категория: {{chosen_category.title}}</span>
         {% endif %}
     </h3>
 </header>

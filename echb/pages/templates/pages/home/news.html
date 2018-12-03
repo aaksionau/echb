@@ -10,7 +10,7 @@
         <section class="home-section__content--news">
             {% for item in news %}
                 <article class="news-item--home">
-                    {% include 'newsevents/newsitem_summary.html' with item=item text_limit=190 %}
+                    {% include 'newsevents/newsitem_summary.html' with item=item text_limit=140 %}
                 </article>
             {% endfor %}
         </section>
