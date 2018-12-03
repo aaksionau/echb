@@ -3,10 +3,20 @@
 {% block content %}
 <div class="signup">
   <h2>Регистрация</h2>
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="button">Зарегистрироваться</button>
-  </form>
+  <div class="content__column-3-4">
+    <form method="post" class="form">
+      {% csrf_token %}
+      {% for field in form %}
+          <div class="form__fieldWrapper">
+              {{ field.errors }} 
+              {{ field }} 
+              {% if field.help_text %}
+                  <div class="form__helptext">{{ field.help_text|safe }}</div>
+              {% endif %}
+          </div>
+      {% endfor %}
+      <button type="submit" class="button button--submit">Зарегистрироваться</button>
+    </form>
+  </div>
 </div>
 {% endblock %}

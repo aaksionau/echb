@@ -9,14 +9,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="login">
-    <h2>Изменение ваших данных</h2>
-    <form method="post">
+    <h2 class="content__title">Изменение ваших данных</h2>
+    <form method="post" class="form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="button">Изменить</button>
+        <button type="submit" class="button button--submit">Изменить</button>
     </form>
-</div>
 {% endblock %}
 
 
