@@ -10,22 +10,16 @@
 
 {% block content %}
     <h2 class="content__title">Изменение ваших данных</h2>
+    <div class="content__column-2-4">
     <form method="post" class="form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="button button--submit">Изменить</button>
     </form>
+    </div>
 {% endblock %}
 
 
 {% block rightside %}
-<section>
-    <ul>
-        <li><a href="{% url 'prayer_requests' %}">Молитвенные нужды</a></li>
-        {% if user.is_staff %}
-        <li><a href="{% url 'prayer_requests_all' %}">Рабочий кабинет
-                администратора</a></li>
-        {% endif %}
-    </ul>
-</section>
+    {% include 'accounts/profile_menu.html' %}
 {% endblock rightside %}

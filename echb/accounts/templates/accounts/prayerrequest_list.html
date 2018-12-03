@@ -56,7 +56,6 @@
 
 {% block jsfooter %}
 {% if user.is_staff %}
-<script src="{% static 'js/third-party/zepto.min.js' %}"></script>
 <script src="{% static 'js/third-party/tmpl.min.js' %}"></script>
 <script src="{% static 'js/third-party/moment-with-locales.min.js' %}"></script>
 <script>
@@ -95,13 +94,5 @@
 {% endblock jsfooter %}
 
 {% block rightside %}
-<section>
-    <ul>
-        <li><a href="{% url 'prayer_requests' %}">Молитвенные нужды</a></li>
-        {% if user.is_staff %}
-        <li><a href="{% url 'prayer_requests_all' %}">Рабочий кабинет
-                администратора</a></li>
-        {% endif %}
-    </ul>
-</section>
+    {% include 'accounts/profile_menu.html' %}
 {% endblock rightside %}
