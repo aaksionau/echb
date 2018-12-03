@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from django.core import mail
+from django import forms
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
 
@@ -37,12 +38,16 @@ class FeedbackForm(ModelForm):
     class Meta:
         model = Feedback
         fields = ['name', 'email', 'subject', 'message', 'cc_myself']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Ваше имя', 'class': 'form__text'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Ваше email', 'class': 'form__text'}),
+            'subject': forms.TextInput(attrs={'placeholder': 'Тема сообщения', 'class': 'form__text'}),
+            'message': forms.Textarea(
+                attrs={'placeholder': 'Ваше сообщение', 'class': 'form__text'}),
+        }
         labels = {
-            'name': 'Ваше имя',
-            'email': 'Ваш email',
-            'cc_myself': 'Отправить копию сообщения мне',
-            'subject': 'Тема сообщения',
-            'message': 'Ваше сообщение'
+            'cc_myself': 'Отправить копию сообщения мне'
         }
 
 

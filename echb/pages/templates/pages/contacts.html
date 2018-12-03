@@ -14,22 +14,25 @@
 </li>
 {% endblock %} 
 {% block content %}
-<article class="form">
-    <div>
-        <h2>Обратная связь</h2>
-        <form action="" method="post" id='feedbackForm'>
-            {% csrf_token %} {% for field in form %}
-            <div class="fieldWrapper">
-                {{ field.errors }} 
-                {{ field.label_tag }} 
-                {{ field }} 
-                {% if field.help_text %}
-                    <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
-            </div>
+<article>
+    <h2>Обратная связь</h2>
+    <div class="content__column-2-4">
+        <form action="" method="post" id='feedbackForm' class="form">
+            {% csrf_token %} 
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.errors }} 
+                    {{ field }} 
+                    {% if field.html_name == 'cc_myself' %}
+                        {{field.label}}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
             {% endfor %}
             <button 
-                class="button g-recaptcha"
+                class="button button--content g-recaptcha"
                 data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm"
                 data-callback="validateFeedback">
                 Отправить
@@ -37,7 +40,7 @@
 
         </form>
     </div>
-    <div class="address">
+    <div class="content__column-2-4">
         <img src="{% static 'img/'%}map.png" alt="Контакты"> {% include 'address.html' %}
     </div>
 </article>
