@@ -82,6 +82,9 @@
                         <a class="dropdown__icon js-dropdown__icon" href=""><i class="fas fa-chevron-circle-down"></i></a> 
                     </div>
                     <ul class="dropdown__list">
+                        {% if user.is_staff %}
+                            <li class="dropdown__item"><a class="dropdown__link" href="{% url 'prayer_requests_all' %}">Рабочий кабинет</a></li>
+                        {% endif %}
                         <li class="dropdown__item"><a class="dropdown__link" href="{% url 'profile' user.id %}">Личный кабинет</a></li>
                         <li class="dropdown__item"><a class="dropdown__link" href="{% url 'password_change' %}">Изменить пароль</a></li>
                         <li class="dropdown__item"><a class="dropdown__link" href="{% url 'logout' %}">Выход</a></li>

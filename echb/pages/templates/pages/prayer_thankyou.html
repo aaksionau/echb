@@ -2,15 +2,16 @@
 
 {% block breadcrumbs %}
     {{ block.super }} 
-        <li><a href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
-        <li><a href="{% url 'online' %}">Прямые трансляции</a></li>
+        <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a>
+        </li>
+        <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url 'online' %}">Прямые трансляции</a></li>
 {% endblock %}
 
 {% block content %}
 <article class="form">
     <div>
         <h2>Молитвенное служение</h2>
-        <p>Мы получили вашу записку с молитвенной нуждой, она будет передана ведущему собрания.</p>
+        <p>Мы получили вашу записку, она будет передана ведущему собрания, если отвечает правилам, указанным отдельно на сайте.</p>
     </div>
 </article>
 {% endblock content %}

@@ -7,15 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<article>
-    <h2>
+    <h2 class="content__title">
         {{active_page.title}}
     </h2>
-    <section class="video-categories-detail">
+    <section class="video-cat__list">
         {% for video in video_list %}
-            <div class="video-category">
-                <a href="{% url 'videos-by-filter' video.category.slug %}"> <img src="{% static 'media/' %}{{video.category.icon}}" alt=""></a>
-               <h3><a href="{% url 'videos-by-filter' video.category.slug %}"></a>{{video.category.title}}</a></h3>
+            <div class="video-cat">
+                <a class="video-cat__link" href="{% url 'videos-by-filter' video.category.slug %}"> <img src="{% static 'media/' %}{{video.category.icon}}" alt=""></a>
+                <h3 class="video-cat__title"><a href="{% url 'videos-by-filter' video.category.slug %}"></a>{{video.category.title}}</a></h3>
             </div>
             {% empty %}
                 <h4>За прошедшие 7 дней не было онлайн трансляций.</h4>
@@ -24,8 +23,5 @@
         {% endfor %}
     </section>
     
-</article>
-
-  
 {% endblock content %}
 
