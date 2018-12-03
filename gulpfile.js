@@ -19,10 +19,10 @@ gulp.task("server", function() {});
 
 gulp.task("make-map", () => {
   return gulp
-    .src(`{pathToStatic}js/map/*.js`)
+    .src("./echb/static/js/map/*.js")
     .pipe(concat("map.js"))
     .pipe(minify())
-    .pipe(gulp.dest(`{pathToStatic}js`));
+    .pipe(gulp.dest("./echb/static/js"));
 });
 
 gulp.task("make-css", () => {
@@ -50,5 +50,5 @@ gulp.task('browserSync', ['runserver'], function() {
 gulp.task("default", ['make-css', 'make-map', 'browserSync'], function() {
   gulp.watch("./echb/static/css/**/**/*.sass", ["make-css"]);
   gulp.watch("./echb/static/css/style.min.css").on('change', browserSync.reload);
-  gulp.watch(`{pathToStatic}js/map/*.js`, ["make-map", "browserSync"]);
+  gulp.watch("./echb/static/js/map/*.js", ["make-map"]);
 });

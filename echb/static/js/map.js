@@ -46,18 +46,14 @@ class App {
         .toggleClass("church__closest-list--none");
       return false;
     });
-    $("#closest-churches-list").on(
-      "click",
-      "li .closest-churches-list__button",
-      el => {
-        let churchCoordinates = {
-          lat: el.target.dataset.lat,
-          lng: el.target.dataset.lng
-        };
-        this.gMap.calculateRoute(churchCoordinates, this.userPosition);
-        return false;
-      }
-    );
+    $("#closest-churches-list").on("click", "li .js-get-route-button", el => {
+      let churchCoordinates = {
+        lat: el.target.dataset.lat,
+        lng: el.target.dataset.lng
+      };
+      this.gMap.calculateRoute(churchCoordinates, this.userPosition);
+      return false;
+    });
   }
   filterGpointsByChurchIds() {
     this.addDistanceFromUserPosition(this.userPosition);
