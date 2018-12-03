@@ -1,5 +1,4 @@
 .gallery
-    flex-basis: 100%
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.2)
     transition: .3s
     border-radius: 7px
@@ -26,10 +25,13 @@
         display: flex
         flex-flow: row wrap
         justify-content: space-between
+        align-items: center
         +reset-list()
     
     +element('list-item')
-        margin-right: 1.5%
+        margin: 10px
+        flex-basis: 250px
+        align-self: center
 
     +element('image')
         max-width: 300px

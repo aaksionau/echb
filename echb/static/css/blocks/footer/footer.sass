@@ -9,6 +9,7 @@ $text-color: lighten($primary-color, 40%)
         display: flex
         flex-flow: row wrap
         margin-top: 40px
+        padding: 0 15px
 
     +element('title')
         text-transform: uppercase
@@ -21,8 +22,9 @@ $text-color: lighten($primary-color, 40%)
 
     +element('section')
         padding: 40px 0
+        flex-basis: 100%
         +desktop()
-            flex-basis: 18%
+            flex-basis: 20%
             &:last-child
                 flex-basis: 40%
 

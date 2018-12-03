@@ -5,7 +5,9 @@
         margin-bottom: 7px
         line-height: 1.3em
         +roboto-styles()
-        +text-overflow()
+        +text-overflow(350px)
+        +desktop()
+            +text-overflow()
 
 
     +element('link')
@@ -37,8 +39,10 @@
         margin: 0
 
     +modifier('home')
-        flex-basis: 45%
-        margin-right: 2%
+        flex-basis: 100%
+        +desktop()
+            flex-basis: 45%
+            margin-right: 2%
 
     +element('aside-item')
         margin: 20px 0
