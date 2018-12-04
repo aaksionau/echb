@@ -1,10 +1,9 @@
 {% extends "base.html" %} 
-{% load static %}
-
+{% load static %} 
 {% block pagetitle %}
-    {{active_page.title}} - 
-    {{block.super}}
-{% endblock pagetitle %}
+  {{ active_page.title }} - {{ block.super }} 
+
+{% endblock pagetitle %} 
 
 {% block breadcrumbs %}
     {{ block.super }} 

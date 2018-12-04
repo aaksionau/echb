@@ -23,6 +23,7 @@ gulp.task("make-map", () => {
     .pipe(concat("map.js"))
     .pipe(minify())
     .pipe(gulp.dest("./echb/static/js"));
+
 });
 
 gulp.task("make-css", () => {
