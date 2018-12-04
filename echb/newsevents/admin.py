@@ -18,4 +18,6 @@ class EventAdmin(SummernoteModelAdmin):
     list_display = ('title', 'date')
 
 
-admin.site.register(Author)
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    ordering = ['last_name', ]
