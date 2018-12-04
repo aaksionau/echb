@@ -1,9 +1,11 @@
 .breadcrumbs
     display: flex
-    flex-flow: row nowrap 
+    flex-flow: column nowrap 
     +reset-list()
     padding: 15px 0
     
+    +desktop()
+        flex-flow: row nowrap 
     +element('link')
         +link()
         text-transform: uppercase

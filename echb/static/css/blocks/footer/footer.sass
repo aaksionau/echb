@@ -21,10 +21,13 @@ $text-color: lighten($primary-color, 40%)
         +roboto-styles()
 
     +element('section')
-        padding: 40px 0
-        flex-basis: 100%
+        padding: 10px 0
+        flex-basis: 80%
+        +tablet()
+            flex-basis: 51%
         +desktop()
             flex-basis: 20%
+            padding: 40px 0
             &:last-child
                 flex-basis: 40%
 

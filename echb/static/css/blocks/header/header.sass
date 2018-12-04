@@ -12,6 +12,8 @@
         justify-content: start
         align-items: center
         padding: 20px 0
+        +tablet()
+            justify-content: space-between
     
     +element('description')
         margin: 100px 0 50px
@@ -24,21 +26,29 @@
     +element('social')
         color: lighten($secondary-color, 40%)
         margin-right: 15px
+        &:hover
+            color: $secondary-color
     
     +element('buttons')
         margin-top: 30px
     
     +element('hot-links')
-        border-radius: 5px
-        color: #757373
-        font-size: .8em
-        vertical-align: middle
-        line-height: 1.5em
-        text-decoration: none
-        border: 1px solid #fff
-        padding: 2px 5px
-        margin-right: 5px
-        background-color: #fff 
+        display: none
+        +desktop()
+            display: inline-block
+            border-radius: 5px
+            color: #757373
+            font-size: .8em
+            vertical-align: middle
+            line-height: 1.5em
+            text-decoration: none
+            border: 1px solid #fff
+            padding: 2px 5px
+            margin-right: 5px
+            background-color: #fff 
         
     +element('links')
         margin-left: 20px
+        display: none
+        +desktop()
+            display: block

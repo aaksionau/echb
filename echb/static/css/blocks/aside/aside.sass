@@ -1,9 +1,12 @@
 .aside 
-    width: 22%
-    float: right
+    width: 100%
+    float: left
     margin-top: 15px
     padding-left: 10px
-
+    +desktop()
+        width: 22%
+        float: left
+        
     +element('menu-list')
         +reset-list()
     

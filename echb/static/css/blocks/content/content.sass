@@ -1,7 +1,10 @@
 .content 
-    width: 73%
+    width: 100%
     float: left
-    margin-right: 4%
+
+    +desktop()
+        width: 73%
+        margin-right: 4%
 
     +element('title')
         +roboto-styles(400)
@@ -22,15 +25,21 @@
         width: 100% !important
 
     +element('column-1-4')
-        width: 23%
+        width: 100%
         float: left
-        margin-right: 4%
-    
+        +desktop()
+            width: 23%
+            margin-right: 4%
+
     +element('column-2-4')
-        width: 46%
+        width: 100%
         float: left
-        margin-right: 4%
+        +desktop()
+            width: 46%
+            margin-right: 4%
     
     +element('column-3-4')
-        width: 73%
+        width: 100%
         float: left
+        +desktop()
+            width: 73%

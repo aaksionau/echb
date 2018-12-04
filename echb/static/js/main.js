@@ -3,7 +3,8 @@ $(document).ready(function() {
     $(".menu").toggleClass("menu--mobile");
     $(".menu__links").toggleClass("menu__links--mobile");
     $(".menu__item").toggleClass("menu__item--mobile");
-    $(".menu__mobile-link").toggleClass("fa-times");
+    $(".menu__icon").toggleClass("fa-times");
+    $(".menu__icon").toggleClass("menu__mobile-link--close");
     return false;
   });
 

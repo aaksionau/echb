@@ -21,7 +21,7 @@
     </header>
     <ul class="gallery__list">
         {% for gallery in gallery_list %}
-            <li>
+            <li class="gallery__list-item">
                 {% include 'galleries/gallery_template.html' with gallery=gallery %}
             </li>
         {% endfor %}

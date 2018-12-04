@@ -16,7 +16,16 @@
             font-size: 1.7em
 
     +element('text')
-        margin-top: 3px   
+        margin-top: 15px
+        +desktop()
+            margin-top: 3px   
     +element('description')
-        font-size: .9em
-        color: #fff
+        display: none
+        +tablet()
+            display: block
+            font-size: .9em
+            color: #fff            
+        +desktop()
+            display: block
+            font-size: .9em
+            color: #fff
