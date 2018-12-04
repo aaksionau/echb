@@ -1,0 +1,9 @@
+<section>
+    <ul class="aside__menu-list">
+        <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'prayer_requests' %}">Молитвенные нужды</a></li>
+        {% if user.is_staff %}
+        <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'prayer_requests_all' %}">Рабочий кабинет
+                администратора</a></li>
+        {% endif %}
+    </ul>
+</section>

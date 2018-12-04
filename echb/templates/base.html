@@ -15,11 +15,7 @@
 
     <meta name="author" content="team of christians">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-    {% if debug %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    {% else %}
-    <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
-    {% endif %}
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
     
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
@@ -45,60 +41,70 @@
         <meta name="msapplication-TileImage" content="{% static 'img/favicon/ms-icon-144x144.png' %}">
         <meta name="theme-color" content="#2b5262">
         <script src='https://www.google.com/recaptcha/api.js'></script>
+        
 </head>
 
 <body>
-    <header>
-        <div class='header container'>
-            <div class="logo">
-                <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-img">
-                    <img src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
-                </a>
-                <a href="/home/" title="Харьковское областное объединение церквей ЕХБ" class="logo-text"><span>Харьков для Христа</span></a>
-                <span class="logo-description">Харьковское областное объединение церквей ЕХБ</span>
+    <header class="header">
+        <div class='container'>
+            <div class="header__main">
+                {% include 'logo.html' %}
+                {% include 'navigation.html' %}
+                <div class='header__links'>
+                    <a class="header__hot-links" href="{% url 'find-church' %}" title="Найдите церковь">
+                        <i class="fas fa-church"></i></a>
+                    <a class="header__hot-links" href="{% url 'online' %}" title="Прямые трансляции">
+                        <i class="fas fa-video"></i></a>
+                </div>
             </div>
-            {% include 'navigation.html' %}
         </div>
     </header>
-    <nav class="helper_nav">
-        <div class="container padding-15">
+    <nav class="helper-nav">
+        <div class="container helper-nav__blocks">
             <ul class="breadcrumbs">
                 {% block breadcrumbs %}
-                <li>
-                        <i class="fas fa-home fa-xs"></i> <a href="/" title='Главная'>Главная</a>
+                <li class="breadcrumbs__item" >
+                        <i class="fas fa-home fa-xs"></i> <a class="breadcrumbs__link" href="/" title='Главная'>Главная</a>
                 </li> {% endblock %}
             </ul>
 
             {% if not user.is_authenticated %}
-            <div class="auth"> 
-            <ul>
-                    <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-xs"></i> Вход</a></li>
-                    <li><a href="{% url 'signup' %}"><i class="fas fa-user-plus fa-xs"></i> Регистрация</a></li>
-                </ul>
-            </div>   
+                <div class="auth"> 
+                    <ul class="auth__list">
+                        <li class="auth__item"><i class="fas fa-sign-in-alt fa-1x"></i><a class="auth__link" href="{% url 'login' %}">Вход</a></li>
+                        <li class="auth__item"><i class="fas fa-user-plus fa-1x"></i><a class="auth__link" href="{% url 'signup' %}">Регистрация</a></li>
+                    </ul>
+                </div>   
             {% else %}
-                <div class="auth logged">
-                    <h4><a href="{% url 'profile' user.id %}">Личный кабинет</a> {{user.username}} <i class="fas fa-user-alt fa-1x"></i></h4>
-                    <ul>
-                        <li><a href="{% url 'password_change' %}">Изменить пароль</a></li>
-                        <li><a href="{% url 'logout' %}">Выход</a></li>
+                <div class="auth">
+                    <div class="auth__title">
+                        <h4 class="auth__username"><i class="fas fa-user-alt fa-1x"></i> {{user.first_name}}</h4> 
+                        <a class="dropdown__icon js-dropdown__icon" href=""><i class="fas fa-chevron-circle-down"></i></a> 
+                    </div>
+                    <ul class="dropdown__list">
+                        {% if user.is_staff %}
+                            <li class="dropdown__item"><a class="dropdown__link" href="{% url 'prayer_requests_all' %}">Рабочий кабинет</a></li>
+                        {% endif %}
+                        <li class="dropdown__item"><a class="dropdown__link" href="{% url 'profile' user.id %}">Личный кабинет</a></li>
+                        <li class="dropdown__item"><a class="dropdown__link" href="{% url 'password_change' %}">Изменить пароль</a></li>
+                        <li class="dropdown__item"><a class="dropdown__link" href="{% url 'logout' %}">Выход</a></li>
                     </ul>
                 </div>
             {% endif %}
         </div>
     </nav>
 
-    <div class="container main-content padding-15">
-        <main>
+    <div class="container main">
+        <main class="content">
             {% block content %} {% endblock content %}
         </main>
-        <aside>
+        <aside class="aside">
             {% block rightside %} {% endblock rightside %}
         </aside>
     </div>
     {% include 'footer.html' %} 
-    <script src="{% static 'js/zepto.min.js' %}"></script> 
-    <script src="{% static 'js/general.js' %}"></script>  
+    <script src="{% static 'js/third-party/zepto.min.js' %}"></script> 
+    <script src="{% static 'js/main.js' %}"></script>  
     {% block jsfooter %}
 
     {% endblock jsfooter %}

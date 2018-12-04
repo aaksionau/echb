@@ -1,0 +1,48 @@
+.home-section
+    +modifier('events')
+        background: url(/static/img/calendar.png) #f2e8dc
+        background-repeat: no-repeat
+        background-position-x: 100%
+        padding-bottom: 30px
+    
+    +modifier('about-us')
+        background-image: url(/static/img/people.jpg)
+        background-attachment: fixed
+        margin-top: 70px
+    
+    +modifier('events')
+        margin-top: 70px
+
+    +modifier('partners')
+        margin-top: 50px
+
+    +element('header')
+        text-align: center
+        padding: 30px 0 20px
+        +roboto-styles()
+
+    +element('title')
+        font-size: 2em
+        margin-bottom: 10px
+
+    +element('link')
+        +link()
+
+        
+    +element('content')
+        padding: 0 15px
+        +modifier('news')
+            display: flex
+            flex-flow: row wrap
+
+        +modifier('about-us')
+            display: flex
+            flex-flow: row wrap
+            justify-content: space-evenly
+            background-color: rgba(255,255,255,.8)
+            padding: 50px 0
+            align-items: center
+        
+        +modifier('resources')
+            display: flex
+            flex-flow: row wrap

@@ -11,232 +11,56 @@
   {% include 'seo.html' %}
   <meta name="author" content="team of christians">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-  {% if debug %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  {% else %}
-  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
-  {% endif %}
+  <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
 
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
     crossorigin="anonymous">
 
-  <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicon/apple-icon-57x57.png' %}">
-  <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicon/apple-icon-60x60.png' %}">
-  <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicon/apple-icon-72x72.png' %}">
-  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicon/apple-icon-76x76.png' %}">
-  <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicon/apple-icon-114x114.png' %}">
-  <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicon/apple-icon-120x120.png' %}">
-  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicon/apple-icon-144x144.png' %}">
-  <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicon/apple-icon-152x152.png' %}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-icon-180x180.png' %}">
-  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicon/android-icon-192x192.png' %}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
-  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'img/favicon/favicon-96x96.png' %}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
-  <link rel="manifest" href="{% static 'img/favicon/manifest.json' %}">
-  <meta name="msapplication-TileColor" content="#2b5262">
-  <meta name="msapplication-TileImage" content="{% static 'img/favicon/ms-icon-144x144.png' %}">
-  <meta name="theme-color" content="#2b5262">
+  {% include 'pages/home/favicons.html' %}
   <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
-<body>
-  <header class="home">
-    <div class='container header'>
-      <div class="logo">
-        <a href="/home/" title="Харьковское областное объединение церквей ЕХБ">
-          <img src="{% static 'img/logo.png' %}" alt="Харьковское областное объединение церквей ЕХБ">
-          <span>Харьковское областное объединение церквей ЕХБ</span>
-        </a>
+<body class="home">
+  <header class="header">
+    <div class='container'>
+    <div class="header__main">
+        {% include 'logo.html' %}
+        {% include 'navigation.html' %}
       </div>
-      {% include 'navigation.html' %}
-      <div class="description">
-        <h1>Харьков для Христа</h1>
-        <div class="social">
-          <a target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">
+      <div class="header__description">
+        <h1 class="header__title">Харьков для Христа</h1>
+        <div class="header__icons">
+          <a class="header__social" target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">
             <i class="fab fa-facebook-f fa-2x"></i></a>
-          <a target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">
+          <a class="header__social" target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">
             <i class="fab fa-youtube fa-2x"></i>
           </a>
         </div>
         <p>Иисус сказал ... Я есмь путь и истина и жизнь; <br />никто не
           приходит к Отцу, как только через Меня. <br />(Евангелие от Иоанна
           14.6)</p>
-        <div class='buttons'>
-          <a href="{% url 'find-church' %}" title="Найдите церковь">
+        <div class='header__buttons'>
+          <a class="button button--header" href="{% url 'find-church' %}" title="Найдите церковь">
             <i class="fas fa-church"></i> Найдите церковь</a>
-          <a href="{% url 'online' %}" title="Прямые трансляции">
+          <a class="button button--header" href="{% url 'online' %}" title="Прямые трансляции">
             <i class="fas fa-video"></i> Прямые трансляции</a>
         </div>
       </div>
     </div>
   </header>
   <main>
-    <section class="news">
-      <div class="container padding-30">
-        <header>
-          <h2>Новости</h2>
-          <p class='description'><a href="#footer">Подписывайтесь</a> на наши
-            новости или читайте в вашем ридере через <a target="_blank" href="{% url 'news-feed' %}">RSS</a>.</p>
-        </header>
-        <div class="articles">
-          {% for item in news %}
-          <article>
-            <h3>
-              <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
-            </h3>
-            <div class="meta">
-              <time datetime="{{item.publication_date|date:'Y-m-d'}}">
-                {{item.publication_date|date:'d F Y'}}</time>
-              {{item.author.last_name}} {{item.author.first_name}}
-            </div>
-            <section class="content">
-              {% if item.main_image %}
-              <div class="image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')"></div>
-              {%endif%}
-              <p>{{item.description|striptags|truncatechars:160|safe}}
-                <a class='more' href='{{item.get_absolute_url}}' title='{{item.title}}'>читать
-                  далее...</a>
-              </p>
-            </section>
-          </article>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
-    <section class="events">
-      <div class="container padding-30">
-        <header>
-          <h2>События</h2>
-          <p class='description'>Важные события в Харьковской области и в
-            Украине.</p>
-        </header>
-        <div class="articles">
-          {% for item in events %}
-          <article>
-            <section class="date">
-              <time datetime="{{item.date|date:'Y-m-d'}}">
-                {{item.date|date:'d F Y'}}</time>
-            </section>
-            <section class="content">
-              <h3>
-                <a href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
-              </h3>
-              {{item.short_description|safe}}
-            </section>
-          </article>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
-    <section class="main-galleries">
-      <div class="container padding-30">
-        <header>
-          <h2>Фотогалерея</h2>
-          <p class="description">Прошедшие события на фото. Больше фотографий
-            <a href="{% url 'galleries' %}">здесь</a> </p>
-        </header>
-        <ul class="galleries">
-          {% for gallery in photos %}
-          <li>
-            <div class="photo-content">
-              <a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>
-                <div class="image" style="background-image:url('{% static 'media' %}/{{gallery.main_image }}')"></div>
-              </a>
-              <h3><a href='{{gallery.get_absolute_url}}' alt='{{gallery.title}}'>{{gallery.title}}</a></h3>
-            </div>
-            <p> <i class="fas fa-calendar-alt"></i>
-              {{gallery.date|date:'d F Y'}}</p>
-            <p><i class="fas fa-user-alt"></i> {{gallery.author.last_name}}
-              {{gallery.author.first_name}}</p>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </section>
-    <section class="about-us">
-      <div class="container padding-30">
-        <div class="left">
-          <img src="{% static 'img/' %}church_preobrageniya.png" alt="">
-        </div>
-        <div class="right">
-          <h2>О нас</h2>
-          <ul>
-            <li>
-              <a href="{% url 'page-detail' 'faith' %}">Вероучение</a>
-            </li>
-            <li>
-              <a href="{% url 'page-detail' 'about-us' %}">История церквей</a>
-            </li>
-            <li>
-              <a href="{% url 'find-church' %}">Найдите церковь</a>
-            </li>
-            <li>
-              <a href="{% url 'galleries' %}">Фотогалереи</a>
-            </li>
-            <li>
-              <a href="{% url 'contacts' %}">Контакты</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <section class="resources">
-      <div class="container padding-30">
-        <div class="left">
-          <header>
-            <h2>Ресурсы</h2>
-            <p class='description'>Читайте статьи, слушайте передачи на нашем
-              сайте и сайтах наших партнеров.</p>
-          </header>
-          <div class="articles">
-            {% for article in articles %}
-            <article>
-              <h3>
-                <a href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
-              </h3>
-              <div class="meta">
-                <time datetime="{{article.date|date:'Y-m-d'}}">
-                  {{article.date|date:'d F Y'}}</time>
-                <span>
-                  <a href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
-                    {{article.author.first_name}}</a>
-                </span> |
-                <span>
-                  <a href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
-                </span>
-              </div>
-              <div class="content">
-                <p>{{article.description|striptags|truncatechars:100|safe}}...</p>
-              </div>
-            </article>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="right">
-          <div class="partners">
-            <a target="_blank" href="https://r500.ua/">
-              <img src="{% static 'img/' %}R500_logo.png" alt="500-летие Реформафии">
-            </a>
-            <a target="_blank" href="https://svitle.org/ru/">
-              <img src="{% static 'img/' %}Svitle_Radio.png" alt="Светлое Радио">
-            </a>
-            <a target="_blank" href="http://twr-ua.org/">
-              <img src="{% static 'img/' %}twr.png" alt="Трансмировое радио">
-            </a>
-            <a target="_blank" href="https://ua.yesheis.com/uk-ua/">
-              <img src="{% static 'img/' %}yesheis.png" alt="Yes, He Is!">
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+    {% include 'pages/home/news.html' with news=news %}
+    {% include 'pages/home/events.html' with events=events %}
+    {% include 'pages/home/galleries.html' with galleries=galleries %}
+    {% include 'pages/home/about-us.html' %}
+    {% include 'pages/home/resources.html' with articles=articles %}
+    {% include 'pages/home/partners.html' %}
   </main>
   {% include 'footer.html' %}
   {% block jsfooter %}
-  <script src="{% static 'js/zepto.min.js' %}"></script>
-  <script src="{% static 'js/general.js' %}"></script>
+  <script src="{% static 'js/third-party/zepto.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
   {% endblock jsfooter %}
   {% include 'analytics.html' %}
 </body>

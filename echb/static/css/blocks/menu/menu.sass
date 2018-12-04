@@ -1,0 +1,66 @@
+.menu
+    +modifier('mobile')
+        display: flex
+        flex-flow: ro nowrap
+        justify-content: space-between
+        position: absolute
+        width: 100%
+        top: 0
+        right: 0
+        padding: 50px 0
+        height: 100vh
+        background-color: rgba(255,255,255,0.9)
+
+    +element('links')
+        display: none
+
+
+
+        +modifier('mobile')
+            display: flex
+            flex-flow: column nowrap
+            margin-left: 20px
+
+        +desktop()
+            display: flex
+            flex-flow: row nowrap
+            margin-left: 98px
+
+    +element('mobile-link')
+        margin-right: 30px
+        color: #ffffff
+        +modifier('close')
+            color: $primary-black
+            margin-right: 5px
+        +desktop()
+            display: none
+             
+    +element('item')
+        display: inline-block
+        font-size: 1em
+        text-transform: uppercase
+        text-decoration: none
+        padding: 5px 10px
+        margin: 0 7px
+        color: #fff
+        +modifier('active')
+            border: 2px solid #fff
+            padding: 3px 8px
+            border-radius: 5px
+
+        +modifier('mobile')
+            border: none
+            color: $primary-black
+            margin: 5px 0
+
+
+        &:hover
+            border: 2px solid #fff
+            border-radius: 5px
+            padding: 3px 8px
+            transition-property: border-color
+            transition-duration: .4s,.4s
+            transition-timing-function: ease,ease-out
+            transition-delay: 0s,.4s
+        
+

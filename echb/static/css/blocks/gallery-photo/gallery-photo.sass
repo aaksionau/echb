@@ -1,0 +1,21 @@
+.gallery-photo 
+    +element('list')
+        display: flex
+        flex-flow: row wrap
+        margin-top: 30px
+
+    +element('item')
+        flex-basis: 160px
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2)
+        margin: 0 5px 5px 0
+        transition: transform .2s
+        &:hover
+            transform: scale(1.05)
+
+        +desktop()
+            flex-basis: 180px    
+
+    +element('image')
+        width: 160px
+        height: 101px
+        background-position: center

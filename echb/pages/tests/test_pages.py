@@ -59,11 +59,11 @@ class PagesTests(TestCase):
     def test_home_page_has_news_events_articles_galleries(self):
         response = self.client.get(reverse('home-page-unique'))
 
-        self.assertContains(response, 'newsitem_title',
-                            count=18)  # 6 total (exclude title)
-        self.assertContains(response, 'event_title', count=12)  # 6 total
-        self.assertContains(response, 'photo-content', count=4)  # 4 total
-        self.assertContains(response, 'article_title', count=12)  # 6 total
+        self.assertContains(response, 'class="news-item--home"',
+                            count=6)
+        self.assertContains(response, 'class="event"', count=6)
+        self.assertContains(response, 'class="gallery"', count=4)
+        self.assertContains(response, 'class="resource--home"', count=6)
 
     def test_home_page_contains_subscriber_form(self):
         response = self.client.get(reverse('home-page-unique'))

@@ -1,0 +1,70 @@
+.news-item
+    overflow: auto
+    +element('title') 
+        font-size: $article-title-size-in-list
+        margin-bottom: 7px
+        line-height: 1.3em
+        +roboto-styles()
+        +text-overflow(350px)
+        +desktop()
+            +text-overflow()
+
+
+    +element('link')
+        display: inline-block
+        +link()
+
+    +element('image')
+        float: left 
+        width: 170px 
+        height: 105px 
+        background-position: center 
+        margin-right: 15px 
+        border-radius: 5px 
+        border: 1px solid #999
+    +element('more')
+        +button()
+        font-size: .9em
+        padding: 0 7px
+        margin-top: 9px
+        padding: 0 7px
+        display: inline-block
+        color: $primary-black
+        background-color: #d6d3d2
+        white-space: nowrap
+        border: 1px solid $primary-black
+
+    +element('text')
+        font-size: 0.9em
+        margin: 0
+
+    +modifier('home')
+        flex-basis: 100%
+        +desktop()
+            flex-basis: 45%
+            margin-right: 2%
+
+    +element('aside-item')
+        margin: 20px 0
+
+    +element('aside-date')
+        background: lighten($primary-black, 20%)
+        color: #fff
+        padding: 2px
+        border-radius: 3px
+        font-size: 0.8em
+
+    +element('aside-title')
+        margin: 3px 0 7px
+        line-height: 1.4em
+
+
+    +element('aside-link')
+        +link()
+        +roboto-styles()
+
+    +element('aside-text')
+        font-size: 0.9em
+        line-height: 1.2em
+        margin: 3px 0
+    

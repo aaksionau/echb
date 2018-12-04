@@ -43,7 +43,7 @@ class HomePageView(View):
             context['success_subscriber'] = True
             return render(request, 'pages/subscription_thankyou.html')
         else:
-            context['errors'] = form.errors
+            context['errors'] = form.errors['email']
             return render(request, 'pages/home.html', context)
 
     def _get_context_data(self):

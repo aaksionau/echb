@@ -1,0 +1,45 @@
+=element($element) 
+    &__#{$element} 
+        @content
+
+=modifier($modifier) 
+    &--#{$modifier} 
+        @content
+
+=link($color:$primary-black, $border-color:$primary-black)
+    text-decoration: none
+    border-bottom: 1px solid $border-color
+    color: $color
+
+=reset-list()
+    list-style-type: none
+    padding: 0
+    margin: 0
+
+=button($hover-background: rgba(65, 98, 117, 0.7))
+    text-decoration: none
+    border-radius: 5px
+    padding: 5px 10px
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2)
+    border-style: initial
+    &:hover
+        background: $hover-background
+
+=text-overflow($width:500px)
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    max-width: $width
+
+=roboto-styles($font-weight: 300)
+    font-family: Roboto,sans-serif
+    font-weight: $font-weight
+
+=tablet()
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})
+    @content
+
+=desktop()
+  @media (min-width: #{$desktop-width})
+    @content
+

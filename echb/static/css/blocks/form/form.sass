@@ -1,0 +1,43 @@
+.form 
+    +element('text')
+        line-height: 1.3em
+        border: none
+        border-radius: 5px
+        padding: 5px 10px
+        width: 15em
+        
+        +modifier('footer')
+            background-color: lighten($secondary-color, 40%)
+            color: $secondary-color
+    +modifier('footer')
+        display: flex
+        flex-flow: row nowrap
+
+    +element('text')
+        border-radius: 5px
+        border: 1px solid $primary-black
+        margin: 5px 0
+        padding: 5px 5px
+        width: 96%
+        &:focus
+            outline: none
+
+    +element('helptext')
+        margin: 5px 0 10px 0
+        font-size: 0.9em
+
+
+    /*for automated forms */
+    input[type=text]
+        border-radius: 5px
+        border: 1px solid $primary-black
+        margin: 5px 0
+        padding: 5px 5px
+        width: 96%
+        &:focus
+            outline: none
+
+    .helptext
+        font-size: 0.9em
+
+

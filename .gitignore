@@ -9,4 +9,5 @@ settings.json
 */htmlcov
 **/flake-report
 Pipfile.lock
+package-lock.json
 /node_modules

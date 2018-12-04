@@ -1,0 +1,23 @@
+.breadcrumbs
+    display: flex
+    flex-flow: column nowrap 
+    +reset-list()
+    padding: 15px 0
+    
+    +desktop()
+        flex-flow: row nowrap 
+    +element('link')
+        +link()
+        text-transform: uppercase
+        font-size: 0.8em
+        letter-spacing: 1px
+        +roboto-styles(400)
+
+    +element('item')
+        &:not(:first-child)
+            margin-left: 5px
+
+        &:not(:last-child):after
+            content: '\003e '
+            color: #424242
+            font-size: .7em

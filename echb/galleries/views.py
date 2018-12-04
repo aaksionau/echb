@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from datetime import datetime, timedelta
 
 from .models import Gallery, Author, Tag, Image
+from newsevents.models import NewsItem
 
 
 class ExtraContext(object):
@@ -60,6 +61,7 @@ class GalleryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['latest_galleries'] = Gallery.objects.order_by('-date')[:6]
+        data['latest_galleries'] = Gallery.objects.order_by('-date')[:3]
+        data['latest_news'] = NewsItem.objects.all().order_by('-publication_date')[:3]
         data['images'] = Image.objects.filter(gallery_id=Gallery.objects.get(slug=self.kwargs['slug']).id)
         return data

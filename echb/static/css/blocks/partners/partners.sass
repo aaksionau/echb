@@ -1,0 +1,11 @@
+.partners
+    display: flex
+    flex-flow: row wrap
+    justify-content: space-around
+    align-content: center
+    +reset-list()
+
+    +element('list-item')
+        flex-basis: 100%
+        +desktop()
+            flex-basis: 20%

@@ -1,0 +1,18 @@
+{% load static %}
+
+<section class="home-section home-section--news">
+    <div class="container">
+        <header class="home-section__header">
+            <h2 class="home-section__title">Новости</h2>
+            <p class='home-section__description'><a class="home-section__link" href="#footer">Подписывайтесь</a> на наши
+            новости или читайте в вашем ридере через <a class="home-section__link" target="_blank" href="{% url 'news-feed' %}">RSS</a>.</p>
+        </header>
+        <section class="home-section__content--news">
+            {% for item in news %}
+                <article class="news-item--home">
+                    {% include 'newsevents/newsitem_summary.html' with item=item text_limit=140 %}
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+</section>

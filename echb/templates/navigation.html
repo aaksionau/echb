@@ -1,17 +1,8 @@
-<nav class='main-nav'>
-    <div class="links">
-
+<nav class='menu'>
+    <div class="menu__links">
         {% for link in menu_links %}
-            <a{% if active_page.slug == link.slug or active_page.parent.slug == link.slug %} class='active'{% endif  %} href="{% url 'page-detail' link.slug %}" title="{{link.title}}">{{link.title}}</a>
+            <a{% if active_page.slug == link.slug or active_page.parent.slug == link.slug %} class='menu__item menu__item--active' {% else %} class="menu__item" {% endif  %} href="{% url 'page-detail' link.slug %}" title="{{link.title}}">{{link.title}}</a>
         {% endfor %}
-
-        <div class='hot-links'>
-            <a href="{% url 'find-church' %}" title="Найдите церковь">
-                <i class="fas fa-church"></i></a>
-            <a href="{% url 'online' %}" title="Прямые трансляции">
-                <i class="fas fa-video"></i></a>
-        </div>
     </div>
-
-    <a href="" id="top-menu"> <i class="fas fa-bars fa-2x"></i></a>
+    <a href="" id="top-menu" class="menu__mobile-link js-menu__mobile"> <i class="menu__icon fas fa-bars fa-2x"></i></a>
 </nav>

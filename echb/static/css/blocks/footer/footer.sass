@@ -1,0 +1,45 @@
+$text-color: lighten($primary-color, 40%)
+
+.footer
+    background-color: $primary-color
+    color: $text-color
+    clear: both
+    
+    +element('sections')
+        display: flex
+        flex-flow: row wrap
+        margin-top: 40px
+        padding: 0 15px
+
+    +element('title')
+        text-transform: uppercase
+        font-size: 1em
+        +roboto-styles()
+
+    +element('menu-list')
+        +reset-list()
+        +roboto-styles()
+
+    +element('section')
+        padding: 10px 0
+        flex-basis: 80%
+        +tablet()
+            flex-basis: 51%
+        +desktop()
+            flex-basis: 20%
+            padding: 40px 0
+            &:last-child
+                flex-basis: 40%
+
+    +element('menu-item')
+        line-height: 1.8em
+        border-bottom: 1px dotted
+        width: 75%
+
+    +element('link')
+        color: $text-color
+        text-decoration: none
+    +element('copyright')
+        font-size: 0.8em
+        text-align: right
+        padding: 0 20px 10px 0

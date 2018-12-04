@@ -2,17 +2,17 @@
 {% block breadcrumbs %}
     {{ block.super }} 
     {% if active_page.slug != 'about-us' %}
-        <li><a href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
-        <li> <a href="{{ page.get_absolute_url }}" title="{{ page.title }}">{{ page.title }}</a></li>
+        <li class="breadcrumbs__item"><a class="breadcrumbs__link"  href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
+        <li class="breadcrumbs__item"> <a class="breadcrumbs__link"  href="{{ page.get_absolute_url }}" title="{{ page.title }}">{{ page.title }}</a></li>
     {% else %}
-        <li><a href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
+        <li class="breadcrumbs__item"><a  class="breadcrumbs__link" href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
     {% endif %}
 
 {% endblock %}
 
 {% block content %}
 <article>
-<h2>
+<h2 class="content__title">
     {{page.title}}
 </h2>
 
@@ -22,22 +22,26 @@
 {% endblock content %}
 
 {% block rightside %}
-    <section class="about-links">
-        <ul>
-        {% for page in right_menu_pages %}
-            {% if page.slug == 'churches-history' %}
-            <li><a href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
-                <ul class="submenu">
-                    {%for church_page in church_history_pages%}
-                    <li><a href="/{{church_page.slug}}/" title="{{church_page.title}}">{{church_page.title}}</a></li>
-                    {% endfor %}
-                </ul>
-            </li>
-            {%else%}
-                <li><a href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a></li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    </section>
+    <nav>
+        <ul class="aside__menu-list">
+            {% for page in right_menu_pages %}
+                {% if page.slug == 'churches-history' %}
+                    <li class="aside__menu-item"><a class="aside__menu-link" href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
+                        <ul class="aside__submenu">
+                            {%for church_page in church_history_pages%}
+                                <li class="aside__menu-item">
+                                    <a class="aside__menu-link" href="/{{church_page.slug}}/" title="{{church_page.title}}">{{church_page.title}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {%else%}
+                    <li class="aside__menu-item">
+                        <a class="aside__menu-link" href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
 {% endblock rightside %}
     

@@ -1,0 +1,31 @@
+.logo
+    display: flex
+    flex-flow: row nowrap
+    width: 380px
+
+    +element('img')
+        width: 6em
+        padding-right: 12px
+    
+    +element('link')
+        font-family: Roboto, sans-serif
+        font-size: 1.5em
+        color: #fff
+        text-decoration: none
+        +desktop()
+            font-size: 1.7em
+
+    +element('text')
+        margin-top: 15px
+        +desktop()
+            margin-top: 3px   
+    +element('description')
+        display: none
+        +tablet()
+            display: block
+            font-size: .9em
+            color: #fff            
+        +desktop()
+            display: block
+            font-size: .9em
+            color: #fff

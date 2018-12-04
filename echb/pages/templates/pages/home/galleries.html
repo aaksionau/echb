@@ -1,0 +1,20 @@
+{% load static %}
+
+<section class="home-section home-section--galleries">
+    <div class="container">
+        <header class="home-section__header">
+          <h2 class="home-section__title">Фотогалерея</h2>
+          <p class='home-section__description'>Прошедшие события на фото. Больше фотографий
+            <a class="home-section__link" href="{% url 'galleries' %}">здесь</a> </p>
+        </header>
+        <section class="home-section__content--galleries">
+            <ul class="gallery__list">
+                {% for gallery in photos %}
+                    <li class="gallery__list-item">
+                        {% include 'galleries/gallery_template.html' with gallery=gallery %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</section>

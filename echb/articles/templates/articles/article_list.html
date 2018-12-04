@@ -7,64 +7,65 @@
 {% endblock pagetitle %}  
 
 {% block breadcrumbs %}
-    {{ block.super }} <li> <a href="{% url active_page.slug %}" title="{{active_page.title}}">{{active_page.title}}</a></li>
+    {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{% url active_page.slug %}" title="{{active_page.title}}">{{active_page.title}}</a></li>
 {% endblock %}
 
 {% block content %}
-    <header>
-            <h2>Статьи</h2>
-            <p>{{active_page.description|safe}}</p>
-            <h3>{% if chosen_author %}
-                    Выбран автор: {{chosen_author.last_name}} {{chosen_author.first_name}}
-                {% endif %}
-                {% if chosen_category %}
-                    Выбрана категория: {{chosen_category.title}}
-                {% endif %}
-            </h3>
-          </header>
-          <div class="articles resources">
-            {% for article in article_list %}
-            <article>
-              <h3>
-                <a href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
-              </h3>
-              <div class="meta">
-                <time datetime="{{article.date|date:'Y-m-d'}}">{{article.date|date:'d F Y'}}</time>
-                <span>
-                  <a href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}} {{article.author.first_name}}</a>
-                </span> |
-                <span>
-                  <a href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
-                </span>
-              </div>
-              <div class="content">
-                <p>{{article.description|striptags|truncatechars:250|safe}}...</p>
-              </div>
-            </article>
-            {% endfor %}
-          </div>
+<header>
+    <h2 class="content__title">Статьи</h2>
+    <p class="content__text">{{active_page.description|safe}}</p>
+    <h3 class="resource__chosen-title">
+        {% if chosen_author %}
+            <span class="resource__cat-selected"> Выбран автор: {{chosen_author.last_name}} {{chosen_author.first_name}}</span>
+        {% endif %}
+        {% if chosen_category %}
+            <span class="resource__cat-selected"> Выбрана категория: {{chosen_category.title}}</span>
+        {% endif %}
+    </h3>
+</header>
+<section>
+  {% for article in article_list %}
+    <article class="resource">
+        <h3 class="resource__title">
+            <a class="resource__link" href='{{article.get_absolute_url}}' alt='{{article.title}}'>{{article.title}}</a>
+        </h3>
+        <ul class="meta-info">
+            <li class="meta-info__item"><time class="meta-info__text" datetime="{{article.date|date:'Y-m-d'}}">
+                    {{article.date|date:'d F Y'}}</time></li>
+            <li class="meta-info__item"><a class="meta-info__link" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
+                    {{article.author.first_name}}</a></li>
+            <li class="meta-info__item">
+                <a class="meta-info__link" href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
+            </li>
+        </ul>
+        <div class="resource__content">
+            {{article.description|striptags|truncatechars:300|safe}}
+        </div>
+    </article>
+  {% endfor %}
+</section>
 {% include "pagination.html" %}
 {% endblock content %}
 
 {% block rightside %}
+<h3>Фильтр по:</h3>
 <section class="filter">
-    <h3>Фильтр по:</h3>
-    <ul class="filter-links">
-        <li><a id="filter-category" href="">Категории</a></li>
-        <li><a id="filter-author" href="">Автору</a></li>
-    </ul>
-    <ul id="category" {% if chosen_category %} style="display:block;"{% else %} style="display:none;"{% endif %}>
+    <h4 class="aside__subtitle">Категории</h4>
+    <ul class="aside__menu-list">
         {% for category in categories %}
-        <li><a href="{% url 'category-filter' category.slug%}" alt="{{category.title}}">{{category.title}}</a></li>
+            <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'category-filter' category.slug%}" alt="{{category.title}}">{{category.title}}</a></li>
         {% endfor categories %}
     </ul>
-
-    <ul id="author" {% if chosen_author %} style="display:block;" {% else %} style="display:none;"{% endif %}>
+</section>
+<section class="filter">
+    <h4 class="aside__subtitle">Автору</h4>
+    <ul class="aside__menu-list">
         {% for author in authors %}
-        <li><a href="{% url 'author-filter' author.id %}" alt="{{author.last_name}} {{author.first_name}}">{{author.last_name}} {{author.first_name}}</a></li>
+            <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'author-filter' author.id %}" alt="{{author.last_name}} {{author.first_name}}">{{author.last_name}} {{author.first_name}}</a></li>
         {% endfor %}
     </ul>
 </section>
+
 {% endblock rightside %}
 
 

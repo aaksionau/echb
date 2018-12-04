@@ -1,0 +1,16 @@
+<section class="home-section home-section--resources">
+    <div class="container">
+        <header class="home-section__header">
+          <h2 class="home-section__title">Ресурсы</h2>
+          <p class='home-section__description'>Читайте статьи, слушайте передачи на нашем
+            сайте и сайтах наших партнеров.</p>
+        </header>
+        <div class="home-section__content--resources">
+            {% for article in articles %}
+                <article class="resource--home">
+                    {% include 'articles/article_summary.html' with article=article %}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>

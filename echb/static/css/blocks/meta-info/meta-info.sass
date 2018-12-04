@@ -1,0 +1,19 @@
+.meta-info
+    display: flex
+    font-size: .9em
+    +reset-list()
+    +element('item')
+        padding: 0 5px 0 0
+        block-size: 25px
+        +text-overflow(250px)
+        +desktop()
+            +text-overflow()
+        &:after
+            content: '|'
+            margin-left: 5px
+        &:last-child:after
+            content: ''
+    +element('link')
+        +link(#416275)
+    
+

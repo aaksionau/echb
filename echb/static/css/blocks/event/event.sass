@@ -1,0 +1,18 @@
+.event
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+
+    +element('date')
+        font-size: 1.4em
+
+    +element('content')
+        margin-left: 60px
+
+    +element('link')
+        +link()
+
+    +element('title')
+        margin-bottom: 0
+        font-size: $article-title-size-in-list
+        +roboto-styles()

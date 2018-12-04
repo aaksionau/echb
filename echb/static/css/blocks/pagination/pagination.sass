@@ -1,0 +1,12 @@
+.pagination 
+    display: flex
+    flex-flow: row nowrap
+    justify-content: space-between
+    margin-top: 50px
+    align-items: center
+    +element('link')
+    +element('item')
+    +element('current-page')
+        +roboto-styles(400)
+    +element('icon')
+        color: $primary-black

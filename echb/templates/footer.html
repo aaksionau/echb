@@ -1,61 +1,63 @@
-<footer id="footer">
-    <div class="container padding-30">
-        <div class="contacts">
-            <h4>Контакты</h4>
+<footer class="footer">
+    <div class="container footer__sections">
+        <section class="footer__section">
+            <h4 class="footer__title">Контакты</h4>
             {% include 'address.html' %}
-        </div>
-        <div class="info">
-            <h4>Информация о нас</h4>
-            <ul>
-                <li>
-                    <a href="{% url 'page-detail' 'faith' %}">Вероучение</a>
+        </section>
+        <section class="footer__section">
+            <h4 class="footer__title">Информация о нас</h4>
+            <ul class="footer__menu-list">
+                <li class="footer__menu-item">
+                    <a class="footer__link" href="{% url 'page-detail' 'faith' %}">Вероучение</a>
                 </li>
-                <li>
-                    <a href="{% url 'news' %}">Новости</a>
+                <li class="footer__menu-item">
+                    <a class="footer__link" href="{% url 'news' %}">Новости</a>
                 </li>
-                <li>
-                    <a href="{% url 'find-church' %}">Церкви</a>
+                <li class="footer__menu-item">
+                    <a class="footer__link" href="{% url 'find-church' %}">Церкви</a>
                 </li>
-                <li>
-                    <a href="{% url 'page-detail' 'churches-history' %}">История
+                <li class="footer__menu-item">
+                    <a class="footer__link" href="{% url 'page-detail' 'churches-history' %}">История
                         церквей</a>
                 </li>
-                <li>
-                    <a href="{% url 'contacts' %}">Контакты</a>
+                <li class="footer__menu-item">
+                    <a class="footer__link" href="{% url 'contacts' %}">Контакты</a>
                 </li>
             </ul>
-        </div>
-        <div class="info">
-            <h4>Социальные сети</h4>
-            <ul>
-                <li>
-                    <a target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">Facebook</a>
+        </section>
+        <section class="footer__section">
+            <h4 class="footer__title">Социальные сети</h4>
+            <ul class="footer__menu-list">
+                <li class="footer__menu-item">
+                    <a class="footer__link" target="_blank" href="https://www.facebook.com/preobrazhenie.kharkov">Facebook</a>
                 </li>
-                <li>
-                    <a target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">Youtube</a>
+                <li class="footer__menu-item">
+                    <a class="footer__link" target="_blank" href="https://www.youtube.com/channel/UC8HTjvtsJ2KNFovmDi58Zrg">Youtube</a>
                 </li>
             </ul>
-        </div>
-        <div class="subscribe">
-            <h4>Подписывайтесь на наши письма</h4>
-            <p>Вы будете получать письма с новостями, будущими событиями и
-                обновлениями сайта</p>
-            {% if success_subscriber %}
-            <p>Мы отправили вам письмо, где вам нужно подтвердить подписку.
-                Благодарим!</p>
-            {% else %}
-            {{ errors }}
-            <form action="{% url 'home' %}" method="POST" id="subscriberForm">
+        </section>
+        <section class="footer__section">
+            <h4 class="footer__title">Подписывайтесь на наши письма</h4>
+            <div class="footer__description">
+                <p>Вы будете получать письма с новостями, будущими событиями и
+                    обновлениями сайта</p>
+                {% if success_subscriber %}
+                <p>Мы отправили вам письмо, где вам нужно подтвердить подписку.
+                    Благодарим!</p>
+                {% else %}
+                <div class="errors">{{ errors.as_text }}</div>
+            </div>
+            <form action="{% url 'home' %}" method="POST" id="subscriberForm" class="form form--footer">
                 {% csrf_token %}
-                <input type="email" name="email" id="email">
-                <button class="g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="AddSubscriber">
+                <input type="email" name="email" id="email" class="form__text form__text--footer" placeholder="Ваш email">
+                <button class="button button--footer g-recaptcha" data-sitekey="6LfamGAUAAAAALcdPZEMavJETllAXLhKiRvs-Lvm" data-callback="AddSubscriber">
                     Подписаться
                 </button>
             </form>
             {% endif %}
-        </div>
-        <div class="rights">
+        </section>
+    </div>
+    <div class="container footer__copyright">
             <p>© Все права принадлежат Харьковскому ООЦ ЕХБ 2011-{% now 'Y' %}</p>
-        </div>
     </div>
 </footer>

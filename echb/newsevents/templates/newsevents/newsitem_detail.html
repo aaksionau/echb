@@ -7,24 +7,26 @@
     
 
 {% block breadcrumbs %}
-    {{ block.super }} <li> <a href="{{ newsitem.get_absolute_url }}">{{ newsitem.title }}</a></li>
+    {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{ newsitem.get_absolute_url }}">{{ newsitem.title }}</a></li>
 {% endblock %}
 
 {% block content %}
 <article>
-<h2>
+<h2 class="content__title">
     {{newsitem.title}}
 </h2>
 
-<div class="meta">
-    <span>{{newsitem.publication_date|date:'d F Y'}} </span> 
-    <span> {{newsitem.author.last_name}} {{newsitem.author.first_name}}</span>
-</div>
-<div class="article-content">
+<ul class="meta-info">
+    <li class="meta-info__item">
+        <time class="meta-info__text" datetime="{{newsitem.publication_date|date:'Y-m-d'}}">
+            {{newsitem.publication_date|date:'d F Y'}}</time></li>
+    <li class="meta-info__item">{{newsitem.author.last_name}} {{newsitem.author.first_name}}</li>
+</ul>
+<div class="content__text">
         {{newsitem.description|safe}}
 </div>
 </article>
-<section class="facebook">
+<section class="content__facebook">
     <div class="fb-share-button" data-href="http://{{domain}}{% url 'news-detail' newsitem.id %}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
     <div class="fb-comments" data-href="http://{{domain}}{% url 'news-detail' newsitem.id %}" data-numposts="5" width="100%"></div>
 </section>
@@ -32,18 +34,19 @@
 {% endblock content %} 
 
 {% block rightside %}
-<section class="last_news">
 <h3>Последние новости</h3>
-<ul>
+<ul class="aside__menu-list" >
     {% for item in latest_news %}
-    <li>
-        <a href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a> <span class="date"> {{item.publication_date|date:'d.m.Y'}}</span>
+    <li class="news-item__aside-item">
+        <div class="news-item__aside-header">
+            <span class="news-item__aside-date">{{item.publication_date|date:'d.m.Y'}}</span>
+            <h4 class="news-item__aside-title"><a class="news-item__aside-link" href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a></h4></div>
+        <p class="news-item__aside-text">{{item.description|striptags|truncatechars:100|safe}}</p>
     </li>
     {% empty %}
     <p>Нет новостей</p>
     {% endfor %}
 </ul>
-</section>
 {% endblock rightside %}
 
 {% block jsfooter %}

@@ -1,0 +1,71 @@
+.resource
+    margin: 30px 0
+    +modifier('home')
+        margin-bottom: 15px
+        +desktop()
+            flex-basis: 32%
+            padding-right: 1%
+
+    +element('title')
+        font-size: $article-title-size-in-list
+        margin: 7px 0
+        +modifier('home')
+            +text-overflow(280px)
+
+    +element('link')
+        +link($secondary-color, $secondary-color)
+        display: inline-block
+
+    +element('category')
+        color: lighten($secondary-color, 10%)
+        border-radius: 3px
+        font-size: 0.8em
+        padding: 1px 5px 4px 2px
+        text-transform: lowercase
+        border: 1px solid lighten($secondary-color, 10%)
+        text-decoration: none
+        &:hover
+            background: lighten($secondary-color, 10%)
+            color: #fff
+        &:before
+            content: '○'
+            color: lighten($secondary-color, 10%)
+            display: inline-block
+            padding: 0 8px 0 3px
+            font-stretch: expanded
+    
+    +element('content')
+        font-size: 0.9em
+        line-height: 1.4em
+
+    +element('aside-list')
+        +reset-list()
+    
+    +element('aside-item')
+        margin: 25px 0
+
+    +element('aside-name')
+        font-size: 0.9em
+        color: #416275
+    
+    +element('aside-title')
+        margin: 3px 0 7px
+        line-height: 1.4em
+    
+    +element('aside-link')
+        +roboto-styles(400)
+        +link()
+
+    +element('aside-text')
+        font-size: .9em
+        line-height: 1.2em
+        margin: 3px 0
+
+    +element('chosen-title')
+        font-size: 1em
+        color: #fff
+        background-color: $primary-black
+        display: inline
+
+    +element('cat-selected')
+        padding: 5px

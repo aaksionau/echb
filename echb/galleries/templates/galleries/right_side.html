@@ -1,0 +1,25 @@
+<h3>Фильтр по: </h3>
+<div class="filter">
+    <h4>Дате</h4>
+    <ul class="aside__menu-list">
+    {% for item in archive_galleries %}
+        <li class="aside__menu-item"> <a class="aside__menu-link" href="{% url 'galleries-archive' item.year|date:'Y' %}" alt="">{{item.year|date:"Y"}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="filter">
+    <h4>Автору</h4>
+    <ul class="aside__menu-list">
+    {% for author in authors %}
+        <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'galleries-filter-author' author.pk %}" alt="{{author.last_name}} {{author.first_name}}">{{author.last_name}} {{author.first_name}}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="filter">
+    <h4>Тэгу</h4>
+    <ul class="aside__menu-list">
+    {% for tag in tags %}
+        <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'galleries-filter-tag' tag.pk  %}" alt="{{tag.name}}">{{tag.name}}</a></li>
+    {% endfor %}
+    </ul>
+</div>

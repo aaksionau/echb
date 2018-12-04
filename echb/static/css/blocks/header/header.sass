@@ -1,0 +1,54 @@
+.header 
+    font-family: Roboto,sans-serif
+    border-bottom: 10px solid #8c8583
+    background-image: url(/static/img/echb_bkgrnd.jpg)
+    background-repeat: no-repeat
+    background-color: $secondary-color
+    background-blend-mode: exclusion
+
+    +element('main')
+        display: flex
+        flex-flow: row nowrap
+        justify-content: start
+        align-items: center
+        padding: 20px 0
+        +tablet()
+            justify-content: space-between
+    
+    +element('description')
+        margin: 100px 0 50px
+        +roboto-styles()
+        color: #fff
+
+    +element('title')
+        font-size: 2em
+
+    +element('social')
+        color: lighten($secondary-color, 40%)
+        margin-right: 15px
+        &:hover
+            color: $secondary-color
+    
+    +element('buttons')
+        margin-top: 30px
+    
+    +element('hot-links')
+        display: none
+        +desktop()
+            display: inline-block
+            border-radius: 5px
+            color: #757373
+            font-size: .8em
+            vertical-align: middle
+            line-height: 1.5em
+            text-decoration: none
+            border: 1px solid #fff
+            padding: 2px 5px
+            margin-right: 5px
+            background-color: #fff 
+        
+    +element('links')
+        margin-left: 20px
+        display: none
+        +desktop()
+            display: block
