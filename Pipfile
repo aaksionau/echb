@@ -23,6 +23,7 @@ python-decouple = "*"
 "psycopg2" = "*"
 "fabric3" = "*"
 requests = "*"
+django-htmlmin = "*"
 
 [requires]
 python_version = "3.6"
