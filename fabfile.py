@@ -43,14 +43,10 @@ def bem(css_class):
 @task
 def deploy():
     """Runing tests
-    Commit changes
-    Push to the git server
     Deploy to the server
     """
 
     test_results = test()
-    commit()
-    push()
     if test_results:
         deploy_to_server()
 
