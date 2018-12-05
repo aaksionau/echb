@@ -23,4 +23,5 @@ urlpatterns = [
     path('<slug:slug>/', views.PageDetailView.as_view(), name='page-detail'),
     path('send-letter', views.SendLetterToSubscribers.as_view(), name='send_letter'),
     path('letter', views.Letter.as_view(), name='letter'),
+    path('robots.txt', TemplateView.as_view(template_name='robots.txt')),
 ]
