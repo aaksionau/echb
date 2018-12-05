@@ -18,7 +18,7 @@ from .models import PrayerRequest
 class SignUpFormView(FormView):
     template_name = 'accounts/signup.html'
     form_class = SignUpForm
-    success_url = '/online/'
+    success_url = '/about-us/online/'
 
     def form_valid(self, form):
         user = form.save()
