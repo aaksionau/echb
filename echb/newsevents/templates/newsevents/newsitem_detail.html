@@ -4,6 +4,12 @@
     {{newsitem.title}} - 
     {{block.super}}
 {% endblock pagetitle %}
+
+
+{% block seo %}
+    {% include 'newsevents/open_graph.html' with item=newsitem %}
+{% endblock seo %}
+    
     
 
 {% block breadcrumbs %}
