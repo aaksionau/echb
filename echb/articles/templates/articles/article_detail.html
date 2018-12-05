@@ -5,6 +5,12 @@
     {{block.super}}
 {% endblock pagetitle %}
 
+
+{% block seo %}
+        {% include 'articles/open_graph.html' with item=article %}
+{% endblock seo %}
+    
+
 {% block breadcrumbs %}
     {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
 {% endblock %}
