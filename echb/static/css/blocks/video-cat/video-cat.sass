@@ -5,6 +5,7 @@
     border-radius: 5px
     border: 1px solid $primary-black
 
+
     +element('list')
         display: flex
         flex-flow: row
@@ -12,3 +13,20 @@
 
     +element('title')
         text-align: center
+
+    +element('video-link')
+        +link()
+    
+    +element('video-date')
+        background-color: $primary-black
+        color: #fff
+        font-size: 0.9em
+        padding: 2px 3px
+        border-radius: 3px
+        margin-right: 10px
+
+    +element('video-title')
+        +roboto-styles()
+        padding: 0 10px
+        color: $primary-black
+        display: flex

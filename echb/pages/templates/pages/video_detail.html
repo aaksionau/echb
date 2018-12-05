@@ -65,7 +65,6 @@
 
 {% block rightside %}
 <section class="video-categories">
-    <h3>Категории</h3>
     <ul class="aside__menu-list">
         {% for video in categories %}
         <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'videos-by-filter' video.category.slug %}" title="{{video.category.title}}">{{video.category.title}}</a></li>

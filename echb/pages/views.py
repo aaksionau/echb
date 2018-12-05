@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render, render_to_response
 from django.template.loader import get_template
 from django.utils import timezone
 from django.views.generic import DetailView, FormView, ListView
+from django.views.generic.edit import ModelFormMixin
 from django.views.generic.base import TemplateView, View
 
 from accounts.forms import PrayerRequestForm
@@ -19,7 +20,7 @@ from galleries.models import Gallery
 from newsevents.models import Event, NewsItem
 
 from .forms import FeedbackForm, SubscriberForm
-from .models import MailingLog, Page, Subscriber, Video
+from .models import MailingLog, Page, Subscriber, VideoCategory, Video
 
 logger = logging.getLogger('ECHB')
 
@@ -74,49 +75,49 @@ class PageDetailView(DetailView):
         return context
 
 
-class VideoDetailView(View):
-    def get_context_data(self):
-        time_delta = datetime.today() - timedelta(days=7)
-        context = {
-            'video': Video.objects
-            .filter(date__gte=time_delta)
-            .filter(category__slug=self.kwargs['slug'])
-            .select_related('category').order_by('-date').first(),
-            'categories': Video.objects.filter(date__gte=time_delta).select_related('category')
-        }
-        return context
+class VideoDetailView(ModelFormMixin, DetailView):
+    model = Video
+    form_class = PrayerRequestForm
+    success_url = '/about-us/online/thankyou/'
 
-    def get(self, request, slug):
-        context = self.get_context_data()
-        context['form'] = PrayerRequestForm()
-        return render(request, 'pages/video_detail.html', context)
+    def form_valid(self, form):
+        prayer_request = form.save(commit=False)
+        prayer_request.user = self.request.user
+        prayer_request.save()
+        return super().form_valid(form)
 
-    def post(self, request, slug):
-        form = PrayerRequestForm(request.POST)
-        context = self.get_context_data()
-
-        if not form.prayer_request_count_allowed(request.user):
-            messages.info(request, 'Превышено количество сообщений в час. (Две записки в час).')
-            return render(request, 'pages/video_detail.html', context)
-
-        if form.is_valid():
-            prayer_request = form.save(commit=False)
-            prayer_request.user = request.user
-            prayer_request.save()
-            return redirect('video-detail-thankyou', slug=slug)
-        else:
-            messages.info(request, 'Ваше сообщение слишком длинное. Максимум 250 символов.')
-            return render(request, 'pages/video_detail.html', context)
+    def form_invalid(self, form):
+        messages.info(self.request, 'Ваше сообщение слишком длинное. Максимум 250 символов.')
+        return super().form_invalid(form)
 
 
 class CurrentVideosListView(ListView):
     template_name = 'pages/current_videos.html'
-    model = Video
+    model = VideoCategory
+
+    def get_video_categories(self):
+        time_delta = datetime.today() - timedelta(days=7)
+        return (Video
+                .objects
+                .filter(date__gte=time_delta)
+                .select_related('category')
+                .values_list('category__slug'))
 
     def get_queryset(self):
-        time_delta = datetime.today() - timedelta(days=7)
-        queryset = Video.objects.filter(date__gte=time_delta).select_related('category')
+        queryset = VideoCategory.objects.filter(slug__in=self.get_video_categories())
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(CurrentVideosListView, self).get_context_data(**kwargs)
+
+        time_delta = datetime.today() - timedelta(days=7)
+        videos = {}
+        for category in self.get_video_categories():
+            category_slug = category[0]
+            videos[category_slug] = Video.objects.filter(category__slug=category_slug).filter(date__gte=time_delta)
+
+        context['video_list'] = videos
+        return context
 
 
 class VideoListView(ListView):

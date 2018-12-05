@@ -34,9 +34,9 @@ class SignUpForm(UserCreationForm):
 
 class PrayerRequestForm(ModelForm):
 
-    def prayer_request_count_allowed(self, user):
+    def clean_user(self):
         time_delta = datetime.today() - timedelta(hours=1)
-        requests_count = PrayerRequest.objects.filter(created__gte=time_delta, user_id=user.id).count()
+        requests_count = PrayerRequest.objects.filter(created__gte=time_delta, user_id=self.request.user.id).count()
         return True if requests_count < 2 else False
 
     class Meta:
