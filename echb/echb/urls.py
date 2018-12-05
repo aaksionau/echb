@@ -1,8 +1,19 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from django.contrib.sitemaps.views import sitemap
 
 from django.conf import settings
+
+from pages.sitemap import PagesSitemap
+from newsevents.sitemap import NewsSitemap
+from articles.sitemap import ArticleSitemap
+
+sitemaps = {
+    'pages': PagesSitemap,
+    'news': NewsSitemap,
+    'articles': ArticleSitemap
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,9 +21,10 @@ urlpatterns = [
     path('news/', include('newsevents.urls')),
     path('articles/', include('articles.urls')),
     path('accounts/', include('accounts.urls')),
-    path('galleries/', include('galleries.urls')),
-    path('find-church/', include('churches.urls')),
+    path('about-us/galleries/', include('galleries.urls')),
+    path('about-us/find-church/', include('churches.urls')),
     path('', include('pages.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
 
 if settings.DEBUG:

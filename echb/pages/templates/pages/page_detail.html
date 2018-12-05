@@ -26,18 +26,18 @@
         <ul class="aside__menu-list">
             {% for page in right_menu_pages %}
                 {% if page.slug == 'churches-history' %}
-                    <li class="aside__menu-item"><a class="aside__menu-link" href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
+                    <li class="aside__menu-item"><a class="aside__menu-link" href="{% url 'about-us-page' page.slug %}" title="{{page.title}}">{{page.title}}</a>
                         <ul class="aside__submenu">
                             {%for church_page in church_history_pages%}
                                 <li class="aside__menu-item">
-                                    <a class="aside__menu-link" href="/{{church_page.slug}}/" title="{{church_page.title}}">{{church_page.title}}</a>
+                                    <a class="aside__menu-link" href="{% url 'churches-history-page' church_page.slug %}" title="{{church_page.title}}">{{church_page.title}}</a>
                                 </li>
                             {% endfor %}
                         </ul>
                     </li>
                 {%else%}
                     <li class="aside__menu-item">
-                        <a class="aside__menu-link" href="/{{page.slug}}/" title="{{page.title}}">{{page.title}}</a>
+                        <a class="aside__menu-link" href="{% url 'about-us-page' page.slug %}" title="{{page.title}}">{{page.title}}</a>
                     </li>
                 {% endif %}
             {% endfor %}
