@@ -1,0 +1,8 @@
+{% load static %}
+
+<meta property="og:title" content="{{item.title}}" />
+<meta property="og:type" content="article" />
+<meta property="og:article:author" content="{{item.author.last_name}} {{item.author.first_name}}" />
+<meta property="article:published_time" content="{{item.publication_date|date:'Y m d h:m'}}" />
+<meta property="og:url" content="{{item.get_absolute_url}}" />
+<meta property="og:image" content="{% static 'media/' %}{{item.main_image}}" />
