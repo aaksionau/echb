@@ -134,6 +134,7 @@ CACHE_DURATION = {
 SUMMERNOTE_CONFIG = {
     'attachment_filesize_limit': 1024*500
 }
+EXCLUDE_FROM_MINIFYING = ('summernote/upload_attachment/',)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
