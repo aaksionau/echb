@@ -10,7 +10,7 @@
             {% for date in event_list %}
                 <article class="event">
                     <section class="content__column-1-4 content__align-right">
-                        <time class="event__date" datetime="{{date.grouper|date:'Y-m-d'}}">{{date.grouper}}</time>
+                        <time class="event__date" datetime="{{date.grouper|date:'Y-m-d'}}">{{date.grouper|date:'d E Y'}}</time>
                     </section>
                     <section class="content__column-3-4 event__list">
                         {% for event in date.list %}
@@ -21,7 +21,7 @@
                                 {% if event.date_end %}
                                     <section class="event__dates">
                                         <time datetime="{{event.date|date:'Y-m-d'}}">{{event.date|date:'d'}}</time>-
-                                        <time datetime="{{event.date_end|date:'Y-m-d'}}">{{event.date_end}}</time>
+                                        <time datetime="{{event.date_end|date:'Y-m-d'}}">{{event.date_end|date:'d E Y'}}</time>
                                     </section>
                                 {% endif %}
                                 {{event.short_description|safe}}
