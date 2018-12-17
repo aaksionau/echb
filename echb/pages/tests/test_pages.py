@@ -61,7 +61,7 @@ class PagesTests(TestCase):
 
         self.assertContains(response, 'class="news-item--home"',
                             count=6)
-        self.assertContains(response, 'class="event"', count=6)
+        self.assertContains(response, 'class="event__title"', count=6)
         self.assertContains(response, 'class="gallery"', count=4)
         self.assertContains(response, 'class="resource--home"', count=6)
 
