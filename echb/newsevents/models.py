@@ -45,6 +45,7 @@ class NewsItem(Audit):
 class Event(Audit):
     title = models.CharField(max_length=150)
     date = models.DateField()
+    date_end = models.DateField(null=True, blank=True)
     short_description = models.TextField()
     description = models.TextField(null=True, blank=True)
 

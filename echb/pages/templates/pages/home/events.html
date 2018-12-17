@@ -6,15 +6,27 @@
             Украине.</p>
         </header>
         <section class="home-section__content--events">
-            {% for item in events %}
+            {% regroup events by date as event_list %}
+            {% for date in event_list %}
                 <article class="event">
-                    <time class="event__date" datetime="{{item.date|date:'Y-m-d'}}">
-                      {{item.date|date:'d F Y'}}</time>
-                    <section class="event__content">
-                      <h3 class="event__title">
-                        <a class="event__link" href='{{item.get_absolute_url}}' title='{{item.title}}'>{{item.title}}</a>
-                      </h3>
-                      {{item.short_description|safe}}
+                    <section class="content__column-1-4">
+                        <time class="event__date" datetime="{{date.grouper|date:'Y-m-d'}}">{{date.grouper}}</time>
+                    </section>
+                    <section class="content__column-3-4 event__list">
+                        {% for event in date.list %}
+                            <section class="event__content">
+                                <h3 class="event__title">
+                                    <a class="event__link" href='{{event.get_absolute_url}}' title='{{event.title}}'>{{event.title}}</a>
+                                </h3>
+                                {% if event.date_end %}
+                                    <section class="event__dates">
+                                        <time datetime="{{event.date|date:'Y-m-d'}}">{{event.date|date:'d'}}</time>-
+                                        <time datetime="{{event.date_end|date:'Y-m-d'}}">{{event.date_end}}</time>
+                                    </section>
+                                {% endif %}
+                                {{event.short_description|safe}}
+                            </section>
+                        {% endfor %}
                     </section>
                 </article>
             {% endfor %}

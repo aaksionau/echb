@@ -91,6 +91,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+DATE_FORMAT = 'd E Y'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 

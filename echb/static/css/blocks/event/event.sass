@@ -1,19 +1,35 @@
 .event
     display: flex
     flex-flow: row nowrap
-    align-items: center
 
     +element('date')
         font-size: 1.4em
         min-width: 200px
 
+    +element('dates')
+        margin-top: 5px
+        background-color: lighten($primary-black, 20%)
+        color: #fff
+        padding: 2px 5px
+        font-size: 0.9em
+        border-radius: 3px
+        display: inline-block
+
+    p
+        margin: 9px 0
+
     +element('content')
-        margin-left: 60px
+        margin-bottom: 10px
 
     +element('link')
         +link()
 
+    +element('list')
+        display: flex
+        flex-flow: column
+        margin-bottom: 20px
+
     +element('title')
-        margin-bottom: 0
+        margin: 0
         font-size: $article-title-size-in-list
         +roboto-styles()
