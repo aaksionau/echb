@@ -20,8 +20,7 @@
                                 </h3>
                                 {% if event.date_end %}
                                     <section class="event__dates">
-                                        <time datetime="{{event.date|date:'Y-m-d'}}">{{event.date|date:'d'}}</time>-
-                                        <time datetime="{{event.date_end|date:'Y-m-d'}}">{{event.date_end|date:'d E Y'}}</time>
+                                        <time datetime="{{event.date|date:'Y-m-d'}}">{{event.date|date:'d'}}</time>-<time datetime="{{event.date_end|date:'Y-m-d'}}">{{event.date_end|date:'d E Y'}}</time>
                                     </section>
                                 {% endif %}
                                 {{event.short_description|safe}}
