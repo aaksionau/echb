@@ -7,19 +7,21 @@
     
 
 {% block breadcrumbs %}
-    {{ block.super }} <li> <a href="{{ event.get_absolute_url }}">{{ event.title }}</a></li>
+    {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{ event.get_absolute_url }}">{{ event.title }}</a></li>
 {% endblock %}
 
 {% block content %}
 <article>
-<h2>
+<h2 class="content__title">
     {{event.title}}
 </h2>
 
-<div class="meta">
-    <span>{{event.date|date:'d F Y'}} </span> 
-</div>
-<div class="article-content">
+<ul class="meta-info">
+    <li class="meta-info__item">
+        <time class="meta-info__text" datetime="{{event.date|date:'Y-m-d'}}">
+            {{event.date|date:'d E Y'}}</time></li>
+</ul>
+<div class="content__text">
         {{event.description|safe}}
 </div>
 
