@@ -52,6 +52,11 @@ def deploy():
 
 
 @task
+def testing():
+    test()
+
+
+@task
 def cmt():
     """Commits and push changes to the git server after running tests
     """

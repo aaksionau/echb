@@ -248,7 +248,6 @@ def check_captcha(request):
                              data={'secret': '6LfamGAUAAAAAEnS0-AF5p_EVmAFriMZqkkll-HM', 'response': captcha})
 
     debug_mode = bool(os.environ.get("DEBUG", False))
-
     return debug_mode if debug_mode else response.json()['success']
 
 
