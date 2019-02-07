@@ -6,8 +6,8 @@
 <ul class="meta-info">
     <li class="meta-info__item"><time class="meta-info__text" datetime="{{article.date|date:'Y-m-d'}}">
             {{article.date|date:'d E Y'}}</time></li>
-    <li class="meta-info__item"><a class="meta-info__link" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name}}
-            {{article.author.first_name}}</a></li>
+    <li class="meta-info__item"><a class="meta-info__link" href="{% url 'author-filter' article.author.id %}" alt="{{article.author.last_name}} {{article.author.first_name}}">{{article.author.last_name|truncatechars:20}}
+            {{article.author.first_name|truncatechars:20}}</a></li>
 </ul>
 <div class="resource__content">
     {{article.description|striptags|truncatechars:100|safe}}
