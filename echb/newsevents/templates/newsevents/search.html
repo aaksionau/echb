@@ -1,0 +1,62 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block breadcrumbs %} 
+{{ block.super }}
+<li class="breadcrumbs__item">
+    <a class="breadcrumbs__link" href="{% url 'news' %}" title='Новости'>Новости</a>
+</li>
+{% endblock breadcrumbs %} 
+
+{% block content %}
+<header>
+    <h2 class="content__title">Результаты поиска</h2>
+    <p class='content__description'>Найдено {{page_obj.paginator.count}} записей</p>
+</header>
+<div class="articles">
+    {% for item in results %}
+    <article class="news-item">
+        {% include 'newsevents/newsitem_summary.html' with item=item text_limit=300 %}
+    </article>
+    {% empty %}
+        Нет записей
+    {% endfor %}
+</div>
+{% if is_paginated %}
+<div class="pagination">
+      <div class='pagination__item'>
+        {% if page_obj.has_previous %}
+            <a class="pagination__link" href="{{ request.path }}?query={{query}}&page={{ page_obj.previous_page_number }}">
+              <i class="pagination__icon far fa-arrow-alt-circle-left fa-2x"></i>
+            </a>
+        {% endif %}
+      </div>
+      <div class="pagination__item">
+          <span class="pagination__current-page">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+          </span>
+      </div>
+      <div class="pagination__item">
+          {% if page_obj.has_next %}
+              <a class="pagination__link" href="{{ request.path }}?query={{query}}&page={{ page_obj.next_page_number }}">
+                <i class="pagination__icon far fa-arrow-alt-circle-right fa-2x"></i>
+              </a>
+          {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock content %} 
+{% block rightside %}
+    <section class="archive">
+        <h3>Архив</h3>
+        <ul class="aside__menu-list">
+            {% for item in archive_news %}
+            <li class="aside__menu-item">
+                <a class="aside__menu-link" href="{% url 'archive-news' item.month|date:'Y' item.month|date:'m' %}" alt="">{{item.month|date:"F Y"}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a target="_blank" href="{% url 'news-feed' %}">
+            <img width='32' src="{% static 'img/rss.png' %}" alt="">
+        </a>
+    </section>
+{% endblock rightside %}

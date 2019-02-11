@@ -7,4 +7,5 @@ urlpatterns = [
     path('archive/<int:year>/<int:month>/', views.NewsListView.as_view(), name='archive-news'),
     path('latest/feed/', views.LatestEntriesFeed(), name='news-feed'),
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event-detail'),
+    path('search/', views.SearchListView.as_view(), name='search'),
 ]

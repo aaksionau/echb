@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta
 
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
 from django.contrib.syndication.views import Feed
+from django.contrib.postgres.search import SearchVector
 from django.urls import reverse
 from django.db.models.functions import TruncMonth
 from django.contrib.sites.shortcuts import get_current_site
 
 from .models import NewsItem, Event
+from .forms import SearchForm
 
 
 class NewsListView(ListView):
@@ -66,3 +69,23 @@ class LatestEntriesFeed(Feed):
 
 class EventDetailView(DetailView):
     model = Event
+
+
+class SearchListView(FormMixin, ListView):
+    model = NewsItem
+    form_class = SearchForm
+    template_name = 'newsevents/search.html'
+    context_object_name = 'results'
+    paginate_by = 10
+
+    def get_queryset(self):
+        if 'query' in self.request.GET:
+            query = self.request.GET['query']
+            return NewsItem.objects.annotate(search=SearchVector('title', 'description')).filter(search=query)
+        else:
+            return NewsItem.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET['query']
+        return context

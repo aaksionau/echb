@@ -61,3 +61,21 @@ class NewsTests(TestCase):
         self.assertContains(response, news_item.author.last_name)
         self.assertContains(response, 'meta-info__item', 2)
         self.assertContains(response, 'news-item__aside-title', 5)
+
+    def test_page_contains_search_input(self):
+        response = self.client.get(reverse('news'))
+        self.assertContains(response, 'Введите текст для поиска')
+        self.assertContains(response, 'search')
+
+    def test_search_page_contains_results(self):
+        news_item = NewsItem.objects.first()
+        response = self.client.get(f"{reverse('search')}?query={news_item.title}")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Результаты поиска')
+        self.assertContains(response, 'news-item__link')
+        self.assertContains(response, 'news-item__text')
+
+    def test_search_no_results(self):
+        response = self.client.get(f"{reverse('search')}?query=query")
+        self.assertNotContains(response, 'news-item__link')
+        self.assertContains(response, 'Нет записей')
