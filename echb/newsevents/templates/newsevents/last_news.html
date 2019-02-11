@@ -1,0 +1,16 @@
+{% include 'newsevents/search_form.html' %}
+<section class="news">
+    <h3>Последние новости</h3>
+    <ul class="aside__menu-list" >
+        {% for item in latest_news %}
+        <li class="news-item__aside-item">
+            <div class="news-item__aside-header">
+                <span class="news-item__aside-date">{{item.publication_date|date:'d.m.Y'}}</span>
+                <h4 class="news-item__aside-title"><a class="news-item__aside-link" href="{{item.get_absolute_url}}" alt="{{item.title}}">{{item.title}}</a></h4></div>
+            <p class="news-item__aside-text">{{item.description|striptags|truncatechars:100|safe}}</p>
+        </li>
+        {% empty %}
+        <p>Нет новостей</p>
+        {% endfor %}
+    </ul>
+</section>

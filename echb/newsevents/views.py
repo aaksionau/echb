@@ -88,4 +88,5 @@ class SearchListView(FormMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET['query']
+        context['latest_news'] = NewsItem.objects.order_by('-publication_date')[:5]
         return context

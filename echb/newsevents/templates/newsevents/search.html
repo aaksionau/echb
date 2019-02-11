@@ -46,17 +46,5 @@
 {% endif %}
 {% endblock content %} 
 {% block rightside %}
-    <section class="archive">
-        <h3>Архив</h3>
-        <ul class="aside__menu-list">
-            {% for item in archive_news %}
-            <li class="aside__menu-item">
-                <a class="aside__menu-link" href="{% url 'archive-news' item.month|date:'Y' item.month|date:'m' %}" alt="">{{item.month|date:"F Y"}}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <a target="_blank" href="{% url 'news-feed' %}">
-            <img width='32' src="{% static 'img/rss.png' %}" alt="">
-        </a>
-    </section>
+{% include 'newsevents/last_news.html' with latest_news=latest_news %}
 {% endblock rightside %}
