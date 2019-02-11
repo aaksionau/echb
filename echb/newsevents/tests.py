@@ -9,12 +9,14 @@ from .models import NewsItem, Author
 class NewsTests(TestCase):
     def setUp(self):
         self.client = Client()
+        self.news_per_page = 7
 
         Page.objects.create(
             title='news', slug='news', order=1, visible_in_menu=True)
 
         now = datetime.now()
-        for item in range(1, 12):
+        # create newsitem for each month in a year
+        for item in range(1, 13):
             news_item = NewsItem()
             news_item.title = f'newsitem_title {item}'
             news_item.description = f'news description {item}'
@@ -27,3 +29,35 @@ class NewsTests(TestCase):
     def test_news_page_is_approachable(self):
         response = self.client.get(reverse('news'))
         self.assertEqual(response.status_code, 200)
+
+    def test_user_can_see_news(self):
+        response = self.client.get(reverse('news'))
+        self.assertContains(response, 'news-item__title', self.news_per_page)
+        self.assertContains(response, 'meta-info__item')
+        self.assertContains(response, 'news-item__more', self.news_per_page)
+        self.assertContains(response, 'pagination__link', 1)
+
+    def test_user_can_see_archive_on_the_side(self):
+        response = self.client.get(reverse('news'))
+
+        self.assertContains(response, 'aside__menu-link', 12)  # full year
+        self.assertContains(response, f'Январь {datetime.now().year}')
+
+    def test_user_can_archive_items_on_click(self):
+        response = self.client.get(reverse('archive-news', kwargs={'year': datetime.now().year, 'month': 1}))
+        self.assertContains(response, 'news-item__title', 1)
+        self.assertNotContains(response, 'pagination__item')
+
+    def test_rss_icon(self):
+        response = self.client.get(reverse('news'))
+        self.assertContains(response, reverse('news-feed'))
+        self.assertContains(response, 'rss.png')
+
+    def test_user_can_see_full_news_page(self):
+        news_item = NewsItem.objects.first()
+        response = self.client.get(reverse('news-detail', kwargs={'pk': news_item.pk}))
+        self.assertContains(response, news_item.title, 6)
+        self.assertContains(response, 'content__title', 1)
+        self.assertContains(response, news_item.author.last_name)
+        self.assertContains(response, 'meta-info__item', 2)
+        self.assertContains(response, 'news-item__aside-title', 5)
