@@ -76,7 +76,7 @@ class SearchListView(FormMixin, ListView):
     form_class = SearchForm
     template_name = 'newsevents/search.html'
     context_object_name = 'results'
-    paginate_by = 10
+    paginate_by = 7
 
     def get_queryset(self):
         if 'query' in self.request.GET:
