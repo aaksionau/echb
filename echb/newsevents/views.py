@@ -71,9 +71,8 @@ class EventDetailView(DetailView):
     model = Event
 
 
-class SearchListView(FormMixin, ListView):
+class SearchListView(ListView):
     model = NewsItem
-    form_class = SearchForm
     template_name = 'newsevents/search.html'
     context_object_name = 'results'
     paginate_by = 7
