@@ -1,37 +1,17 @@
 from unidecode import unidecode
 
 from django.db import models
-from django.urls import reverse
-from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from django.urls import reverse
 from django.core.exceptions import ValidationError
-from .managers import GalleryQuerySet
-
 
 from helpers.models import Audit
 
+from galleries.managers import GalleryQuerySet
 
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'тэг'
-        verbose_name_plural = 'тэги'
-
-
-class Author(Audit):
-    last_name = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.last_name + ' ' + self.first_name
-
-    class Meta:
-        verbose_name = 'автор'
-        verbose_name_plural = 'авторы'
+from .image import Image
+from .tag import Tag
+from .author import Author
 
 
 class Gallery(Audit):
@@ -75,29 +55,3 @@ class Gallery(Audit):
         verbose_name = 'галерея'
         verbose_name_plural = 'галереи'
         ordering = ['-date']
-
-
-def gallery_upload_path(instance, filename):
-    return f'galleries/{instance.gallery.slug}/{filename}'
-
-
-def gallery_upload_path_for_small(instance, filename):
-    return f'galleries/{instance.gallery.slug}/small/{filename}'
-
-
-class Image(Audit):
-    title = models.CharField(max_length=100)
-    thumbnail = models.FileField(upload_to=gallery_upload_path_for_small)
-    image = models.FileField(upload_to=gallery_upload_path)
-    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
-
-    def image_thumb(self):
-        return mark_safe(f'<img src="/static/media/{self.thumbnail}" width="100"/>')
-    image_thumb.allow_tags = True
-
-    def __str__(self):
-        return self.image.name
-
-    class Meta:
-        verbose_name = 'фотография'
-        verbose_name_plural = 'фотографии'
