@@ -58,3 +58,21 @@ class Article(Audit):
         verbose_name = 'статья'
         verbose_name_plural = 'статьи'
         ordering = ['-date']
+
+
+class Comment(Audit):
+    article = models.ForeignKey(Article,
+                                on_delete=models.CASCADE,
+                                related_name='comments')
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'комментарии'
+
+    def __str__(self):
+        return f'Комментарий от {self.name} на {self.post}'
