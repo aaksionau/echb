@@ -1,7 +1,5 @@
 from django.db import models
 
-from helpers.models import Audit
-
 
 class Author(models.Model):
     last_name = models.CharField(max_length=100)
