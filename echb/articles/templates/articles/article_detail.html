@@ -33,6 +33,11 @@
         {{article.description|safe}}
     </div>
 </article>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="button button--submit" value="Отправить">
+</form>
 {% endblock content %} 
 
 {% block rightside %}

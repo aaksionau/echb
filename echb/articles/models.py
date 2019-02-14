@@ -75,4 +75,4 @@ class Comment(Audit):
         verbose_name_plural = 'комментарии'
 
     def __str__(self):
-        return f'Комментарий от {self.name} на {self.post}'
+        return f'Комментарий от {self.name} на {self.article}'
