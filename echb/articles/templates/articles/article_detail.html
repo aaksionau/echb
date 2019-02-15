@@ -28,6 +28,9 @@
         <li class="meta-info__item">
             <a class="meta-info__link" href="{% url 'category-filter' article.category.slug %}" alt="{{article.category.title}}">{{article.category.title}}</a>
         </li>
+        <li class="meta-info__item">
+            <a class="meta-info__link" href="{{ article.get_absolute_url }}#comments" alt="Комментарии">Комментарии ({{comments_count}})</a>
+        </li>
     </ul>
     <div class="content__text">
         {{article.description|safe}}

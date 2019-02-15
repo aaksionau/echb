@@ -25,7 +25,7 @@ class AuthorizedCommentForm(ModelForm):
         fields = ('body',)
         widgets = {
             'body': forms.Textarea(
-                attrs={'placeholder': 'Вашe cообщение', 'class': 'form__text', 'rows': 5})
+                attrs={'placeholder': 'Ваш комментарий', 'class': 'form__text', 'rows': 5})
         }
         labels = {
             'body': ''

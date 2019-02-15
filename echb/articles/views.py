@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
-
+from django.db.models import Count
 
 from .models import Author, Article, Category, Comment
 from .forms import NotAuthorizedCommentForm, AuthorizedCommentForm
@@ -27,7 +27,7 @@ class ArticlesFilterCategoryListView(ExtraContext, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Article.objects.filter(category__slug=self.kwargs['category'])
+        return Article.objects.filter(category__slug=self.kwargs['category']).annotate(comments_count=Count('comments'))
 
 
 class ArticlesFilterAuthorListView(ExtraContext, ListView):
@@ -35,7 +35,7 @@ class ArticlesFilterAuthorListView(ExtraContext, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Article.objects.filter(author__id=self.kwargs['author'])
+        return Article.objects.filter(author__id=self.kwargs['author']).annotate(comments_count=Count('comments'))
 
 
 class ArticlesListView(ExtraContext, ListView):
@@ -43,7 +43,7 @@ class ArticlesListView(ExtraContext, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return self.model.objects.select_related('author', 'category')
+        return self.model.objects.select_related('author', 'category').annotate(comments_count=Count('comments'))
 
 
 class ArticleDetailView(FormMixin, DetailView):
@@ -54,6 +54,7 @@ class ArticleDetailView(FormMixin, DetailView):
         data = super().get_context_data(**kwargs)
         data['latest_articles'] = Article.objects.order_by('-date')[:5]
         data['comments'] = Comment.objects.filter(article_id=self.kwargs['pk'], active=True)
+        data['comments_count'] = Comment.objects.filter(article_id=self.kwargs['pk']).count()
         return data
 
     def get_success_url(self):

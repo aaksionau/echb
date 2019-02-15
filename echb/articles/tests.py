@@ -25,15 +25,14 @@ class ArticleTestCase(TestCase):
         Page.objects.create(
             title='articles', slug='articles', order=1, visible_in_menu=True)
 
-        now = datetime.now()
-        # create newsitem for each month in a year
+        self.now = datetime.now()
         for item in range(1, 10):
             article = Article()
             article.title = f'article_title_{item}'
             article.description = f'article_description_{item}'
             article.category = Category.objects.first()
             article.author = Author.objects.first()
-            article.date = datetime(year=now.year, month=item, day=1)
+            article.date = datetime(year=self.now.year, month=item, day=1)
             article.save()
 
     def test_article_page_can_be_opened(self):
@@ -59,14 +58,14 @@ class ArticleTestCase(TestCase):
         self.assertContains(response, article.description)
         self.assertContains(response, article.category)
         self.assertContains(response, article.author)
-        self.assertContains(response, 'meta-info__item', 3)
+        self.assertContains(response, 'meta-info__item', 4)
         self.assertContains(response, 'Последние статьи')
         self.assertContains(response, 'resource__aside-title', 5)
 
     def test_article_contains_form_for_comments_for_authenticated_user(self):
-        article = Article.objects.first()
+        url, article = self.get_url_and_article()
         self.client.post(reverse('login'), data={'username': 'user', 'password': 'passphrase'})
-        response = self.client.get(reverse('articles-detail', kwargs={'pk': article.pk}))
+        response = self.client.get(url)
         self.assertContains(response, 'id_body')
 
     def test_article_contains_form_for_comments_for_non_authenticated_user(self):
@@ -122,6 +121,20 @@ class ArticleTestCase(TestCase):
         response = self.client.get(url)
 
         self.assertNotContains(response, 'Not active message')
+
+    def test_article_contains_comments_count(self):
+        url, article = self.get_url_and_article()
+        Comment.objects.create(article=article, name='test', email='email@email.com', body='Active message')
+        response = self.client.get(url)
+        self.assertContains(response, 'Комментарии ({})'.format(Comment.objects.count()))
+
+    def test_every_article_contains_comment_count(self):
+        article = Article.objects.first()
+        Comment.objects.create(article=article, name='test', email='email@email.com', body='Active message')
+        Comment.objects.create(article=article, name='test', email='email@email.com', body='Active message')
+        response = self.client.get(reverse('articles'))
+        self.assertContains(response, article.title)
+        self.assertContains(response, 'Комментарии (2)')
 
     def get_url_and_article(self):
         article = Article.objects.first()
