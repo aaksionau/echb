@@ -56,7 +56,7 @@ class ArticleDetailView(FormMixin, DetailView):
         return data
 
     def get_success_url(self):
-        return reverse('articles-detail', kwargs={'pk': self.kwargs.pk})
+        return reverse('articles-detail', kwargs={'pk': self.kwargs['pk']})
 
     def get_form_class(self):
         if self.request.user.is_authenticated:
@@ -77,9 +77,9 @@ class ArticleDetailView(FormMixin, DetailView):
         else:
             form = NotAuthorizedCommentForm(self.request.POST)
             if form.is_valid():
-                instances = form.save(commit=False)
-                instances[0].article = article
-                instances[0].save()
+                comment = form.save(commit=False)
+                comment.article = article
+                comment.save()
                 return super().form_valid(form)
             else:
                 return super().form_invalid(form)

@@ -67,14 +67,23 @@ class ArticleTestCase(TestCase):
         article = Article.objects.first()
         self.client.post(reverse('login'), data={'username': 'user', 'password': 'passphrase'})
         response = self.client.get(reverse('articles-detail', kwargs={'pk': article.pk}))
-        self.assertContains(response, 'id_form-0-body')
+        self.assertContains(response, 'id_body')
 
     def test_article_contains_form_for_comments_for_non_authenticated_user(self):
         article = Article.objects.first()
         response = self.client.get(reverse('articles-detail', kwargs={'pk': article.pk}))
-        self.assertContains(response, 'id_form-0-name')
-        self.assertContains(response, 'id_form-0-email')
-        self.assertContains(response, 'id_form-0-body')
+        self.assertContains(response, 'id_name')
+        self.assertContains(response, 'id_email')
+        self.assertContains(response, 'id_body')
+
+    def test_auth_user_can_comment_article(self):
+        article = Article.objects.first()
+        comment_data = {'body': 'Text message'}
+        self.client.post(reverse('login'), data={'username': 'user', 'password': 'passphrase'})
+        url = reverse('articles-detail', kwargs={'pk': article.pk})
+        self.client.post(url, data=comment_data)
+
+        self.assertEqual(Comment.objects.count(), 1)
 
     def test_non_auth_user_can_comment_article(self):
         article = Article.objects.first()
@@ -84,5 +93,4 @@ class ArticleTestCase(TestCase):
                         }
         url = reverse('articles-detail', kwargs={'pk': article.pk})
         self.client.post(url, data=comment_data)
-        comments = Comment.objects.all()
-        self.assertGreater(len(comments), 0)
+        self.assertEqual(Comment.objects.count(), 1)
