@@ -1,5 +1,6 @@
 from .models import Comment
-from django.forms import ModelForm, TextInput, Textarea
+from django.forms import ModelForm
+from django import forms
 
 
 class NotAuthorizedCommentForm(ModelForm):
@@ -7,13 +8,10 @@ class NotAuthorizedCommentForm(ModelForm):
         model = Comment
         fields = ('name', 'email', 'body')
         widgets = {
-            'name': TextInput(
-                attrs={'placeholder': 'Ваше имя', 'class': 'form__text'}),
-            'email': TextInput(
-                attrs={'placeholder': 'Ваш Email', 'class': 'form__text'}),
-            'body': Textarea(
-                attrs={'placeholder': 'Вашe cообщение', 'class': 'form__text', 'rows': 5})
-        },
+            'name': forms.TextInput(attrs={'placeholder': 'Ваше имя', 'class': 'form__text'}),
+            'email': forms.TextInput(attrs={'placeholder': 'Ваш Email', 'class': 'form__text'}),
+            'body': forms.Textarea(attrs={'placeholder': 'Ваш комментарий', 'class': 'form__text', 'rows': 5})
+        }
         labels = {
             'name': '',
             'email': '',
@@ -26,7 +24,7 @@ class AuthorizedCommentForm(ModelForm):
         model = Comment
         fields = ('body',)
         widgets = {
-            'body': Textarea(
+            'body': forms.Textarea(
                 attrs={'placeholder': 'Вашe cообщение', 'class': 'form__text', 'rows': 5})
         }
         labels = {

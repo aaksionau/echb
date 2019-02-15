@@ -53,6 +53,7 @@ class ArticleDetailView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['latest_articles'] = Article.objects.order_by('-date')[:5]
+        data['comments'] = Comment.objects.filter(article_id=self.kwargs['pk'], active=True)
         return data
 
     def get_success_url(self):

@@ -1,0 +1,21 @@
+<section>
+<h3>Комментарии</h3>
+<div class="comments__list">
+    {% for comment in comments %}
+        <div class="comment">
+            <div class="comment__header">
+                <time class="comment__date" datetime="{{event.date|date:'Y-m-d'}}">{{comment.created|date:'d E Y h:m'}}</time>
+                <span class="comment__username">Пользователь: {{comment.name}}</span> 
+            </div>
+            <p class="comment__body">{{comment.body|safe}}</p>
+        </div>
+        {% empty %}
+        <p>Данную статью еще никто не комментировал. Вы можете быть первыми.</p>
+    {% endfor %}
+</div>
+<form method="post" class="form">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="button button--submit" value="Отправить">
+</form>
+</section>

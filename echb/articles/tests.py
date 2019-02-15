@@ -18,7 +18,7 @@ class ArticleTestCase(TestCase):
         Category.objects.create(title='Category 1', slug='cat-1')
         Category.objects.create(title='Cat 2', slug='cat-2')
 
-        user = User(username='user')
+        user = User(username='user', email='test@test.com')
         user.set_password('passphrase')
         user.save()
 
@@ -53,8 +53,8 @@ class ArticleTestCase(TestCase):
         self.assertContains(response, 'Category 1')
 
     def test_article_page_available(self):
-        article = Article.objects.first()
-        response = self.client.get(reverse('articles-detail', kwargs={'pk': article.pk}))
+        url, article = self.get_url_and_article()
+        response = self.client.get(url)
         self.assertContains(response, article.title)
         self.assertContains(response, article.description)
         self.assertContains(response, article.category)
@@ -70,27 +70,60 @@ class ArticleTestCase(TestCase):
         self.assertContains(response, 'id_body')
 
     def test_article_contains_form_for_comments_for_non_authenticated_user(self):
-        article = Article.objects.first()
-        response = self.client.get(reverse('articles-detail', kwargs={'pk': article.pk}))
+        url, article = self.get_url_and_article()
+        response = self.client.get(url)
         self.assertContains(response, 'id_name')
         self.assertContains(response, 'id_email')
         self.assertContains(response, 'id_body')
 
     def test_auth_user_can_comment_article(self):
-        article = Article.objects.first()
+        url, article = self.get_url_and_article()
+
         comment_data = {'body': 'Text message'}
         self.client.post(reverse('login'), data={'username': 'user', 'password': 'passphrase'})
-        url = reverse('articles-detail', kwargs={'pk': article.pk})
         self.client.post(url, data=comment_data)
 
         self.assertEqual(Comment.objects.count(), 1)
 
     def test_non_auth_user_can_comment_article(self):
-        article = Article.objects.first()
+        url, article = self.get_url_and_article()
         comment_data = {'name': 'alex',
                         'email': 'test@test.ru',
                         'body': 'Text message'
                         }
-        url = reverse('articles-detail', kwargs={'pk': article.pk})
         self.client.post(url, data=comment_data)
         self.assertEqual(Comment.objects.count(), 1)
+
+    def test_no_comments(self):
+        url, article = self.get_url_and_article()
+
+        response = self.client.get(url)
+        self.assertContains(response, 'Комментарии')
+        self.assertContains(response, 'Данную статью еще никто не комментировал. Вы можете быть первыми.')
+
+    def test_user_can_see_list_of_comments(self):
+        url, article = self.get_url_and_article()
+        user = User.objects.first()
+        for i in range(4):
+            Comment.objects.create(article=article, name=user.username,
+                                   email=user.email, body='Comment_message_{}'.format(i))
+
+        response = self.client.get(url)
+
+        self.assertContains(response, 'Comment_message', 4)
+        self.assertContains(response, 'Пользователь: user', 4)
+
+    def test_not_active_comments_not_visible(self):
+        url, article = self.get_url_and_article()
+        user = User.objects.first()
+        Comment.objects.create(article=article, name=user.username,
+                               active=False,   email=user.email, body='Not active message')
+
+        response = self.client.get(url)
+
+        self.assertNotContains(response, 'Not active message')
+
+    def get_url_and_article(self):
+        article = Article.objects.first()
+        url = reverse('articles-detail', kwargs={'pk': article.pk})
+        return url, article
