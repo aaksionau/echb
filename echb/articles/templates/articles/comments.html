@@ -1,13 +1,21 @@
+{% load static %}
+
 <section id="comments">
-<h3 class="comment__title">Комментарии</h3>
+<h3 class="comment__title-block"><span class="comment__title-text">Комментарии<span></h3>
 <div class="comments__list">
     {% for comment in comments %}
         <div class="comment">
-            <div class="comment__header">
-                <time class="comment__date" datetime="{{event.date|date:'Y-m-d'}}">{{comment.created|date:'d E Y h:m'}}</time>
-                <span class="comment__username">Пользователь: {{comment.name}}</span> 
+            <div>
+                <img class="comment__image"  src={% static 'img/avatar.jpg' %} />
             </div>
-            <p class="comment__body">{{comment.body|safe}}</p>
+            <div class="comment__details">
+                <div class="comment__header">
+                    <time class="comment__date" datetime="{{event.date|date:'Y-m-d'}}">{{comment.created|date:'d E Y h:m'}}</time>
+                    <span class="comment__username">{{comment.name}}</span> 
+                </div>
+                <p class="comment__body">{{comment.body|safe}}</p>            
+            </div>
+
         </div>
         {% empty %}
         <p class="comment__empty">Данную статью еще никто не комментировал. Вы можете быть первыми.</p>

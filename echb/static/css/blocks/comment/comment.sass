@@ -1,16 +1,15 @@
 .comment 
-    border: 1px solid darken(#8c8583, 10%)
     margin: 10px 0
-    border-bottom-right-radius: 5px
-    border-bottom-left-radius: 5px
-    box-shadow: 1px 1px #CCC
     width: 91%    
+    display: flex
+    flex-flow: row nowrap
     +element('header')
         background-color: #8c8583
         color: #fff
-        padding: 5px
+        padding: 5px 0 5px 10px
         display: flex
         flex-direction: column
+        font-size: 0.8em
 
         & > *
             margin: 2px 0
@@ -21,12 +20,29 @@
     +element('body')
         font-size: 0.9em
         line-height: 1.4em
-        padding: 5px 0 5px 20px
+        padding: 5px 15px 5px 10px
+        margin: 2px 0
     
-    +element('title')
+    +element('title-text')
         margin-bottom: 2px
         margin-top: 20px
+        display: inline
+        background: #8c8583
+        padding: 5px 10px
+
+    +element('title-block')
+        &:after
+            content: ''
+            border-bottom: 1px solid #8c8583
+            display: block
+            margin-top: 5px
     
+    +element('details')
+        width: 100%
+
     +element('empty')
         margin-top: 5px
+
+    +element('image')
+        width: 47px
 
