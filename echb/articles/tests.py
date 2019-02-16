@@ -102,7 +102,10 @@ class ArticleTestCase(TestCase):
 
     def test_user_can_see_list_of_comments(self):
         url, article = self.get_url_and_article()
-        user = User.objects.first()
+        user = User(username='Comment_user', email='test@test.com')
+        user.set_password('passphrase')
+        user.save()
+
         for i in range(4):
             Comment.objects.create(article=article, name=user.username,
                                    email=user.email, body='Comment_message_{}'.format(i))
@@ -110,7 +113,8 @@ class ArticleTestCase(TestCase):
         response = self.client.get(url)
 
         self.assertContains(response, 'Comment_message', 4)
-        self.assertContains(response, 'Пользователь: user', 4)
+        self.assertContains(response, 'comment__username', 4)
+        self.assertContains(response, 'Comment_user', 4)
 
     def test_not_active_comments_not_visible(self):
         url, article = self.get_url_and_article()
