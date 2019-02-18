@@ -1,9 +1,10 @@
 .video-cat 
-    flex-basis: 180px
+    flex-basis: 300px
     margin-right: 2%
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.2)
     border-radius: 5px
     border: 1px solid $primary-black
+    display: flex
 
 
     +element('list')
@@ -16,6 +17,12 @@
 
     +element('video-link')
         +link()
+        white-space: nowrap
+        max-width: 200px
+        overflow: hidden
+        text-overflow: ellipsis
+        +desktop()
+            max-width: 85%
     
     +element('video-date')
         background-color: $primary-black
@@ -24,9 +31,23 @@
         padding: 2px 3px
         border-radius: 3px
         margin-right: 10px
+        align-self: center
 
     +element('video-title')
         +roboto-styles()
         padding: 0 10px
         color: $primary-black
+        margin: 5px 0
+        &:after
+            border-bottom: 1px solid black
+
+    +element('video')
         display: flex
+        flex-direction: row
+        padding: 5px 0 5px 12px
+
+    +element('img')
+        display: none
+        +desktop()
+            background-color: #2b5262
+            display: block

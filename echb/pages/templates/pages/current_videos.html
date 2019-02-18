@@ -15,14 +15,21 @@
     <section class="video-cat__list">
         {% for category in videocategory_list %}
             <div class="video-cat">
-                <img src="{% static 'media/' %}{{category.icon}}" alt="">
-                {% for video in video_list|videos_in_category:category.slug %}
-
-                {% if forloop.first %}
-                      <h3 class="video-cat__video-title">{{video.date|date:'d F Y'}}</h3>     
-                {% endif %}
-                    <h4 class="video-cat__video-title"><span class="video-cat__video-date"> {{video.date|date:'H:i'}}</span> <a class="video-cat__video-link" href="{% url 'video-detail' category.slug video.pk %}">{{video.title}}</a></h4>
+                <div class="video-cat__img">
+                    <img src="{% static 'media/' %}{{category.icon}}" alt="">
+                </div>
+                <div class="video-cat__videos">
+                {% regroup video_list|videos_in_category:category.slug by date|date:"d E Y" as events_by_date %}
+                {% for date in events_by_date %}
+                        <h3 class="video-cat__video-title">{{date.grouper}}</h3> 
+                        {% for video in date.list %}
+                            <div class="video-cat__video">
+                                <span class="video-cat__video-date"> {{video.date|date:'H:i'}}</span>
+                                <a class="video-cat__video-link" href="{% url 'video-detail' category.slug video.pk %}">{{video.title}}</a>
+                            </div>
+                        {% endfor %}
                 {% endfor %}
+                </div>
             </div>
             {% empty %}
                 <h4>За прошедшие 7 дней не было онлайн трансляций.</h4>
