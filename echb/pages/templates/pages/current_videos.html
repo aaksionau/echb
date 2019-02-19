@@ -25,7 +25,7 @@
                         {% for video in date.list %}
                             <div class="video-cat__video">
                                 <span class="video-cat__video-date"> {{video.date|date:'H:i'}}</span>
-                                <a class="video-cat__video-link" href="{% url 'video-detail' category.slug video.pk %}">{{video.title}}</a>
+                                <a class="video-cat__video-link" href="{% url 'video-detail' video.pk %}">{{video.title}}</a>
                             </div>
                         {% endfor %}
                 {% endfor %}

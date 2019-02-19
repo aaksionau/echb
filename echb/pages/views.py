@@ -4,17 +4,21 @@ from datetime import datetime, timedelta
 
 import requests
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
-from django.http import HttpResponse
-from django.shortcuts import redirect, render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render, render_to_response, reverse
 from django.template.loader import get_template
 from django.utils import timezone
 from django.views.generic import DetailView, FormView, ListView
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.base import TemplateView, View
 
+
 from accounts.forms import PrayerRequestForm
+from accounts.models import PrayerRequest
 from articles.models import Article
 from galleries.models import Gallery
 from newsevents.models import Event, NewsItem
@@ -23,6 +27,7 @@ from .forms import FeedbackForm, SubscriberForm
 from .models import MailingLog, Page, Subscriber, VideoCategory, Video
 
 logger = logging.getLogger('ECHB')
+MAX_MESSAGES_PER_HOUR = 2
 
 
 class HomePageView(View):
@@ -80,15 +85,26 @@ class VideoDetailView(ModelFormMixin, DetailView):
     form_class = PrayerRequestForm
     success_url = '/about-us/online/thankyou/'
 
-    def form_valid(self, form):
-        prayer_request = form.save(commit=False)
-        prayer_request.user = self.request.user
-        prayer_request.save()
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('login'))
+        self.object = self.get_object()
+        form = PrayerRequestForm(self.request.POST)
+        user = User.objects.get(username=self.request.user)
+        if form.is_valid() and self.validate_max_messages(user):
+            form.instance.user = user
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
 
-    def form_invalid(self, form):
-        messages.info(self.request, 'Ваше сообщение слишком длинное. Максимум 250 символов.')
-        return super().form_invalid(form)
+    def validate_max_messages(self, user):
+
+        time_delta = datetime.today() - timedelta(hours=1)
+        messages_count = PrayerRequest.objects.filter(created__gte=time_delta, user=user).count()
+        if messages_count >= MAX_MESSAGES_PER_HOUR:
+            return False
+
+        return True
 
 
 class CurrentVideosListView(ListView):

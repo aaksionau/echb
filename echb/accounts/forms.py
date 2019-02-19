@@ -33,12 +33,13 @@ class SignUpForm(UserCreationForm):
 
 
 class PrayerRequestForm(ModelForm):
-
-    def clean_user(self):
-        time_delta = datetime.today() - timedelta(hours=1)
-        requests_count = PrayerRequest.objects.filter(created__gte=time_delta, user_id=self.request.user.id).count()
-        return True if requests_count < 2 else False
-
     class Meta:
         model = PrayerRequest
         fields = ['description']
+
+        widgets = {
+            'description': forms.Textarea(attrs={'placeholder': 'Введите ваше сообщение', 'class': 'form__text', 'rows': 5}),
+        }
+        labels = {
+            'description': ''
+        }

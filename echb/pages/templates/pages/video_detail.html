@@ -45,10 +45,16 @@
             {% endif %}
             (длина сообщения 250 символов)
         </p>
-
+        {% if form.subject.errors %}
+            <ol>
+            {% for error in form.subject.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+            </ol>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
-            <textarea name="description" id="description" cols="30" rows="5" maxlength="250" class="form__text" required placeholder="Введите вашу молитвенную нужду"></textarea>
+            {{form}}
             <button type="submit" class="button button--submit">Отправить</button>
         </form>
         {% else %}
