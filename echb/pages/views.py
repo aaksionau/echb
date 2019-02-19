@@ -34,7 +34,7 @@ class HomePageView(View):
             form.send_mail(subscriber, domain)
 
             context['success_subscriber'] = True
-            return render(request, 'pages/subscription_thankyou.html')
+            return render(request, 'newsevents/subscription_thankyou.html')
         else:
             context['errors'] = form.errors['email']
             return render(request, 'pages/home.html', context)

@@ -19,7 +19,7 @@ class SubscriberForm(ModelForm):
     def send_mail(self, subscriber, domain):
         email = self.cleaned_data['email']
         message = get_template(
-            'pages/subscriber_activation_letter.html').render({'subscriber': subscriber, 'domain': domain})
+            'newsevents/subscriber_activation_letter.html').render({'subscriber': subscriber, 'domain': domain})
         with mail.get_connection() as connection:
             email = mail.EmailMessage(
                 subject='Подтверждение о подписке на новости',
