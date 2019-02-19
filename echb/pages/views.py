@@ -16,18 +16,14 @@ from django.views.generic import DetailView, FormView, ListView
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.base import TemplateView, View
 
-
-from accounts.forms import PrayerRequestForm
-from accounts.models import PrayerRequest
 from articles.models import Article
 from galleries.models import Gallery
 from newsevents.models import Event, NewsItem
 
 from .forms import FeedbackForm, SubscriberForm
-from .models import MailingLog, Page, Subscriber, VideoCategory, Video
+from .models import MailingLog, Page, Subscriber
 
 logger = logging.getLogger('ECHB')
-MAX_MESSAGES_PER_HOUR = 2
 
 
 class HomePageView(View):
@@ -78,71 +74,6 @@ class PageDetailView(DetailView):
         context['right_menu_pages'] = Page.objects.filter(parent__slug='about-us').order_by('order')
         context['church_history_pages'] = Page.objects.filter(parent__slug='churches-history')
         return context
-
-
-class VideoDetailView(ModelFormMixin, DetailView):
-    model = Video
-    form_class = PrayerRequestForm
-    success_url = '/about-us/online/thankyou/'
-
-    def post(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return HttpResponseRedirect(reverse('login'))
-        self.object = self.get_object()
-        form = PrayerRequestForm(self.request.POST)
-        user = User.objects.get(username=self.request.user)
-        if form.is_valid() and self.validate_max_messages(user):
-            form.instance.user = user
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def validate_max_messages(self, user):
-
-        time_delta = datetime.today() - timedelta(hours=1)
-        messages_count = PrayerRequest.objects.filter(created__gte=time_delta, user=user).count()
-        if messages_count >= MAX_MESSAGES_PER_HOUR:
-            return False
-
-        return True
-
-
-class CurrentVideosListView(ListView):
-    template_name = 'pages/current_videos.html'
-    model = VideoCategory
-
-    def get_video_categories(self):
-        time_delta = datetime.today() - timedelta(days=7)
-        return (Video
-                .objects
-                .filter(date__gte=time_delta)
-                .select_related('category')
-                .values_list('category__slug'))
-
-    def get_queryset(self):
-        queryset = VideoCategory.objects.filter(slug__in=self.get_video_categories())
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(CurrentVideosListView, self).get_context_data(**kwargs)
-
-        time_delta = datetime.today() - timedelta(days=7)
-        videos = {}
-        for category in self.get_video_categories():
-            category_slug = category[0]
-            videos[category_slug] = Video.objects.filter(category__slug=category_slug).filter(date__gte=time_delta)
-
-        context['video_list'] = videos
-        return context
-
-
-class VideoListView(ListView):
-    template_name = 'pages/videos.html'
-    model = Video
-
-    def get_queryset(self):
-        queryset = Video.objects.filter(interesting_event=True).select_related('category').order_by('-date')
-        return queryset
 
 
 class ContactsFormView(FormView):

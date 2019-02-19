@@ -122,7 +122,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
 MEDIA_URL = '/static/media/'
 
 
-INSTALLED_APPS += ('django_summernote', 'newsevents', 'churches', 'articles', 'galleries', 'pages', 'accounts')
+INSTALLED_APPS += ('django_summernote', 'newsevents', 'churches',
+                   'articles', 'galleries', 'pages', 'accounts', 'videos')
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
