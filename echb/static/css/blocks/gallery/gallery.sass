@@ -23,10 +23,12 @@
 
     +element('list')
         display: flex
-        flex-flow: row wrap
+        flex-flow: column wrap
         justify-content: space-between
         align-items: center
         +reset-list()
+        +desktop()
+            flex-flow: row wrap
     
     +element('list-item')
         margin: 5px
