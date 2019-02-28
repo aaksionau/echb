@@ -44,12 +44,7 @@
     </header>
     <nav class="helper-nav">
         <div class="container helper-nav__blocks">
-            <ul class="breadcrumbs">
-                {% block breadcrumbs %}
-                <li class="breadcrumbs__item" >
-                        <i class="fas fa-home fa-xs"></i> <a class="breadcrumbs__link" href="/" title='Главная'>Главная</a>
-                </li> {% endblock %}
-            </ul>
+            {% include 'breadcrumbs.html' %}
 
             {% if not user.is_authenticated %}
                 <div class="auth"> 

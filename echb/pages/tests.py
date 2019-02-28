@@ -113,3 +113,39 @@ class PagesTests(TestCase):
         response = self.client.post(reverse('contacts'), data=data, follow=True)
         self.assertEqual(len(mail.outbox), 2)  # to admin + user
         self.assertContains(response, 'Спасибо за ваше сообщение.')
+
+    def test_current_page_is_active(self):
+        about = Page.objects.create(
+            title='about', slug='about-us', order=1, visible_in_menu=True
+        )
+        history = self.create_page('history', 'churches-history', about)
+        self.create_page('3-level', '3-level', history)
+        level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
+        level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
+        level_response_3 = self.client.get(reverse('churches-history-page', kwargs={'slug': '3-level'}))
+        self.assertContains(level_response_1, 'menu__item menu__item--active')
+        self.assertContains(level_response_2, 'menu__item menu__item--active')
+        self.assertContains(level_response_3, 'menu__item menu__item--active')
+
+    def test_breadcrumbs(self):
+        about = Page.objects.create(
+            title='about', slug='about-us', order=1, visible_in_menu=True
+        )
+        history = self.create_page('history', 'churches-history', about)
+        self.create_page('3-level', '3-level', history)
+        level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
+        level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
+        level_response_3 = self.client.get(reverse('churches-history-page', kwargs={'slug': '3-level'}))
+        print(level_response_1.content)
+        self.assertContains(
+            level_response_1, '<a class="breadcrumbs__link" href="/about-us/" title="about">about</a>')
+        self.assertContains(
+            level_response_2, '<a class="breadcrumbs__link" href="/about-us/churches-history/" title="history">history</a>')
+        self.assertContains(
+            level_response_3, '<a class="breadcrumbs__link" href="/about-us/churches-history/3-level/" title="3-level">3-level</a>')
+
+    def create_page(self, title, slug, parent, order=1, visible_in_menu=True):
+        page = Page.objects.create(
+            title=title, slug=slug, order=order, parent=parent, visible_in_menu=visible_in_menu
+        )
+        return page

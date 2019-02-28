@@ -1,14 +1,4 @@
 {% extends "base.html" %} 
-{% block breadcrumbs %}
-    {{ block.super }} 
-    {% if active_page.slug != 'about-us' %}
-        <li class="breadcrumbs__item"><a class="breadcrumbs__link"  href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
-        <li class="breadcrumbs__item"> <a class="breadcrumbs__link"  href="{{ page.get_absolute_url }}" title="{{ page.title }}">{{ page.title }}</a></li>
-    {% else %}
-        <li class="breadcrumbs__item"><a  class="breadcrumbs__link" href="{% url 'page-detail' 'about-us' %}">О нас</a></li>
-    {% endif %}
-
-{% endblock %}
 
 {% block content %}
 <article>
