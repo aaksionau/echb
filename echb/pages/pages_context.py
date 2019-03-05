@@ -9,6 +9,9 @@ def add_menu_elements(request):
     if len(path_parts) == 0:
         path_parts.append('home')
 
+    if 'admin' in path_parts:
+        return {}
+
     path_parts.reverse()
     current_page_slug = path_parts[0]
     page = Page.objects.select_related('parent').get(slug=current_page_slug)
