@@ -1,6 +1,15 @@
 from .models import Page
 
 
+class ShortPage:
+    def __init__(self, title, slug):
+        self.title = title
+        self.slug = slug
+
+    def __str__(self):
+        return self.title
+
+
 def add_menu_elements(request):
     menu_links = Page.objects.filter(parent=None, visible_in_menu=True).order_by('order')
     path_parts = [slug for slug in request.path_info.split('/') if slug != '']
@@ -27,7 +36,13 @@ def add_menu_elements(request):
 
 
 def get_breadcrumbs(current_page, breadcrumbs):
-    breadcrumbs.append(current_page)
+    short_page = ShortPage(current_page.title, f'{current_page.slug}')
+    breadcrumbs.append(short_page)
+    if len(breadcrumbs) >= 1:
+        parent_slug = current_page.slug
+        for i in range(len(breadcrumbs)-1):
+            breadcrumbs[i].slug = f'{parent_slug}/{breadcrumbs[i].slug}'
+            print(breadcrumbs[i].slug)
 
     if current_page.parent is None:
         breadcrumbs.reverse()
