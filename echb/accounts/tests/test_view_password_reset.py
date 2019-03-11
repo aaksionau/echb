@@ -5,10 +5,13 @@ from django.core import mail
 from django.urls import resolve, reverse
 from django.test import TestCase
 
+from pages.tests import add_pages
+
 
 class PasswordResetTests(TestCase):
     def setUp(self):
         url = reverse('password_reset')
+        add_pages()
         self.response = self.client.get(url)
 
     def test_status_code(self):

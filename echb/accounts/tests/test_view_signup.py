@@ -8,6 +8,7 @@ from ..forms import SignUpForm
 
 
 from pages.models import Page
+from pages.tests import add_pages
 
 
 class SuccessfulSignUpTests(TestCase):
@@ -22,6 +23,8 @@ class SuccessfulSignUpTests(TestCase):
         self.response = self.client.post(url, data)
         self.create_video_page()
         self.videos_url = reverse('online')
+
+        add_pages()
 
     def create_video_page(self):
         page = Page()

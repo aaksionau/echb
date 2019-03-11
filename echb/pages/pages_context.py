@@ -22,10 +22,9 @@ def add_menu_elements(request):
         return {}
 
     path_parts.reverse()
-    current_page_slug = path_parts[0]
-    page = Page.objects.select_related('parent').get(slug=current_page_slug)
-    breadcrumbs = get_breadcrumbs(page, [])
     active_page = get_active_page(path_parts)
+    page = Page.objects.select_related('parent').get(slug=active_page.slug)
+    breadcrumbs = get_breadcrumbs(page, [])
 
     context = {
         'menu_links': menu_links,
@@ -52,7 +51,6 @@ def get_breadcrumbs(current_page, breadcrumbs):
 
 
 def get_active_page(request_slugs):
-    request_slugs.reverse()
     page = None
     for slug in request_slugs:
         page = Page.objects.filter(slug=slug).select_related('parent')

@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 from .models import VideoCategory, Video, PrayerRequest
+from pages.models import Page
 
 
 class VideoTests(TestCase):
@@ -12,6 +13,8 @@ class VideoTests(TestCase):
         user = User(username='user')
         user.set_password('passphrase')
         user.save()
+
+        add_pages()
 
         for item in range(2):
             category = VideoCategory.objects.create(
@@ -88,3 +91,15 @@ class VideoTests(TestCase):
         video.save()
 
         return video
+
+
+def add_pages():
+
+    for item in ['about-us', 'online', 'thankyou', 'accounts']:
+        Page.objects.create(
+            title=item, slug=item.lower(), visible_in_menu=True
+        )
+
+    accounts = Page.objects.get(slug='accounts')
+
+    Page.objects.create(title='login', slug='login', parent=accounts)
