@@ -21,10 +21,11 @@ def add_menu_elements(request):
     if 'admin' in path_parts:
         return {}
 
+    active_page = Page.objects.get(slug=path_parts[0])
     path_parts.reverse()
-    active_page = get_active_page(path_parts)
+    current_page = get_active_page(path_parts)
     # TODO: for active_page as None redirect to 404 page
-    page = Page.objects.select_related('parent').get(slug=active_page.slug)
+    page = Page.objects.select_related('parent').get(slug=current_page.slug)
     breadcrumbs = get_breadcrumbs(page, [])
 
     context = {

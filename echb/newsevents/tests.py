@@ -21,7 +21,7 @@ class NewsTests(TestCase):
         # create newsitem for each month in a year
         for item in range(1, 13):
             news_item = NewsItem()
-            news_item.title = f'newsitem_title {item}'
+            news_item.title = f'news item_title'
             news_item.description = f'news description {item}'
             news_item.author = Author.objects.create(
                 last_name='last_name', first_name='news first_name')
@@ -59,7 +59,7 @@ class NewsTests(TestCase):
     def test_user_can_see_full_news_page(self):
         news_item = NewsItem.objects.first()
         response = self.client.get(reverse('news-detail', kwargs={'pk': news_item.pk}))
-        self.assertContains(response, news_item.title, 6)
+        self.assertContains(response, news_item.title, 13)
         self.assertContains(response, 'content__title', 1)
         self.assertContains(response, news_item.author.last_name)
         self.assertContains(response, 'meta-info__item', 2)
