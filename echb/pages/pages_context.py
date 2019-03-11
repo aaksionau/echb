@@ -42,7 +42,6 @@ def get_breadcrumbs(current_page, breadcrumbs):
         parent_slug = current_page.slug
         for i in range(len(breadcrumbs)-1):
             breadcrumbs[i].slug = f'{parent_slug}/{breadcrumbs[i].slug}'
-            print(breadcrumbs[i].slug)
 
     if current_page.parent is None:
         breadcrumbs.reverse()
@@ -56,8 +55,9 @@ def get_active_page(request_slugs):
     request_slugs.reverse()
     page = None
     for slug in request_slugs:
-        page = Page.objects.filter(slug=slug).select_related('parent').first()
+        page = Page.objects.filter(slug=slug).select_related('parent')
         if page:
+            page = page.first()
             break
 
     return page

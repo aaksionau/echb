@@ -14,8 +14,7 @@ class PagesTests(TestCase):
     def setUp(self):
         self.client = Client()
 
-        Page.objects.create(
-            title='home', slug='home', order=1, visible_in_menu=True)
+        self.add_pages()
 
         for item in range(12):
             news_item = NewsItem()
@@ -71,8 +70,6 @@ class PagesTests(TestCase):
 
     def test_about_us_page_contains_menu(self):
         Page.objects.create(
-            title='parent', slug='about-us', order=1, visible_in_menu=True)
-        Page.objects.create(
             title='child', slug='child-about-us', order=2, visible_in_menu=True)
         Page.objects.create(
             title='church', slug='churches-history', order=2, visible_in_menu=True)
@@ -85,8 +82,6 @@ class PagesTests(TestCase):
         self.assertContains(response, 'churches-history-child')
 
     def test_user_can_send_feedback(self):
-        Page.objects.create(
-            title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
@@ -100,8 +95,6 @@ class PagesTests(TestCase):
         self.assertContains(response, 'Спасибо за ваше сообщение.')
 
     def test_feedback_form_send_copy_email_to_user(self):
-        Page.objects.create(
-            title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
@@ -115,9 +108,7 @@ class PagesTests(TestCase):
         self.assertContains(response, 'Спасибо за ваше сообщение.')
 
     def test_current_page_is_active(self):
-        about = Page.objects.create(
-            title='about', slug='about-us', order=1, visible_in_menu=True
-        )
+        about = Page.objects.get(slug='about-us')
         history = self.create_page('history', 'churches-history', about)
         self.create_page('3-level', '3-level', history)
         level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
@@ -128,19 +119,16 @@ class PagesTests(TestCase):
         self.assertContains(level_response_3, 'menu__item menu__item--active')
 
     def test_breadcrumbs(self):
-        about = Page.objects.create(
-            title='about', slug='about-us', order=1, visible_in_menu=True
-        )
-        history = self.create_page('history', 'churches-history', about)
+        about_us = Page.objects.get(slug='about-us')
+        history = self.create_page('History', 'churches-history', about_us)
         self.create_page('3-level', '3-level', history)
         level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
         level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
         level_response_3 = self.client.get(reverse('churches-history-page', kwargs={'slug': '3-level'}))
-        print(level_response_1.content)
         self.assertContains(
-            level_response_1, '<a class="breadcrumbs__link" href="/about-us/" title="about">about</a>')
+            level_response_1, '<a class="breadcrumbs__link" href="/about-us/" title="About-us">About-us</a>')
         self.assertContains(
-            level_response_2, '<a class="breadcrumbs__link" href="/about-us/churches-history/" title="history">history</a>')
+            level_response_2, '<a class="breadcrumbs__link" href="/about-us/churches-history/" title="History">History</a>')
         self.assertContains(
             level_response_3, '<a class="breadcrumbs__link" href="/about-us/churches-history/3-level/" title="3-level">3-level</a>')
 
@@ -149,3 +137,12 @@ class PagesTests(TestCase):
             title=title, slug=slug, order=order, parent=parent, visible_in_menu=visible_in_menu
         )
         return page
+
+    def add_pages(self):
+        for item in ['Home', 'News', 'Profile', 'About-us', 'Contacts', 'Thankyou']:
+            self.create_page(item, item.lower(), None)
+
+        about_us = Page.objects.get(slug='about-us')
+
+        for item in ['Online', 'Find-church', 'Galleries']:
+            self.create_page(item, item.lower(), about_us)
