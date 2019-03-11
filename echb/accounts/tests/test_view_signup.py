@@ -8,11 +8,11 @@ from ..forms import SignUpForm
 
 
 from pages.models import Page
-from pages.tests import add_pages
 
 
 class SuccessfulSignUpTests(TestCase):
     def setUp(self):
+        add_pages()
         url = reverse('signup')
         data = {
             'username': 'john',
@@ -24,14 +24,9 @@ class SuccessfulSignUpTests(TestCase):
         self.create_video_page()
         self.videos_url = reverse('online')
 
-        add_pages()
-
     def create_video_page(self):
-        page = Page()
-        page.title = 'Онлайн'
-        page.slug = 'online'
-        page.order = 10
-        page.save()
+        about = Page.objects.create(title='about-us', slug='about-us')
+        Page.objects.create(title='online', slug='online', parent=about)
 
     def test_redirection(self):
         self.assertRedirects(self.response, self.videos_url)
@@ -47,6 +42,7 @@ class SuccessfulSignUpTests(TestCase):
 
 class SignUpTests(TestCase):
     def setUp(self):
+        add_pages()
         url = reverse('signup')
         self.response = self.client.get(url)
 
@@ -63,3 +59,16 @@ class SignUpTests(TestCase):
 
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+
+def add_pages():
+
+    for item in ['accounts']:
+        Page.objects.create(
+            title=item, slug=item.lower(), visible_in_menu=True
+        )
+
+    accounts = Page.objects.get(slug='accounts')
+
+    for item in ['login', 'signup', ]:
+        Page.objects.create(title=item, slug=item, parent=accounts)

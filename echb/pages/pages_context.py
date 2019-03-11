@@ -23,6 +23,7 @@ def add_menu_elements(request):
 
     path_parts.reverse()
     active_page = get_active_page(path_parts)
+    # TODO: for active_page as None redirect to 404 page
     page = Page.objects.select_related('parent').get(slug=active_page.slug)
     breadcrumbs = get_breadcrumbs(page, [])
 
