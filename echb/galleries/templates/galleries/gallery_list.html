@@ -7,8 +7,8 @@
 
  {% block content %}
     <header>
-        <h2 class="content__title">{{active_page.title}}</h2>
-        <p class="content__text">{{active_page.description}}</p>
+        <h2 class="content__title">{{current_page.title}}</h2>
+        <p class="content__text">{{current_page.description}}</p>
     </header>
     <ul class="gallery__list">
         {% for gallery in gallery_list %}

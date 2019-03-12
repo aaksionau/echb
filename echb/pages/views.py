@@ -62,7 +62,8 @@ class PageDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['right_menu_pages'] = Page.objects.filter(parent__slug='about-us').order_by('order')
+        context['right_menu_pages'] = Page.objects.filter(
+            parent__slug='about-us').order_by('order')
         context['church_history_pages'] = Page.objects.filter(parent__slug='churches-history')
         return context
 

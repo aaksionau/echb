@@ -31,6 +31,7 @@ def add_menu_elements(request):
     context = {
         'menu_links': menu_links,
         'active_page': active_page,
+        'current_page': current_page,
         'bread_crumbs': breadcrumbs
     }
     return context

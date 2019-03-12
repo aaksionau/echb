@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.db import models
 from django.urls import reverse
 from helpers.models import Audit, Seo
@@ -7,7 +6,7 @@ from helpers.models import Audit, Seo
 class Page(Audit, Seo):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    parent = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, blank=True, related_name="children")
     description = models.TextField(null=True, blank=True)
     order = models.IntegerField(null=True)
     visible_in_menu = models.BooleanField(default=False)

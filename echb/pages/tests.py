@@ -113,7 +113,8 @@ class PagesTests(TestCase):
         create_page('3-level', '3-level', history)
         level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
         level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
-        level_response_3 = self.client.get(reverse('churches-history-page', kwargs={'slug': '3-level'}))
+        level_response_3 = self.client.get(
+            reverse('third-level-page', kwargs={'parent_slug': 'churches-history', 'slug': '3-level'}))
         self.assertContains(level_response_1, 'menu__item menu__item--active')
         self.assertContains(level_response_2, 'menu__item menu__item--active')
         self.assertContains(level_response_3, 'menu__item menu__item--active')
@@ -124,7 +125,8 @@ class PagesTests(TestCase):
         create_page('3-level', '3-level', history)
         level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
         level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
-        level_response_3 = self.client.get(reverse('churches-history-page', kwargs={'slug': '3-level'}))
+        level_response_3 = self.client.get(
+            reverse('third-level-page', kwargs={'parent_slug': 'churches-history', 'slug': '3-level'}))
         self.assertContains(
             level_response_1, '<a class="breadcrumbs__link" href="/about-us/" title="About-us">About-us</a>')
         self.assertContains(

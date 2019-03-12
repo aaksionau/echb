@@ -59,7 +59,7 @@ class NewsTests(TestCase):
     def test_user_can_see_full_news_page(self):
         news_item = NewsItem.objects.first()
         response = self.client.get(reverse('news-detail', kwargs={'pk': news_item.pk}))
-        self.assertContains(response, news_item.title, 13)
+        self.assertContains(response, news_item.title, 14)
         self.assertContains(response, 'content__title', 1)
         self.assertContains(response, news_item.author.last_name)
         self.assertContains(response, 'meta-info__item', 2)
