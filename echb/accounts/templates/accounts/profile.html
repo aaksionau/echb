@@ -1,13 +1,5 @@
 {% extends 'base.html' %}
 
-{% block breadcrumbs %}
-{{ block.super }}
-{% if active_page.slug != page.slug %}
-<li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{{active_page.slug}}" title="{{active_page.title}}">{{active_page.title}}</a></li>
-{% endif %}
-<li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url 'profile' user.id %}">Личный кабинет</a></li>
-{% endblock %}
-
 {% block content %}
     <h2 class="content__title">Изменение ваших данных</h2>
     <div class="content__column-2-4">

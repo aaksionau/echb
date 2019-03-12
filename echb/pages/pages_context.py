@@ -18,7 +18,7 @@ def add_menu_elements(request):
     if len(path_parts) == 0:
         path_parts.append('home')
 
-    if 'admin' in path_parts:
+    if 'admin' in path_parts or 'summernote' in path_parts:
         return {}
 
     active_page = Page.objects.get(slug=path_parts[0])
