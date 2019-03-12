@@ -2,12 +2,6 @@
 {% load static %}
 {% load videos_in_category %}
 
-{% block breadcrumbs %}
-    {{ block.super }} 
-        <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url 'page-detail' 'about-us' %}" title="О нас">О нас</a></li>
-        <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url 'online' %}" title="{{active_page.title}}">{{active_page.title}}</a></li>
-{% endblock %}
-
 {% block content %}
     <h2 class="content__title">
         {{active_page.title}}
