@@ -1,13 +1,9 @@
 {% extends "base.html" %} 
 {% load static %}
 
-{% block breadcrumbs %}
-    {{ block.super }}
-    <li class="breadcrumbs__item">
-        <a class="breadcrumbs__link" href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a>
-    </li>
-    <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{% url 'find-church' %}" title="Найдите церковь">Найдите церковь</a></li>
-{% endblock %}
+{% block pagetitle %}
+  {{ current_page.title }} - {{ block.super }} 
+{% endblock pagetitle %} 
 
 {% block content %}
     <h2 class="content__title">Найдите церковь</h2>
