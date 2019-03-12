@@ -5,14 +5,6 @@
 
 {% endblock pagetitle %} 
 
-{% block breadcrumbs %}
-    {{ block.super }} 
-    <li class="breadcrumbs__item"><a class="breadcrumbs__link" href="{% url  'page-detail' 'about-us' %}" title="О нас">О нас</a>
-    </li>
-    <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{% url 'galleries' %}" title="{{active_page.title}}">{{active_page.title}}</a>
-    </li>
-{% endblock %}
-
  {% block content %}
     <header>
         <h2 class="content__title">{{active_page.title}}</h2>
