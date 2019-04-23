@@ -12,7 +12,7 @@ coverage = "*"
 termcolor = "*"
 
 [packages]
-django = "==2.0.7"
+django = "*"
 django-summernote = "*"
 unidecode = "*"
 pillow = "*"
@@ -26,4 +26,4 @@ requests = "*"
 django-htmlmin = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"

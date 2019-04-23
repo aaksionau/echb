@@ -118,8 +118,8 @@ AUTH_PASSWORD_VALIDATORS = [
 SITE_ID = 1
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
-MEDIA_URL = '/static/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = 'media/'
 
 
 INSTALLED_APPS += ('django_summernote', 'newsevents', 'churches',
