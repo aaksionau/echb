@@ -3,8 +3,8 @@
 <section class="home-section home-section--galleries">
     <div class="container">
         <header class="home-section__header">
-          <h2 class="home-section__title">Фотогалерея</h2>
-          <p class='home-section__description'>Прошедшие события на фото. Больше фотографий
+          <h2 class="home-section__title">Фото и видео</h2>
+          <p class='home-section__description'>Телепередачи, диалоги служителей, фотографии. Больше фотографий
             <a class="home-section__link" href="{% url 'galleries' %}">здесь</a> </p>
         </header>
         <section class="home-section__content--galleries">
@@ -12,6 +12,13 @@
                 {% for gallery in photos %}
                     <li class="gallery__list-item">
                         {% include 'galleries/gallery_template.html' with gallery=gallery %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <ul class="video__list">
+                {% for video in videos %}
+                    <li class="gallery__list-item">
+                        <iframe width="250" height="150" src="{{video.youtube_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </li>
                 {% endfor %}
             </ul>

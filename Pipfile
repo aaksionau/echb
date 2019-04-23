@@ -10,6 +10,7 @@ coverage = "*"
 "flake8" = "*"
 "flake8-html" = "*"
 termcolor = "*"
+autopep8 = "*"
 
 [packages]
 django = "*"

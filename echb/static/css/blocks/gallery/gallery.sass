@@ -17,6 +17,12 @@
         text-align: center
         +text-overflow(230px)
 
+    +element('photo')
+        position: absolute
+        width: 100%
+        max-width: 250px
+        z-index: -1
+
     +element('more')
         +link()
         display: inline-block
@@ -37,9 +43,9 @@
 
     +element('image')
         max-width: 300px
-        height: 200px
-        border-top-left-radius: 7px
-        border-top-right-radius: 7px
+        height: 150px
+        border-radius: 7px
+        opacity: 0.2
 
     +element('meta')
         +reset-list()

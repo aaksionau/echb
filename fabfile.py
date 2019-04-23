@@ -27,7 +27,7 @@ def makemigrations():
 def migrate():
     local(command.format('migrate'))
 
-
+# to use in command console: fab ben:css_class
 @task
 def bem(css_class):
     base_path = os.path.dirname(os.path.realpath(__file__))

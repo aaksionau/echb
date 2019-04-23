@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from django.contrib.sitemaps.views import sitemap
-
+from django.conf.urls.static import static
 from django.conf import settings
 
 from pages.sitemap import PagesSitemap
@@ -26,7 +26,7 @@ urlpatterns = [
     path('about-us/online/', include('videos.urls')),
     path('', include('pages.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
