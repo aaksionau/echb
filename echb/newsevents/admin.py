@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import NewsItem, Event, Author
+from .models import NewsItem, Event, Author, Subscriber, MailingLog
 
 
 @admin.register(NewsItem)
@@ -21,3 +21,11 @@ class EventAdmin(SummernoteModelAdmin):
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     ordering = ['last_name', ]
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ['email', 'activated', 'created']
+
+
+admin.site.register(MailingLog)

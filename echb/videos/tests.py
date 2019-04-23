@@ -3,8 +3,8 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-from ..models import VideoCategory, Video
-from accounts.models import PrayerRequest
+from .models import VideoCategory, Video, PrayerRequest
+from pages.models import Page
 
 
 class VideoTests(TestCase):
@@ -13,6 +13,8 @@ class VideoTests(TestCase):
         user = User(username='user')
         user.set_password('passphrase')
         user.save()
+
+        add_pages()
 
         for item in range(2):
             category = VideoCategory.objects.create(
@@ -76,13 +78,6 @@ class VideoTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(PrayerRequest.objects.count(), 1)
 
-# User can see several links under categories if there videos are 7 days old
-# User can send a prayer request
-# User cannot send prayer request 3 and more times
-# User cannot send request with message longer then 250 symbols
-# Unauthorised user can not send a request
-# if there are no available videos - show text and also show section with interesting videos
-
     def create_video(self, text, is_feedback, date=timezone.now(), slug='test-0', interesting_event=False):
         video = Video()
         video.title = 'Test0 video'
@@ -96,3 +91,15 @@ class VideoTests(TestCase):
         video.save()
 
         return video
+
+
+def add_pages():
+
+    for item in ['about-us', 'online', 'thankyou', 'accounts']:
+        Page.objects.create(
+            title=item, slug=item.lower(), visible_in_menu=True
+        )
+
+    accounts = Page.objects.get(slug='accounts')
+
+    Page.objects.create(title='login', slug='login', parent=accounts)

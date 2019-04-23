@@ -1,14 +1,12 @@
-from django.utils import timezone
 from django.db import models
 from django.urls import reverse
-import uuid
 from helpers.models import Audit, Seo
 
 
 class Page(Audit, Seo):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    parent = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, blank=True, related_name="children")
     description = models.TextField(null=True, blank=True)
     order = models.IntegerField(null=True)
     visible_in_menu = models.BooleanField(default=False)
@@ -40,54 +38,6 @@ class Feedback(Audit):
         ordering = ['created']
 
 
-class VideoCategory(Audit):
-    title = models.CharField(max_length=100)
-    slug = models.SlugField()
-    icon = models.FileField(upload_to='video_categories', blank=True, null=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'видео категория'
-        verbose_name_plural = 'видео категории'
-
-
-class Video(Audit):
-    title = models.CharField(max_length=150)
-    youtube_link = models.CharField(max_length=200)
-    urgent_text = models.CharField(max_length=250, verbose_name="Текст срочного объявления", blank=True, null=True)
-    accept_prayer_request = models.BooleanField(default=False)
-    date = models.DateTimeField(default=timezone.now)
-    category = models.ForeignKey(VideoCategory, on_delete=models.CASCADE)
-    interesting_event = models.BooleanField(default=False)
-    text_for_request = models.CharField(max_length=200,
-                                        blank=True,
-                                        null=True,
-                                        help_text="Введите название для формы")
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'видео'
-        verbose_name_plural = 'видео'
-        ordering = ['date']
-
-
-class Subscriber(Audit):
-    email = models.EmailField(unique=True)
-    activated = models.BooleanField(default=False)
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
-    def __str__(self):
-        return self.email
-
-    class Meta:
-        verbose_name = 'подписчик'
-        verbose_name_plural = 'подписчики'
-
-
 class OldUser(models.Model):
     login = models.CharField(max_length=100)
     first_name = models.CharField(max_length=150)
@@ -96,18 +46,3 @@ class OldUser(models.Model):
 
     def __str__(self):
         return self.email
-
-
-class MailingLog(models.Model):
-    date = models.DateField(default=timezone.now)
-    emails = models.TextField(null=True, blank=True)
-    message = models.TextField(null=True, blank=True)
-    started = models.TimeField(default=timezone.now)
-    finished = models.TimeField(default=timezone.now)
-
-    def __str__(self):
-        return f'Рассылка от {self.date.strftime("%d/%m/%y")}'
-
-    class Meta:
-        verbose_name = 'лог рассылки'
-        verbose_name_plural = 'логи рассылок'

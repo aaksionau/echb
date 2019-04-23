@@ -5,10 +5,13 @@ from django.core import mail
 from django.urls import resolve, reverse
 from django.test import TestCase
 
+from pages.models import Page
+
 
 class PasswordResetTests(TestCase):
     def setUp(self):
         url = reverse('password_reset')
+        add_pages()
         self.response = self.client.get(url)
 
     def test_status_code(self):
@@ -28,6 +31,7 @@ class PasswordResetTests(TestCase):
 
 class SuccessfulPasswordResetTests(TestCase):
     def setUp(self):
+        add_pages()
         email = 'john@ukr.net'
         User.objects.create_user(username='john', email=email, password="@3wesdxC")
         url = reverse('password_reset')
@@ -43,6 +47,7 @@ class SuccessfulPasswordResetTests(TestCase):
 
 class InvalidPasswordResetTests(TestCase):
     def setUp(self):
+        add_pages()
         url = reverse('password_reset')
         self.response = self.client.post(url, {'email': 'alex@ukr.net'})
 
@@ -52,3 +57,16 @@ class InvalidPasswordResetTests(TestCase):
 
     def test_no_send_password_reset_email(self):
         self.assertEqual(0, len(mail.outbox))
+
+
+def add_pages():
+
+    for item in ['accounts', 'reset']:
+        Page.objects.create(
+            title=item, slug=item.lower(), visible_in_menu=True
+        )
+
+    accounts = Page.objects.get(slug='accounts')
+
+    for item in ['login', 'signup']:
+        Page.objects.create(title=item, slug=item, parent=accounts)

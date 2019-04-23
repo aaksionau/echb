@@ -5,8 +5,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
-from .models import PrayerRequest
-
 
 class SignUpForm(UserCreationForm):
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput(
@@ -30,16 +28,3 @@ class SignUpForm(UserCreationForm):
         )
         self.fields['password2'].widget = forms.PasswordInput(
             attrs={'class': 'form__text', 'placeholder': 'Повторите пароль'})
-
-
-class PrayerRequestForm(ModelForm):
-    class Meta:
-        model = PrayerRequest
-        fields = ['description']
-
-        widgets = {
-            'description': forms.Textarea(attrs={'placeholder': 'Введите ваше сообщение', 'class': 'form__text', 'rows': 5}),
-        }
-        labels = {
-            'description': ''
-        }

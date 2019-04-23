@@ -48,7 +48,11 @@
                 {% block breadcrumbs %}
                 <li class="breadcrumbs__item" >
                         <i class="fas fa-home fa-xs"></i> <a class="breadcrumbs__link" href="/" title='Главная'>Главная</a>
-                </li> {% endblock %}
+                        {% for page in bread_crumbs %}
+                            <li class="breadcrumbs__item"> <a class="breadcrumbs__link"  href="/{{ page.slug }}/" title="{{ page.title }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                </li> 
+                {% endblock %}
             </ul>
 
             {% if not user.is_authenticated %}

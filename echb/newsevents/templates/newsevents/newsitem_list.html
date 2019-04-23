@@ -1,11 +1,5 @@
 {% extends "base.html" %} 
 {% load static %} 
-{% block breadcrumbs %} 
-{{ block.super }}
-<li class="breadcrumbs__item">
-    <a class="breadcrumbs__link" href="{% url 'news' %}" title='Новости'>Новости</a>
-</li>
-{% endblock breadcrumbs %} 
 
 {% block content %}
 <header>

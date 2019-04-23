@@ -12,7 +12,8 @@
     
 
 {% block breadcrumbs %}
-    {{ block.super }} <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
+    {{ block.super }} 
+    <li class="breadcrumbs__item"> <a class="breadcrumbs__link" href="{{article.get_absolute_url}}}" title="{{article.title}}">{{article.title}}</a></li>
 {% endblock %}
 
 {% block content %}

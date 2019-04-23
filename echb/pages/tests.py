@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core import mail
 
-from ..models import Page, Subscriber
+from .models import Page
 from newsevents.models import NewsItem, Event, Author
 from articles.models import Article, Category, Author as ArticleAuthor
 from galleries.models import Gallery, Author as GalleryAuthor
@@ -14,8 +14,7 @@ class PagesTests(TestCase):
     def setUp(self):
         self.client = Client()
 
-        Page.objects.create(
-            title='home', slug='home', order=1, visible_in_menu=True)
+        add_pages()
 
         for item in range(12):
             news_item = NewsItem()
@@ -69,77 +68,7 @@ class PagesTests(TestCase):
         response = self.client.get(reverse('home-page-unique'))
         self.assertContains(response, 'form')
 
-    def test_user_can_subscribe_to_letter(self):
-        response = self.client.post(
-            reverse('home-page-unique'), data={'email': 'test@test.ru'})
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertContains(
-            response, 'Ваш email добавлен в список подписчиков')
-
-    def test_subscriber_not_added_if_email_incorrect(self):
-        self.client.post(
-            reverse('home-page-unique'), data={'email': 'test'})
-        self.assertEqual(len(mail.outbox), 0)
-
-    def test_subscriber_can_activate_his_subscription(self):
-        self.client.post(
-            reverse('home-page-unique'), data={'email': 'test@test.ru'})
-        self.assertEqual(mail.outbox[0].subject, 'Подтверждение о подписке на новости')
-        subscriber = Subscriber.objects.all().first()
-        self.assertFalse(subscriber.activated)
-        change_url = reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid})
-        self.assertIn(change_url, mail.outbox[0].body)
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid}))
-        subscriber = Subscriber.objects.all().first()
-        self.assertTrue(subscriber.activated)
-
-    def test_subscriber_not_activated_with_wrong_uuid(self):
-        self.client.post(
-            reverse('home-page-unique'), data={'email': 'test@test.ru'})
-        subscriber = Subscriber.objects.all().first()
-        self.assertFalse(subscriber.activated)
-        subscriber_uuid = '98194856-4050-4397-9388-396669b5485b'
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber_uuid}))
-        subscriber = Subscriber.objects.all().first()
-        self.assertFalse(subscriber.activated)
-
-    def test_after_subscription_user_get_last_letter(self):
-        self.client.post(
-            reverse('home-page-unique'), data={'email': 'test@test.ru'})
-        self.assertEqual(mail.outbox[0].subject, 'Подтверждение о подписке на новости')
-        subscriber = Subscriber.objects.all().first()
-        self.client.get(reverse('activate-subscriber', kwargs={'uuid': subscriber.uuid}))
-
-        subscriber = Subscriber.objects.all().first()
-        self.assertTrue(subscriber.activated)
-
-        self.assertEqual(mail.outbox[1].subject, 'Последние новости с сайта ecb.kh.ua')
-        self.assertEqual(len(mail.outbox), 2)
-
-    def test_send_several_letters(self):
-        for item in range(10):
-            subscriber = Subscriber.objects.create(email=f'test_{item}@test.ru', activated=True)
-            subscriber.save()
-
-        self.client.get(reverse('send_letter'))
-        self.assertEqual(len(mail.outbox), 10)
-
-    def test_letter_was_already_sent_recently(self):
-        for item in range(10):
-            subscriber = Subscriber.objects.create(email=f'test_{item}@test.ru', activated=True)
-            subscriber.save()
-
-        response = self.client.get(reverse('send_letter'))
-        self.assertContains(response, 'Letters were successfuly sent')
-
-        response = self.client.get(reverse('send_letter'))
-        self.assertContains(response, 'Letters were sent earlier')
-
-        self.assertEqual(len(mail.outbox), 10)
-
     def test_about_us_page_contains_menu(self):
-        Page.objects.create(
-            title='parent', slug='about-us', order=1, visible_in_menu=True)
         Page.objects.create(
             title='child', slug='child-about-us', order=2, visible_in_menu=True)
         Page.objects.create(
@@ -153,8 +82,6 @@ class PagesTests(TestCase):
         self.assertContains(response, 'churches-history-child')
 
     def test_user_can_send_feedback(self):
-        Page.objects.create(
-            title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
@@ -168,8 +95,6 @@ class PagesTests(TestCase):
         self.assertContains(response, 'Спасибо за ваше сообщение.')
 
     def test_feedback_form_send_copy_email_to_user(self):
-        Page.objects.create(
-            title='contacts', slug='contacts', order=1, visible_in_menu=True)
 
         data = {
             'name': 'test',
@@ -181,3 +106,45 @@ class PagesTests(TestCase):
         response = self.client.post(reverse('contacts'), data=data, follow=True)
         self.assertEqual(len(mail.outbox), 2)  # to admin + user
         self.assertContains(response, 'Спасибо за ваше сообщение.')
+
+    def test_current_page_is_active(self):
+        about = Page.objects.get(slug='about-us')
+        history = create_page('history', 'churches-history', about)
+        create_page('3-level', '3-level', history)
+        level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
+        level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
+        level_response_3 = self.client.get(
+            reverse('third-level-page', kwargs={'parent_slug': 'churches-history', 'slug': '3-level'}))
+        self.assertContains(level_response_1, 'menu__item menu__item--active')
+        self.assertContains(level_response_2, 'menu__item menu__item--active')
+        self.assertContains(level_response_3, 'menu__item menu__item--active')
+
+    def test_breadcrumbs(self):
+        about_us = Page.objects.get(slug='about-us')
+        history = create_page('History', 'churches-history', about_us)
+        create_page('3-level', '3-level', history)
+        level_response_1 = self.client.get(reverse('page-detail', kwargs={'slug': 'about-us'}))
+        level_response_2 = self.client.get(reverse('about-us-page', kwargs={'slug': 'churches-history'}))
+        level_response_3 = self.client.get(
+            reverse('third-level-page', kwargs={'parent_slug': 'churches-history', 'slug': '3-level'}))
+        self.assertContains(
+            level_response_1, '<a class="breadcrumbs__link" href="/about-us/" title="About-us">About-us</a>')
+        self.assertContains(
+            level_response_2, '<a class="breadcrumbs__link" href="/about-us/churches-history/" title="History">History</a>')
+        self.assertContains(
+            level_response_3, '<a class="breadcrumbs__link" href="/about-us/churches-history/3-level/" title="3-level">3-level</a>')
+
+
+def create_page(title, slug, parent, order=1, visible_in_menu=True):
+    page = Page.objects.create(
+        title=title, slug=slug, order=order, parent=parent, visible_in_menu=visible_in_menu
+    )
+    return page
+
+
+def add_pages():
+    for item in ['Home', 'About-us', 'Contacts', 'Thankyou']:
+        create_page(item, item.lower(), None)
+    about_us = Page.objects.get(slug='about-us')
+    for item in ['Online', 'Find-church', 'Galleries']:
+        create_page(item, item.lower(), about_us)
