@@ -17,14 +17,15 @@
             {% for page in right_menu_pages %}
                 <li class="aside__menu-item">
                    <a class="aside__menu-link" href="{% url 'about-us-page' page.slug %}" title="{{page.title}}">{{page.title}}</a>
+                    <ul class="aside__submenu">
                     {% for sub_page in page.children.all %}
-                            <ul class="aside__submenu">
                                     <li class="aside__menu-item">
                                         <a class="aside__menu-link" href="{% url 'third-level-page' page.slug sub_page.slug %}" title="{{sub_page.title}}">{{sub_page.title}}</a>
                                     </li>
-                            </ul>
-                </li>
+
                     {% endfor %}
+                    </ul>
+                </li>
             {% endfor %}
         </ul>
     </nav>
