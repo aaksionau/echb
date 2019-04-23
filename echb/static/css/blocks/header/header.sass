@@ -14,9 +14,11 @@
             justify-content: space-between
     
     +element('description')
-        margin: 100px 0 50px
+        margin: 0px 0 28px
         +roboto-styles()
         color: #fff
+        +desktop()
+            margin: 90px 0 41px
 
     +element('title')
         font-size: 2em
@@ -29,6 +31,8 @@
     
     +element('buttons')
         margin-top: 30px
+        display: flex
+        flex-flow: row wrap
     
     +element('hot-links')
         display: none
