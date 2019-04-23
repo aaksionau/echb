@@ -9,10 +9,9 @@ from django.utils import timezone
 from django.views.generic import ListView
 from django.views.generic.edit import FormView, UpdateView
 
-from videos.models import Video
+from videos.models import Video, PrayerRequest
 
 from .forms import SignUpForm
-from videos.models import PrayerRequest
 
 
 class SignUpFormView(FormView):
