@@ -48,7 +48,7 @@
                     <h3>
                         <a style="color: #424242;" href='{{domain}}{{event.get_absolute_url}}' title='{{event.title}}'>{{item.title}}</a>
                     </h3>
-                    <p style="color: #424242;">{{event.short_description}}</p>
+                    <p style="color: #424242;">{{event.short_description|safe}}</p>
                 </section>
             </div>
             {% endfor %}
