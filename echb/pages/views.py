@@ -46,7 +46,7 @@ class HomePageView(View):
         articles = Article.objects.all().order_by('-date').prefetch_related('author').select_related('category')[:6]
         events = Event.objects.filter(date__gt=datetime.now()).order_by('date')[:6]
         photos = Gallery.objects.all().prefetch_related('author').order_by('-date')[:4]
-        videos = Video.objects.filter(interesting_event=True)[:4]
+        videos = Video.objects.filter(interesting_event=True).order_by('-date')[:4]
         form = SubscriberForm()
         context = {
             'page': page,

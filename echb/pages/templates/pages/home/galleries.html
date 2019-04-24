@@ -19,6 +19,10 @@
                 {% for video in videos %}
                     <li class="gallery__list-item">
                         <iframe width="250" height="150" src="{{video.youtube_link}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="gallery__meta">
+                            <div class="gallery__meta-item">{{video.date|date:'d E Y'}}</div>
+                            <h3 class="gallery__title">{{video.title}}</h3>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
