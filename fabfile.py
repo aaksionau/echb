@@ -10,6 +10,8 @@ env.remote_app_dir = '/home/paloni/webapps/echb/echb/'
 env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb/apache2/'
 
+manage_py = f'cd {env.remote_app_dir}echb/; python manage.py'
+
 command = "python manage.py {} --settings=echb.settings.local"
 
 VIRTUAL_ENV_BIN_DIR = "/home/paloni/.local/share/virtualenvs/echb-dkHc5E87/bin/"
@@ -49,9 +51,9 @@ def deploy():
     Deploy to the server
     """
 
-    # test_results = test()
-    # if test_results:
-    deploy_to_server()
+    test_results = test()
+    if test_results:
+        deploy_to_server()
 
 
 @task
@@ -89,13 +91,8 @@ def commit():
     local('git add . && git commit -am "{}"'.format(message))
 
 
-def deploy_to_server():
-    with cd(f'{env.remote_app_dir}'):
-        run('git pull origin master')
-
-    djagno_jobs()
-
-    run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
+def _get_latest_source():
+    run(f'cd {env.remote_app_dir}; git pull origin master')
 
 
 def with_venv(func, *args, **kwargs):
@@ -111,7 +108,27 @@ def with_venv(func, *args, **kwargs):
 
 
 @with_venv
-def djagno_jobs():
-    manage_py = f'cd {env.remote_app_dir}echb/; python manage.py'
-    run(f'{manage_py} migrate --settings=echb.settings.production')
+def _update_virtualenv():
+    run(f'cd {env.remote_app_dir}; pipenv install')
+
+
+@with_venv
+def _update_static_files():
     run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
+
+
+@with_venv
+def _update_database():
+    run(f'{manage_py} migrate --settings=echb.settings.production')
+
+
+def _restart_server():
+    run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
+
+
+def deploy_to_server():
+    _get_latest_source()
+    _update_virtualenv()
+    _update_static_files()
+    _update_database()
+    _restart_server()
