@@ -40,7 +40,8 @@ class VideoCategory(Audit):
 
 class Video(Audit):
     title = models.CharField(max_length=150)
-    youtube_link = models.CharField(max_length=200)
+    youtube_link = models.CharField(
+        max_length=200, help_text="Cсылка должна быть такого вида: https://www.youtube.com/embed/H0mkJVNmBpM")
     urgent_text = models.CharField(max_length=250, verbose_name="Текст срочного объявления", blank=True, null=True)
     accept_prayer_request = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now)
