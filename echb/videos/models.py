@@ -58,4 +58,4 @@ class Video(Audit):
     class Meta:
         verbose_name = 'видео'
         verbose_name_plural = 'видео'
-        ordering = ['date']
+        ordering = ['-date']
