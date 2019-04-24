@@ -22,9 +22,9 @@ simplejson = "*"
 python-decouple = "*"
 "psycopg2-binary" = "*"
 "psycopg2" = "*"
-"fabric3" = "*"
 requests = "*"
 django-htmlmin = "*"
+fabric3 = "*"
 
 [requires]
 python_version = "3.7"

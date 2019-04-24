@@ -1,4 +1,4 @@
-from fabric.api import abort, cd, env, local, run, settings, task
+from fabric.api import abort, cd, env, local, run, settings, task, prefix
 from fabric.contrib.console import confirm
 from fabric.operations import prompt
 import os
@@ -11,6 +11,9 @@ env.remote_app_static_dir = '/home/paloni/webapps/echb_static/'
 env.remote_apache_dir = '/home/paloni/webapps/echb/apache2/'
 
 command = "python manage.py {} --settings=echb.settings.local"
+
+VIRTUAL_ENV_BIN_DIR = "/home/paloni/.local/share/virtualenvs/echb-dkHc5E87/bin/"
+UPDATE_PYTHON_PATH = r'PATH="{}:$PATH"'.format(VIRTUAL_ENV_BIN_DIR)
 
 
 @task
@@ -41,14 +44,14 @@ def bem(css_class):
 
 
 @task
-def deploy(updatePip):
+def deploy():
     """Runing tests
     Deploy to the server
     """
 
-    test_results = test()
-    if test_results:
-        deploy_to_server(updatePip)
+    # test_results = test()
+    # if test_results:
+    deploy_to_server()
 
 
 @task
@@ -86,15 +89,29 @@ def commit():
     local('git add . && git commit -am "{}"'.format(message))
 
 
-def deploy_to_server(updatePip):
+def deploy_to_server():
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
-        if updatePip:
-            run('pipenv install')
 
-    manage_py = f'cd {env.remote_app_dir}/echb/; python3.7 manage.py'
-
-    run(f'{manage_py} migrate --settings=echb.settings.production')
-    run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
+    djagno_jobs()
 
     run(f'cd {env.remote_app_dir}/echb/echb/; touch wsgi.py;')
+
+
+def with_venv(func, *args, **kwargs):
+    "Use Virtual Environment for the command"
+
+    def wrapped(*args, **kwargs):
+        with prefix(UPDATE_PYTHON_PATH):
+            return func(*args, **kwargs)
+
+    wrapped.__name__ = func.__name__
+    wrapped.__doc__ = func.__doc__
+    return wrapped
+
+
+@with_venv
+def djagno_jobs():
+    manage_py = f'cd {env.remote_app_dir}echb/; python manage.py'
+    run(f'{manage_py} migrate --settings=echb.settings.production')
+    run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
