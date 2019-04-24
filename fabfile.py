@@ -41,14 +41,14 @@ def bem(css_class):
 
 
 @task
-def deploy():
+def deploy(updatePip):
     """Runing tests
     Deploy to the server
     """
 
     test_results = test()
     if test_results:
-        deploy_to_server()
+        deploy_to_server(updatePip)
 
 
 @task
@@ -86,12 +86,13 @@ def commit():
     local('git add . && git commit -am "{}"'.format(message))
 
 
-def deploy_to_server():
+def deploy_to_server(updatePip):
     with cd(f'{env.remote_app_dir}'):
         run('git pull origin master')
-        run('pipenv install')
+        if updatePip:
+            run('pipenv install')
 
-    manage_py = f'cd {env.remote_app_dir}; python3.7 manage.py'
+    manage_py = f'cd {env.remote_app_dir}/echb/; python3.7 manage.py'
 
     run(f'{manage_py} migrate --settings=echb.settings.production')
     run(f'{manage_py} collectstatic --settings=echb.settings.production --noinput')
