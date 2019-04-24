@@ -47,7 +47,7 @@ class CurrentVideosListView(ListView):
         time_delta = datetime.today() - timedelta(days=7)
         return (Video
                 .objects
-                .filter(date__gte=time_delta)
+                .filter(date__gte=time_delta, interesting_event=False)
                 .select_related('category')
                 .values_list('category__slug'))
 
