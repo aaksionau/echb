@@ -22,7 +22,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/home/paloni/webapps/echb_static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '/home/paloni/webapps/echb_static/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/home/paloni/webapps/echb_media/')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
