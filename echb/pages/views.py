@@ -42,7 +42,7 @@ class HomePageView(View):
 
     def _get_context_data(self):
         page = Page.objects.get(slug='home')
-        news = NewsItem.objects.filter(date__lt=datetime.now()).prefetch_related(
+        news = NewsItem.objects.filter(publication_date__lt=datetime.now()).prefetch_related(
             'author').order_by('-publication_date')[:6]
         articles = Article.objects.all().order_by('-date').prefetch_related('author').select_related('category')[:6]
         events = Event.objects.filter(date__gt=datetime.now()).order_by('date')[:6]
