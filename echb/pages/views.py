@@ -42,9 +42,10 @@ class HomePageView(View):
 
     def _get_context_data(self):
         page = Page.objects.get(slug='home')
-        news = NewsItem.objects.all().prefetch_related('author').order_by('-publication_date')[:6]
+        news = NewsItem.objects.filter(date__lt=datetime.now()).prefetch_related(
+            'author').order_by('-publication_date')[:6]
         articles = Article.objects.all().order_by('-date').prefetch_related('author').select_related('category')[:6]
-        events = Event.objects.filter(date__gt=datetime.now(), date__lt=datetime.now()).order_by('date')[:6]
+        events = Event.objects.filter(date__gt=datetime.now()).order_by('date')[:6]
         photos = Gallery.objects.all().prefetch_related('author').order_by('-date')[:4]
         videos = Video.objects.filter(interesting_event=True).order_by('-date')[:4]
         form = SubscriberForm()
