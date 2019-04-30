@@ -43,7 +43,7 @@ class NewsListView(ListView):
                 publication_date__month=self.kwargs['month'],
                 publication_date__year=self.kwargs['year']).select_related('author')
         else:
-            return self.model.objects.select_related('author').order_by('-publication_date')
+            return self.model.objects.filter(publication_date__lt=datetime.now()).select_related('author').order_by('-publication_date')
 
 
 class NewsDetailView(DetailView):
@@ -62,7 +62,7 @@ class LatestEntriesFeed(Feed):
     description = "Обновления новостей Харьковского объединения евангельских христиан-баптистов"
 
     def items(self):
-        return NewsItem.objects.order_by('-publication_date')[:7]
+        return NewsItem.objects.filter(publication_date__lt=datetime.now()).order_by('-publication_date')[:7]
 
     def item_title(self, item):
         return item.title

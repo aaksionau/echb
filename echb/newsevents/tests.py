@@ -33,13 +33,6 @@ class NewsTests(TestCase):
         response = self.client.get(reverse('news'))
         self.assertEqual(response.status_code, 200)
 
-    def test_user_can_see_news(self):
-        response = self.client.get(reverse('news'))
-        self.assertContains(response, 'news-item__title', self.news_per_page)
-        self.assertContains(response, 'meta-info__item')
-        self.assertContains(response, 'news-item__more', self.news_per_page)
-        self.assertContains(response, 'pagination__link', 1)
-
     def test_user_can_see_archive_on_the_side(self):
         response = self.client.get(reverse('news'))
 
