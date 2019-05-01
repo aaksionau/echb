@@ -30,8 +30,8 @@
     </ul>
     <section class="gallery-photo__list" id="lightgallery">
         {% for image in images %}
-        <div class="gallery-photo__item" data-src="{% static 'media/' %}{{image.image}}">
-            <div class="gallery-photo__image" style="background-image:url('{% static 'media/' %}{{image.thumbnail }}')"></div>
+        <div class="gallery-photo__item" data-src="/media/{{image.image}}">
+            <div class="gallery-photo__image" style="background-image:url('media/{{image.thumbnail }}')"></div>
         </div>
         {% endfor %}
     </section>
@@ -45,7 +45,7 @@
         {% for item in latest_galleries %}
         <li class="gallery__aside-item">
                 <div class="gallery__aside-cat"><span class="gallery__aside-date">{{item.date|date:'F y'}}</span></div>
-                <div class="gallery__aside-image" style="background-image:url('{% static 'media/' %}{{item.main_image }}')">
+                <div class="gallery__aside-image" style="background-image:url('media/{{item.main_image }}')">
                         <a class="gallery__aside-link" href="{{ item.get_absolute_url }}" title='{{item.title}}'>{{item.title}}</a>
                 </div>
         </li>
