@@ -13,6 +13,7 @@ Returns:
 import logging
 import os
 import zipfile
+import uuid
 from datetime import datetime
 
 from django import forms
@@ -106,7 +107,10 @@ class UploadZipForm(forms.Form):
         img = img.resize((basewidth, hsize), PILImage.ANTIALIAS)
         if not os.path.exists(os.path.dirname(resized_image_path)):
             os.makedirs(os.path.dirname(resized_image_path))
-        img.save(resized_image_path, quality=90)
+        try:
+            img.save(resized_image_path, quality=90)
+        except:
+            logger.error(f'Problem with saving image: {resized_image_path}')
 
         return os.path.join(all_galleries_folder, folder, 'small', image_name)
 
@@ -136,13 +140,17 @@ class UploadZipForm(forms.Form):
             image.gallery = gallery
 
             contentfile = ContentFile(data)
-            filename = filename.replace('(', '_').replace(')', '_').replace(' ', '')
+
+            filename = str(uuid.uuid4())
             image.image.save(filename, contentfile)
 
             image.thumbnail.name = self.resize_image(filename, gallery.slug)
 
-            image.save()
-            logger.info(f'Image {image.image.name} successfully processed')
+            try:
+                image.save()
+                logger.info(f'{image.image.name} successfully processed')
+            except:
+                logger.error(f'Problem with saving image: {image.image.name}')
 
         zip.close()
 
