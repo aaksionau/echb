@@ -18,6 +18,6 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': config('DB_PASSWORD_TEST'),
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
