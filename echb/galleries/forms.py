@@ -141,7 +141,7 @@ class UploadZipForm(forms.Form):
 
             contentfile = ContentFile(data)
 
-            filename = str(uuid.uuid4())
+            filename = f'{str(uuid.uuid4())}.jpg'
             image.image.save(filename, contentfile)
 
             image.thumbnail.name = self.resize_image(filename, gallery.slug)
