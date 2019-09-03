@@ -10,7 +10,7 @@
 </ul>
 <section class="news-item__content">
     {% if item.main_image %}
-        <div class="news-item__image" style="background-image:url('media/{{item.main_image }}')"></div>
+        <div class="news-item__image" style="background-image:url('/media/{{item.main_image }}')"></div>
     {% endif %}            
     <p class="news-item__text">{{item.description|striptags|truncatechars:text_limit|safe}}
     </p>
