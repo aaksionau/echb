@@ -7,6 +7,10 @@ settings.json
 .env
 /static
 */htmlcov
+
+/echb/.coverage
+/echb/.coveragerc
+
 **/flake-report
 Pipfile.lock
 package-lock.json
